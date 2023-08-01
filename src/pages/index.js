@@ -6,12 +6,18 @@ import Image from "next/image";
 import { userAuth } from "../context/AuthContext";
 import { EditIcon, TrashIcon, LoveIcon, LoveFilledIcon } from "@/components/Icons";
 import EditImage from "@/components/EditImage";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
-function ListImages({ images, setImages, onImageClick }) {
-  const [hoveredImg, setHoveredImg] = useState(null);
+function ListImages({ onImageClick }) {
+  //From GlobalContext
   const { user } = userAuth();
+  const { images, setImages } = useGlobalContext();
+
+  //local state
+  const [hoveredImg, setHoveredImg] = useState(null);
+
   const idToken = user ? user.accessToken : null;
 
   const handleHover = (imgId) => {
@@ -23,7 +29,6 @@ function ListImages({ images, setImages, onImageClick }) {
   };
 
   const handleEditImage = (img) => {
-    console.log(`Editing image with ID: ${img.imgId}`);
     onImageClick(img);
   };
 
@@ -34,7 +39,6 @@ function ListImages({ images, setImages, onImageClick }) {
           Authorization: idToken
         }
       });
-
       setImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
     } catch (err) {
       console.error(err);
@@ -54,7 +58,6 @@ function ListImages({ images, setImages, onImageClick }) {
           imgId
         }
       });
-
       setImages(oldImages => oldImages.filter(img => img.imgId !== imgId));
     } catch (err) {
       console.error(err);
@@ -97,20 +100,21 @@ function ListImages({ images, setImages, onImageClick }) {
 }
 
 export default function Home() {
-  const [images, setImages] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  //loading from contexts
   const { user } = userAuth();
-  const idToken = user ? user.accessToken : null;
+  const { images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore } = useGlobalContext();
+
+  //local state
+
   const [loading, setLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+
+  const idToken = user ? user.accessToken : null;
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
 
   const closeOverlay = () => {
-    console.log('Running on close overlay')
     setSelectedImage(null);
   };
 
@@ -118,7 +122,7 @@ export default function Home() {
     if (loading) return;
     setLoading(true);
     try {
-      const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/user/getImages?page=${page}&limit=7`, {
+      const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/user/getImages?page=${page}&limit=10`, {
         headers: {
           Authorization: idToken
         }
@@ -136,23 +140,26 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchImages();
+    if (page === 1) {
+      fetchImages();
+    }
+
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <main className="flex flex-col items-center justify-center h-full">
       <div className="w-full">
-        <CreateImage setImages={setImages} />
+        <CreateImage />
         <InfiniteScroll
           dataLength={images.length}
           next={fetchImages}
           hasMore={hasMore}
           loader={<h4>Loading yo</h4>}
         >
-          <ListImages images={images} setImages={setImages} onImageClick={handleImageClick} />
+          <ListImages onImageClick={handleImageClick} />
         </InfiniteScroll>
         {hasMore && <button onClick={fetchImages} className="w-24 py-2 mt-4 text-white border-2 hover:bg-blue-700 focus:outline-none">Load More</button>}
-        {selectedImage && <EditImage image={selectedImage} onClose={closeOverlay} setImages={setImages} />}
+        {selectedImage && <EditImage onClose={closeOverlay} />}
       </div>
     </main>
   )

@@ -5,6 +5,7 @@ import CircularProgressBar from './ProgressBar';
 import RingLoader from "react-spinners/RingLoader";
 import Image from 'next/image';
 import { userAuth } from "../context/AuthContext";
+import { useGlobalContext } from '@/context/GlobalContext';
 import { getIdToken } from 'firebase/auth';
 const baseUrl = process.env.API_BASE_URL
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
@@ -20,7 +21,8 @@ const ProgressBar = ({ percentage }) => {
         />)
 }
 
-function CreateImage({ setImages }) {
+function CreateImage() {
+    const { setImages } = useGlobalContext();
     const [instructions, setInstructions] = useState('');
     const [imgId, setImgId] = useState('');
     const [imgUrls, setImgUrls] = useState([]);

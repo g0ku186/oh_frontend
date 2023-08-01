@@ -1,12 +1,15 @@
 import React from 'react';
 import { userAuth } from '@/context/AuthContext';
 import { TrashIcon, DownloadIcon, CloseIcon } from "@/components/Icons";
+import axios from 'axios';
 import Image from 'next/image';
+import { useGlobalContext } from '@/context/GlobalContext';
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
-export default function EditImage({ image, onClose, setImages }) {
+export default function EditImage({ onClose }) {
     const { user } = userAuth();
+    const { selectedImage, setImages } = useGlobalContext();
     const idToken = user ? user.accessToken : null;
 
     const handleRegenerate = () => {
@@ -20,7 +23,7 @@ export default function EditImage({ image, onClose, setImages }) {
 
     const handleDownload = () => {
         const link = document.createElement('a');
-        link.href = baseImgLink + '/' + image.imgId + '.png';
+        link.href = baseImgLink + '/' + selectedImage.imgId + '.png';
         link.target = '_blank';
         link.download = 'download.png';
         link.click();
@@ -36,11 +39,11 @@ export default function EditImage({ image, onClose, setImages }) {
                     Authorization: idToken
                 },
                 data: {
-                    imgId: image.imgId
+                    imgId: selectedImage.imgId
                 }
             });
 
-            setImages(oldImages => oldImages.filter(img => img.imgId !== image.imgId));
+            setImages(oldImages => oldImages.filter(img => img.imgId !== selectedImage.imgId));
             onClose();
         } catch (err) {
             console.error(err);
@@ -58,12 +61,12 @@ export default function EditImage({ image, onClose, setImages }) {
                         <div>
                             <img
                                 className="w-auto h-auto max-h-full"
-                                src={baseImgLink + '/' + image.imgId + '.png'}
+                                src={baseImgLink + '/' + selectedImage.imgId + '.png'}
                                 alt="User generated"
                             />
                         </div>
                         <div className='flex flex-col mt-4 space-y-4 grow'>
-                            <textarea rows={4} type="text" defaultValue={image.prompt} className="w-full px-2 py-1 mt-4 border text-gray-800 rounded-md" />
+                            <textarea rows={4} type="text" defaultValue={selectedImage.prompt} className="w-full px-2 py-1 mt-4 border text-gray-800 rounded-md" />
                             <div className='flex flex-row space-x-2 text-sm'>
                                 <button onClick={handleRegenerate} className="px-4 py-2 text-white bg-blue-500 rounded-md">Remix</button>
                                 <button onClick={handleUpscale} className="px-4 py-2 text-white bg-purple-500 rounded-md">Upscale to 4K</button>
