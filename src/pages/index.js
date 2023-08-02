@@ -178,14 +178,14 @@ function ListImages({ onImageClick }) {
           return (
             <div
               key={img.imgId}
-              className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden ${hoveredImg === img.imgId && 'bg-gray-800'}`}
+              className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden border border-gray-900 rounded-md shadow-sm shadow-gray-900 ${hoveredImg === img.imgId && 'bg-gray-800'}`}
               onMouseEnter={() => handleHover(img.imgId)}
               onMouseLeave={handleMouseLeave}
               onClick={() => handleDownload(img)}
             >
               <Image
                 fill={true}
-                className={`object-cover w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
+                className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
                 src={baseImgLink + '/' + img.imgId + '.png'}
                 alt="User generated"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -194,7 +194,7 @@ function ListImages({ onImageClick }) {
               />
 
               {hoveredImg === img.imgId && (
-                <div className="absolute flex justify-around w-full px-4 py-2 bottom-0 bg-gray-800">
+                <div className="absolute flex justify-around w-full px-4 py-2 bottom-0 bg-black">
                   {img.bookmark ? (
                     <LoveFilledIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleBookmark(img.imgId, img.bookmark) }} />
                   ) : (

@@ -67,7 +67,7 @@ function CreateImage() {
             );
 
             setLoading(false);
-            setEta(Math.floor(response.data.eta));
+            setEta(Math.floor(response.data[0].eta));
 
         } else {
             console.log('You must login to continue generation');
