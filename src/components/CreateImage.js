@@ -11,7 +11,7 @@ const baseUrl = process.env.API_BASE_URL
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
 function CreateImage() {
-    const { setImages, eta, setEta } = useGlobalContext();
+    const { setImages, eta, setEta, setNewCount } = useGlobalContext();
     const [instructions, setInstructions] = useState('');
     const [loading, setLoading] = useState(false);
     const { user } = userAuth();
@@ -36,27 +36,15 @@ function CreateImage() {
         setInstructions(samplePrompts[randomIndex]);
     }
 
-    const generateImgUrlsAndSetImages = (prompt, imgId, jobId, status) => {
-        const urls = [];
-        for (let i = 0; i < 2; i++) {
-            urls.push(`${baseImgLink}/${i}-${imgId}.png`);
-        }
-        const newImages = urls.map((url, i) => {
-            const thisImgId = `${i}-${imgId}`;
-            return {
-                imgId: thisImgId,
-                imgLink: url,
-                prompt: prompt,
-                bookmark: false,
-                upscaled: false,
-                jobId: jobId,
-                status: status
-            }
-        })
-        setImages((prevImages) => {
-            return [...newImages, ...prevImages];
-        });
-    }
+    // const generateImgUrlsAndSetImages = (newImages) => {
+    //     setImages((prevImages) => {
+    //         return [...newImages, ...prevImages];
+    //     });
+    //     setNewCount((prevCount) => {
+    //         return prevCount + newImages.length;
+    //     }
+    //     )
+    // }
 
     const handleArrowClick = async () => {
         if (user) {
@@ -68,8 +56,16 @@ function CreateImage() {
                 'Content-Type': 'application/json',
                 'Authorization': idToken
             }
-            const response = await axios.post(`${baseUrl}/api/v1/generateImage`, { instructions: prompt }, { headers: headers });
-            generateImgUrlsAndSetImages(prompt, response.data.imgId, response.data.jobId, response.data.status);
+            const response = await axios.post(`${baseUrl}/api/v1/generateImage`, { instructions: prompt, image_orientation: "portrait" }, { headers: headers });
+            // generateImgUrlsAndSetImages(response.data);
+            setImages((prevImages) => {
+                return [...response.data, ...prevImages];
+            });
+            setNewCount((prevCount) => {
+                return prevCount + response.data.length;
+            }
+            );
+
             setLoading(false);
             setEta(Math.floor(response.data.eta));
 

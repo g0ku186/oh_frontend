@@ -4,6 +4,7 @@ import { TrashIcon, DownloadIcon, CloseIcon } from "@/components/Icons";
 import axios from 'axios';
 import Image from 'next/image';
 import { useGlobalContext } from '@/context/GlobalContext';
+import { blurImage } from '../../public/blur';
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
@@ -58,11 +59,15 @@ export default function EditImage({ onClose }) {
                     <CloseIcon onClick={onClose} className="absolute cursor-pointer top-2 right-2 w-6 h-6 text-gray-600 hover:text-red-500 z-30" />
 
                     <div className="p-6 mt-6 relative flex flex-col md:flex-row space-x-4 h-full w-full overflow-y-auto">
-                        <div>
-                            <img
-                                className="w-auto h-auto max-h-full"
+                        <div className='max-w-[600px]'>
+                            <Image
+                                className=""
                                 src={baseImgLink + '/' + selectedImage.imgId + '.png'}
+                                width={selectedImage.parameters.width}
+                                height={selectedImage.parameters.height}
                                 alt="User generated"
+                                placeholder='blur'
+                                blurDataURL={blurImage}
                             />
                         </div>
                         <div className='flex flex-col mt-4 space-y-4 grow'>

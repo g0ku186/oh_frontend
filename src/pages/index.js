@@ -9,6 +9,7 @@ import EditImage from "@/components/EditImage";
 import { useGlobalContext } from "@/context/GlobalContext";
 import placeHolderImg from '../../public/placeholder1.jpg';
 import RingLoader from "react-spinners/RingLoader";
+import { blurImage } from "../../public/blur";
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
@@ -24,10 +25,34 @@ const PlaceHolderComponent = ({ eta }) => {
       />
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-gray-800 bg-opacity-90">
         <RingLoader color="#FFFFFF" size={60} />
-        {eta !== null && <p className="mt-4 text-2xl text-white">ETA: {eta} sec</p>}
+        {eta === null ? (<p className="mt-4 text-sm text-white">Generating image...</p>) : (<p className="mt-4 text-sm text-white">ETA: {eta} sec</p>)}
       </div>
     </div>
   )
+}
+
+const FailedImageComponent = ({ img, handleDelete }) => {
+  return (
+    <div className="relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden">
+      <Image
+        fill={true}
+        className="object-cover w-full h-full"
+        src={placeHolderImg}
+        alt="Failed to generate"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-gray-800 bg-opacity-90">
+        <p className="mt-4 text-sm text-white">Image generation failed</p>
+        <button
+          className="mt-4 p-2 text-sm text-white bg-red-500 rounded"
+          onClick={() => handleDelete(img.imgId)}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  )
+
 }
 
 
@@ -44,24 +69,25 @@ function ListImages({ onImageClick }) {
   useEffect(() => {
     const processingImages = images.filter(image => image.status === 'processing');
     if (processingImages.length > 0) {
-      // Only set the interval if there are any 'processing' images
       const interval = setInterval(async () => {
-        console.log('running set interval');
-        // Use the updated list of 'processing' images
         for (let image of processingImages) {
           try {
-            const response = await axios.get(`${process.env.API_BASE_URL}/api/v1/status/${image.jobId}}`, {
-              headers: {
-                Authorization: idToken
-              }
-            });
-            if (response.data.status === 'success') {
+            const response = await axios.post(`${process.env.API_BASE_URL}/api/v1/status/${image.jobId}}`,
+              {
+                imgId: image.imgId
+              },
+              {
+                headers: {
+                  Authorization: idToken
+                },
+              });
+            if (response.data.status === 'success' || response.data.status === 'failed') {
               setImages(prevImages => {
                 return prevImages.map(prevImage => {
                   if (prevImage.imgId === image.imgId) {
                     return {
                       ...prevImage,
-                      status: 'success',
+                      status: response.data.status,
                     };
                   } else {
                     return prevImage;
@@ -73,16 +99,17 @@ function ListImages({ onImageClick }) {
             console.log(err);
           }
         }
-        // Check if there are still any 'processing' images left
-        const remainingProcessingImages = images.filter(image => image.status === 'processing');
-        if (remainingProcessingImages.length === 0) {
+        // Check if there are still any 'processing' or 'failed' images left
+        const remainingImages = images.filter(image => image.status === 'processing');
+        if (remainingImages.length === 0) {
           // If not, clear the interval
           clearInterval(interval);
         }
       }, 10000); // Poll every 10 seconds
       return () => clearInterval(interval);
     }
-  }, [images, setImages]);
+  }, [images, setImages, idToken]);
+
 
 
 
@@ -130,19 +157,31 @@ function ListImages({ onImageClick }) {
     }
   };
 
+  const handleDownload = (img) => {
+    const link = document.createElement('a');
+    link.href = baseImgLink + '/' + img.imgId + '.png';
+    link.target = '_blank';
+    link.download = 'download.png';
+    link.click();
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
       {images.map((img, index) => {
         if (img.status && img.status === 'processing') {
           return <PlaceHolderComponent key={index} eta={eta} />
-        } else {
+        } else if (img.status && img.status === 'failed') {
+          return <FailedImageComponent key={index} img={img} handleDelete={handleDelete} />
+        }
+
+        else {
           return (
             <div
               key={img.imgId}
               className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden ${hoveredImg === img.imgId && 'bg-gray-800'}`}
               onMouseEnter={() => handleHover(img.imgId)}
               onMouseLeave={handleMouseLeave}
-              onClick={() => handleEditImage(img)}
+              onClick={() => handleDownload(img)}
             >
               <Image
                 fill={true}
@@ -150,6 +189,8 @@ function ListImages({ onImageClick }) {
                 src={baseImgLink + '/' + img.imgId + '.png'}
                 alt="User generated"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                placeholder="blur"
+                blurDataURL={blurImage}
               />
 
               {hoveredImg === img.imgId && (
@@ -174,7 +215,7 @@ function ListImages({ onImageClick }) {
 export default function Home() {
   //loading from contexts
   const { user } = userAuth();
-  const { images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore } = useGlobalContext();
+  const { images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount } = useGlobalContext();
 
   //local state
 
@@ -194,7 +235,7 @@ export default function Home() {
     if (loading) return;
     setLoading(true);
     try {
-      const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/user/getImages?page=${page}&limit=10`, {
+      const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/user/getImages?page=${page}&limit=10&skip=${newCount}`, {
         headers: {
           Authorization: idToken
         }

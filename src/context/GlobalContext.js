@@ -13,14 +13,14 @@ export function GlobalProvider({ children }) {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [eta, setEta] = useState(null);
+    const [newCount, setNewCount] = useState(0);
 
-    const value = { images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, eta, setEta }
+    const value = { images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, eta, setEta, newCount, setNewCount }
 
     useEffect(() => {
         let interval;
         if (eta !== null) {
             interval = setInterval(() => {
-                console.log('Running set interval of ETA')
                 setEta(prevEta => {
                     if (prevEta === 1) {
                         return null;
