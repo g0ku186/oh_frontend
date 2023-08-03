@@ -71,7 +71,8 @@ export default function EditImage({ onClose }) {
                             />
                         </div>
                         <div className='flex flex-col mt-4 space-y-4 grow'>
-                            <textarea rows={4} type="text" defaultValue={selectedImage.prompt} className="w-full px-2 py-1 mt-4 border text-gray-800 rounded-md" />
+                            <label className="text-sm text-gray-600">Prompt</label>
+                            <textarea rows={4} type="text" defaultValue={selectedImage.prompt} className="w-full px-2 py-1 mt-2 border text-gray-800 rounded-md" />
                             <div className='flex flex-row space-x-2 text-sm'>
                                 <button onClick={handleRegenerate} className="px-4 py-2 text-white bg-blue-500 rounded-md">Remix</button>
                                 <button onClick={handleUpscale} className="px-4 py-2 text-white bg-purple-500 rounded-md">Upscale to 4K</button>

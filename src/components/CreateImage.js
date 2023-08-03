@@ -4,15 +4,46 @@ import axios from 'axios';
 import RingLoader from "react-spinners/RingLoader";
 import Image from 'next/image';
 import { userAuth } from "../context/AuthContext";
+import OrientationDropDown from './OrientationDropDown';
+import HighQualityToggle from './HighQualityToggle';
+import { ChevronUpIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 import { useGlobalContext } from '@/context/GlobalContext';
 import { getIdToken } from 'firebase/auth';
 const baseUrl = process.env.API_BASE_URL
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
+const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNegativePrompt, guidance_scale, setGuidanceScale, seed, setSeed }) => {
+    return (
+        <div className='flex flex-col mt-4 space-y-4 grow'>
+            <div>
+                <label className='text-sm'>Prompt</label>
+                <textarea rows={4} type="text" defaultValue={instructions} onChange={(e) => setInstructions(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+            </div>
+            <div>
+                <label className='text-sm'>Negative Prompt</label>
+                <textarea rows={4} type="text" defaultValue={negativePrompt} onChange={(e) => setNegativePrompt(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+            </div>
+            <div className='flex flex-row space-x-2 text-sm'>
+                <label className='text-sm'>Guidance Scale</label>
+                <input type="number" defaultValue={guidance_scale} onChange={(e) => setGuidanceScale(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+                <label className='text-sm'>Seed</label>
+                <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+            </div>
+        </div>
+    )
+}
+
 function CreateImage({ handleTabChange }) {
     const { setImages, eta, setEta, setNewCount } = useGlobalContext();
+    const [expertMode, setExpertMode] = useState(false);
     const [instructions, setInstructions] = useState('');
+    const [orientation, setOrientation] = useState('square');
+    const [highQuality, setHighQuality] = useState(false);
+    const [negativePrompt, setNegativePrompt] = useState('');
+    const [guidance_scale, setGuidanceScale] = useState(7.5);
+    const [seed, setSeed] = useState(null);
     const [loading, setLoading] = useState(false);
     const { user } = userAuth();
     // const samplePrompts = [
@@ -23,6 +54,7 @@ function CreateImage({ handleTabChange }) {
     //     'masterpiece, best quality, 1girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, pants,',
     //     'masterpiece, best quality, 1girl, 1boy, spread legs, sex, nude, medium breasts, penis, vaginal, open mouth, brown eyes, long hair, cum, black hair, on bed, pov, stomach bulge,'
     // ]
+
 
     const samplePrompts = [
         'masterpiece, best quality, 1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature,',
@@ -36,16 +68,6 @@ function CreateImage({ handleTabChange }) {
         setInstructions(samplePrompts[randomIndex]);
     }
 
-    // const generateImgUrlsAndSetImages = (newImages) => {
-    //     setImages((prevImages) => {
-    //         return [...newImages, ...prevImages];
-    //     });
-    //     setNewCount((prevCount) => {
-    //         return prevCount + newImages.length;
-    //     }
-    //     )
-    // }
-
     const handleArrowClick = async () => {
         if (user) {
             setLoading(true);
@@ -57,7 +79,15 @@ function CreateImage({ handleTabChange }) {
                 'Content-Type': 'application/json',
                 'Authorization': idToken
             }
-            const response = await axios.post(`${baseUrl}/api/v1/generateImage`, { instructions: prompt, image_orientation: "portrait" }, { headers: headers });
+            const payLoad = {
+                instructions: prompt,
+                image_orientation: orientation,
+                high_quality: highQuality,
+                negative_prompt: negativePrompt,
+                guidance_scale: guidance_scale,
+                seed: seed
+            }
+            const response = await axios.post(`${baseUrl}/api/v1/generateImage`, payLoad, { headers: headers });
             // generateImgUrlsAndSetImages(response.data);
             setImages((prevImages) => {
                 return [...response.data, ...prevImages];
@@ -78,36 +108,47 @@ function CreateImage({ handleTabChange }) {
         <div className="flex flex-col items-start justify-center min-h-full p-24">
             <h1 className="text-4xl font-bold text-center text-zinc-100 mb-5">Create any image</h1>
             <div className="relative w-full max-w-4xl">
-                <input
-                    type="text"
-                    placeholder="Enter detailed instructions"
-                    className="w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={instructions}
-                    onChange={(e) => setInstructions(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            handleArrowClick();
+                {!expertMode ? (<>
+                    <input
+                        type="text"
+                        placeholder="Enter detailed instructions"
+                        className="w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={instructions}
+                        onChange={(e) => setInstructions(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleArrowClick();
+                            }
                         }
-                    }
-                    }
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-                    <RightArrowIcon className="w-6 h-6 text-gray-500 hover:text-blue-500 cursor-pointer" onClick={handleArrowClick} />
-                </div>
+                        }
+                    />
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+                        <RightArrowIcon className="w-6 h-6 text-gray-500 hover:text-blue-500 cursor-pointer" onClick={handleArrowClick} />
+                    </div>
+                </>) : (<AdvancedSettings instructions={instructions} negativePrompt={negativePrompt} guidance_scale={guidance_scale} seed={seed} setInstructions={setInstructions} setNegativePrompt={setNegativePrompt} setGuidanceScale={setGuidanceScale} setSeed={setSeed} />)}
             </div>
-            <div className='flex space-x-4'>
+            <div className='flex items-center justify-center space-x-4 mt-2'>
                 <button
                     onClick={handleArrowClick}
-                    className="mt-5 px-4 py-3 text-sm font-bold text-white bg-secondary rounded-md shadow-sm hover:bg-black border"
+                    className="px-4 py-3 text-sm font-bold text-white bg-secondary rounded-md shadow-sm hover:bg-black border"
                 >
                     Generate
                 </button>
                 <button
                     onClick={handleInspireClick}
-                    className="mt-5 px-4 py-3 text-sm font-bold text-white rounded-md border hover:bg-secondary"
+                    className="px-4 py-3 text-sm font-bold text-white rounded-md border hover:bg-secondary"
                 >
                     Show me an example
                 </button>
+                <div className='flex items-center space-x-2'>
+                    <OrientationDropDown orientation={orientation} setOrientation={setOrientation} />
+                    <HighQualityToggle highQuality={highQuality} setHighQuality={setHighQuality} />
+                </div>
+                <div className='text-sm underline flex cursor-pointer' onClick={() => setExpertMode(!expertMode)}>
+
+                    {expertMode ? <><p>Hide additional settings</p> <ChevronUpIcon className='w-5 h-5 ml-1' /></> : (<><p>Show additional settings</p> <ChevronDownIcon className='w-5 h-5 ml-1' /></>)}
+                </div>
+
             </div>
 
             {loading && (<div>
