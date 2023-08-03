@@ -3,8 +3,12 @@ const Tabs = ({ tabs, selectedTab, handleTabChange }) => {
         return classes.filter(Boolean).join(' ')
     }
 
+    const handleSelectChange = (event) => {
+        handleTabChange(event.target.value);
+    }
+
     return (
-        <div>
+        <div className="mb-8 text-gray-800">
             <div className="sm:hidden">
                 <label htmlFor="tabs" className="sr-only">
                     Select a tab
@@ -15,9 +19,10 @@ const Tabs = ({ tabs, selectedTab, handleTabChange }) => {
                     name="tabs"
                     className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                     defaultValue={selectedTab}
+                    onChange={handleSelectChange}
                 >
                     {tabs.map((tab) => (
-                        <option key={tab.name}>{tab.name}</option>
+                        <option key={tab.name} value={tab.name}>{tab.name}</option>
                     ))}
                 </select>
             </div>

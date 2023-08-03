@@ -59,7 +59,7 @@ function ListPublicImages() {
     };
 
     return (
-        <>
+        <div>
             <InfiniteScroll
                 dataLength={publicImages.length}
                 next={fetchPublicImages}
@@ -99,7 +99,7 @@ function ListPublicImages() {
             </InfiniteScroll>
             {hasMorePublic && <button onClick={fetchPublicImages} className="w-24 py-2 mt-4 text-white border-2 hover:bg-blue-700 focus:outline-none">Load More</button>}
             {selectedPublicImage && <ViewPublicImage onClose={closeOverlay} />}
-        </>
+        </div>
     );
 }
 
