@@ -10,7 +10,7 @@ import { getIdToken } from 'firebase/auth';
 const baseUrl = process.env.API_BASE_URL
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
-function CreateImage() {
+function CreateImage({ handleTabChange }) {
     const { setImages, eta, setEta, setNewCount } = useGlobalContext();
     const [instructions, setInstructions] = useState('');
     const [loading, setLoading] = useState(false);
@@ -49,6 +49,7 @@ function CreateImage() {
     const handleArrowClick = async () => {
         if (user) {
             setLoading(true);
+            handleTabChange('My Generations');
             const prompt = instructions;
             setInstructions('');
             const idToken = await getIdToken(user);

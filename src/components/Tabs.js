@@ -1,20 +1,6 @@
-import { useGlobalContext } from "@/context/GlobalContext"
-const Tabs = ({ tabs, selectedTab, setSelectedTab }) => {
+const Tabs = ({ tabs, selectedTab, handleTabChange }) => {
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
-    }
-    const { setBookmark } = useGlobalContext();
-
-    const handleTabChange = (tab) => {
-        if (tab === 'Favourites') {
-            console.log('setting bookmark to true')
-            setBookmark(true);
-        }
-        else {
-            console.log('setting bookmark to false')
-            setBookmark(false);
-        }
-        setSelectedTab(tab);
     }
 
     return (

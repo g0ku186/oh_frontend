@@ -15,7 +15,6 @@ const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 function ListUserImages() {
     //From GlobalContext
     const { user } = userAuth();
-    console.log('Initiating variables in list user images')
     //  const { images, setImages, eta, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount, bookmark } = useGlobalContext();
     const { eta, selectedImage, setSelectedImage, newCount, bookmark } = useGlobalContext();
     const setNormalImages = useGlobalContext().setImages;
