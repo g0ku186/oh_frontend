@@ -82,17 +82,19 @@ function ListUserImages() {
         setSelectedImage(null);
     };
 
-    const fetchImages = async () => {
+    const fetchImages = async (cancelToken) => {
         if (loading) return;
         setLoading(true);
         try {
             console.log('inside fetch images')
             console.log(page)
             console.log(bookmark)
+
             const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/user/getImages?page=${page}&limit=10&bookmark=${bookmark}&skip=${newCount}`, {
                 headers: {
                     Authorization: idToken
-                }
+                },
+                cancelToken: cancelToken
             });
             setImages(oldImages => [...oldImages, ...res.data.images]);
             setPage(prevPage => prevPage + 1);
@@ -101,20 +103,33 @@ function ListUserImages() {
                 setHasMore(false);
             }
         } catch (err) {
-            console.error(err);
+            if (axios.isCancel(err)) {
+                console.log('Request cancelled');
+            } else {
+                console.error(err);
+            }
         }
         setLoading(false);
+        return () => source.cancel();
     };
 
     useEffect(() => {
         console.log('Running use effect')
         if (page === 1) {
-            fetchImages();
+            const source = axios.CancelToken.source();
+
+            const fetchData = async () => {
+                await fetchImages(source.token);
+            };
+
+            fetchData();
+
+            return () => {
+                source.cancel('Operation cancelled by the user.');
+            };
         }
 
-    }, [bookmark]); // eslint-disable-line react-hooks/exhaustive-deps
-
-
+    }, [bookmark]);
 
 
     const handleHover = (imgId) => {
