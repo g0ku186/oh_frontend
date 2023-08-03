@@ -8,6 +8,14 @@ export function useGlobalContext() {
 
 
 export function GlobalProvider({ children }) {
+
+    //for public Images
+    const [publicImages, setPublicImages] = useState([]);
+    const [selectedPublicImage, setSelectedPublicImage] = useState(null);
+    const [publicImagePage, setPublicImagePage] = useState(1);
+    const [hasMorePublic, setHasMorePublic] = useState(true);
+
+    //for User Images
     const [images, setImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [page, setPage] = useState(1);
@@ -15,7 +23,7 @@ export function GlobalProvider({ children }) {
     const [eta, setEta] = useState(null);
     const [newCount, setNewCount] = useState(0);
 
-    const value = { images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, eta, setEta, newCount, setNewCount }
+    const value = { images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, eta, setEta, newCount, setNewCount, publicImages, setPublicImages, selectedPublicImage, setSelectedPublicImage, publicImagePage, setPublicImagePage, hasMorePublic, setHasMorePublic }
 
     useEffect(() => {
         let interval;

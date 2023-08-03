@@ -5,7 +5,7 @@ import axios from 'axios';
 import { userAuth } from "../context/AuthContext";
 import { useGlobalContext } from "@/context/GlobalContext";
 import ListUserImages from "@/components/ListUserImages";
-
+import ListPublicImages from "@/components/ListPublicImages";
 
 
 export default function Home() {
@@ -17,8 +17,8 @@ export default function Home() {
     <main className="flex flex-col items-center justify-center h-full">
       <div className="w-full">
         <CreateImage />
-        <ListUserImages />
-
+        {idToken && <ListUserImages />}
+        <ListPublicImages />
       </div>
     </main>
   )

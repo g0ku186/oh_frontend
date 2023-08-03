@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Footer = () => {
     return (
-        <footer className="flex items-center justify-center py-4 px-12 bg-gray-800 text-white space-x-2 sm:space-x-6 text-xs">
+        <footer className="flex items-center justify-center py-4 px-12 bg-gray-800 text-white space-x-2 sm:space-x-6 text-xs w-full bottom-0">
             <Link href="/" className="hover:underline"> <Image
                 src={logo_small}  // replace with your actual logo path
                 width={50}

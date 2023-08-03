@@ -81,7 +81,7 @@ function ListUserImages() {
                 }
             });
             setImages(oldImages => [...oldImages, ...res.data.images]);
-            setPage(page + 1);
+            setPage(prevPage => prevPage + 1);
             // If currentPage equals to totalPages, there is no more data to be loaded
             if (res.data.currentPage === res.data.totalPages) {
                 setHasMore(false);

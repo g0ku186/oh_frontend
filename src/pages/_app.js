@@ -12,11 +12,13 @@ export default function App({ Component, pageProps }) {
     <AuthProvider>
 
       <GlobalProvider>
-        <Header />
-        <div className="mt-20 p-20 min-h-90vh">
-          <Component {...pageProps} />
+        <div className="relative">
+          <Header />
+          <div className="mt-20 p-20 min-h-90vh">
+            <Component {...pageProps} />
+          </div>
+          <Footer />
         </div>
-        <Footer />
       </GlobalProvider>
     </AuthProvider>
   )
