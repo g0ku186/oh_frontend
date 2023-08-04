@@ -70,42 +70,51 @@ function CreateImage({ handleTabChange }) {
     }
 
     const handleArrowClick = async () => {
-        if (user) {
-            setLoading(true);
-            handleTabChange('My Generations');
-            const prompt = instructions;
-            setInstructions('');
-            setNegativePrompt(defaultNegativePrompt);
-            const idToken = await getIdToken(user);
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': idToken
-            }
-            const payLoad = {
-                instructions: prompt,
-                image_orientation: orientation,
-                high_quality: highQuality,
-                negative_prompt: negativePrompt,
-                guidance_scale: guidance_scale,
-                seed: seed
-            }
-            const response = await axios.post(`${baseUrl}/api/v1/generateImage`, payLoad, { headers: headers });
-            // generateImgUrlsAndSetImages(response.data);
-            setImages((prevImages) => {
-                return [...response.data, ...prevImages];
-            });
-            setNewCount((prevCount) => {
-                return prevCount + response.data.length;
-            }
-            );
+        try {
+            if (user) {
+                setLoading(true);
+                handleTabChange('My Generations');
+                const prompt = instructions;
+                setInstructions('');
+                setNegativePrompt(defaultNegativePrompt);
+                const idToken = await getIdToken(user);
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': idToken
+                }
+                const payLoad = {
+                    instructions: prompt,
+                    image_orientation: orientation,
+                    high_quality: highQuality,
+                    negative_prompt: negativePrompt,
+                    guidance_scale: guidance_scale,
+                    seed: seed
+                }
+                const response = await axios.post(`${baseUrl}/api/v1/generateImage`, payLoad, { headers: headers });
+                // generateImgUrlsAndSetImages(response.data);
+                setImages((prevImages) => {
+                    return [...response.data, ...prevImages];
+                });
+                setNewCount((prevCount) => {
+                    return prevCount + response.data.length;
+                }
+                );
 
+                setLoading(false);
+                setEta(Math.floor(response.data[0].eta));
+
+            } else {
+                console.log('You must login to continue generation');
+            }
+
+        } catch (err) {
             setLoading(false);
-            setEta(Math.floor(response.data[0].eta));
+            console.log(err);
 
-        } else {
-            console.log('You must login to continue generation');
         }
     }
+
+
     return (
         <div className="flex flex-col items-start justify-center min-h-full p-24">
             <h1 className="text-4xl font-bold text-center text-zinc-100 mb-5">Create any image</h1>
