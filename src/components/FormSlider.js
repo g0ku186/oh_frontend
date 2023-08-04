@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 export default function FormSlider({ formOpened, setFormOpened }) {
+  const [isSignIn, setIsSignIn] = useState(true);
 
   return (
     <>
@@ -24,7 +27,7 @@ export default function FormSlider({ formOpened, setFormOpened }) {
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                     <div className='bg-white h-full flex flex-col items-center justify-center'>
-                      <SignIn setFormOpened={setFormOpened} />
+                      {isSignIn ? <SignIn setFormOpened={setFormOpened} setIsSignIn={setIsSignIn} /> : <SignUp setFormOpened={setFormOpened} setIsSignIn={setIsSignIn} />}
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>

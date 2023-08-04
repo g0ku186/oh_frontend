@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import google_icon from "../../public/google_icon.svg";
@@ -7,126 +6,11 @@ import { useRouter } from "next/router";
 import axios from 'axios';
 const baseUrl = process.env.API_BASE_URL;
 
-const ForgotPassword = ({ resetPassword, setShowForgotPassword }) => {
-
-  const handleResetPassword = async (event) => {
-    event.preventDefault();
-    //get email from form
-    const email = event.target.email.value;
-    try {
-      await resetPassword(email);
-      alert('Please check your email for password reset link')
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  return (<>
-    <div className="flex">
-      <div className="flex flex-1 flex-col justify-center py-12 px-4 lg:flex-none">
-        <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div>
-
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">
-              Reset Password
-            </h2>
-          </div>
-
-          <div className="mt-8">
-            <div className="mt-6">
-              <form
-                onSubmit={handleResetPassword}
-                className="space-y-6 text-gray-900"
-              >
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Email address
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      className="form-input block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="text-sm flex justify-between w-full">
-                    <div
-                      onClick={() => { setShowForgotPassword(false) }}
-                      className="cursor-pointer font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Sign in
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                  >
-                    Reset Password
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </>)
-}
-
-const SignIn = ({ setFormOpened, setIsSignIn }) => {
-  const { googleSignIn, emailSignIn, resetPassword } = userAuth();
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-
+const SignUp = ({ setFormOpened, setIsSignIn }) => {
+  const { googleSignIn, emailSignUp, verifyEmail } = userAuth();
   const router = useRouter();
 
   // Function to handle Email and Password sign-in
-  const handleSignInWithEmailAndPassword = async (event) => {
-    event.preventDefault();
-    // Get email and password from form
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-
-    try {
-      // Sign in with email and password
-      // const userCredential = await signInWithEmailAndPassword(
-      //   auth,
-      //   email,
-      //   password
-      // );
-      const userCredential = await emailSignIn(email, password);
-      const user = userCredential.user;
-      // Check if the user's email is verified
-      if (user.emailVerified) {
-        // Redirect to the home page after successful sign-in
-        const idToken = userCredential._tokenResponse.idToken;
-        const headers = {
-          'Content-Type': 'application/json',
-          'Authorization': idToken
-        }
-        const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
-        setFormOpened(false);
-        router.push("/profile");
-
-      } else {
-        alert("Please verify your email before signing in.");
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
   // Function to handle Google sign-in
   const signInWithGoogle = async () => {
     try {
@@ -134,7 +18,6 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
       const user = userCredential.user;
       // Redirect to the home page after successful sign-in
       if (user) {
-        console.log('Verified')
         const idToken = userCredential._tokenResponse.idToken;
         const headers = {
           'Content-Type': 'application/json',
@@ -149,22 +32,43 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
     }
   };
 
+  const handleEmailSignUp = async (event) => {
+    event.preventDefault();
+    // Get email and password from form
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    try {
+      const userCredential = await emailSignUp(email, password);
+      await verifyEmail();
+      alert('Please check your email for verification link')
+      const idToken = userCredential._tokenResponse.idToken;
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': idToken
+      }
+      const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
+
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <>
-      {showForgotPassword ? <ForgotPassword resetPassword={resetPassword} setShowForgotPassword={setShowForgotPassword} /> : (<div className="flex">
+      <div className="flex">
         <div className="flex flex-1 flex-col justify-center py-12 px-4 lg:flex-none">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
 
               <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">
-                Sign in to your account
+                Sign Up
               </h2>
             </div>
 
             <div className="mt-8">
               <div className="mt-6">
                 <form
-                  onSubmit={handleSignInWithEmailAndPassword}
+                  onSubmit={handleEmailSignUp}
                   className="space-y-6 text-gray-900"
                 >
                   <div>
@@ -207,17 +111,12 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
                   <div className="flex items-center justify-between">
                     <div className="text-sm flex justify-between w-full">
                       <div
-                        onClick={() => { setIsSignIn(false) }}
-                        className="cursor-pointer font-medium text-indigo-600 hover:text-indigo-500"
-                      >
-                        Create account
-                      </div>
-                      <div
-                        onClick={() => setShowForgotPassword(true)}
+                        onClick={() => setIsSignIn(true)}
                         className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                       >
-                        Forgot your password?
+                        Already have an account? Sign in
                       </div>
+
                     </div>
                   </div>
 
@@ -226,7 +125,7 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
                       type="submit"
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                     >
-                      Sign in
+                      Sign Up
                     </button>
                   </div>
                 </form>
@@ -256,7 +155,7 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
                           height="auto"
                           className="w-8 h-8"
                         />
-                        <span className="ml-1">Sign in with Google</span>
+                        <span className="ml-1">Sign up with Google</span>
                       </button>
                     </div>
                   </div>
@@ -265,9 +164,9 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
             </div>
           </div>
         </div>
-      </div>)}
+      </div>
     </>
   );
 };
 
-export default SignIn;
+export default SignUp;
