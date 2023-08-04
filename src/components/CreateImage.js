@@ -36,12 +36,13 @@ const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNe
 }
 
 function CreateImage({ handleTabChange }) {
+    const defaultNegativePrompt = '(worst quality, low quality:1.4), monochrome, zombie, (interlocked fingers:1.2), multiple views, comic, sketch, animal ears, pointy ears';
     const { setImages, eta, setEta, setNewCount } = useGlobalContext();
     const [expertMode, setExpertMode] = useState(false);
     const [instructions, setInstructions] = useState('');
     const [orientation, setOrientation] = useState('square');
     const [highQuality, setHighQuality] = useState(false);
-    const [negativePrompt, setNegativePrompt] = useState('');
+    const [negativePrompt, setNegativePrompt] = useState(defaultNegativePrompt);
     const [guidance_scale, setGuidanceScale] = useState(7.5);
     const [seed, setSeed] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -74,6 +75,7 @@ function CreateImage({ handleTabChange }) {
             handleTabChange('My Generations');
             const prompt = instructions;
             setInstructions('');
+            setNegativePrompt(defaultNegativePrompt);
             const idToken = await getIdToken(user);
             const headers = {
                 'Content-Type': 'application/json',
