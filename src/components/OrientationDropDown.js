@@ -13,8 +13,8 @@ function classNames(...classes) {
 }
 
 export default function OrientationDropDown({ orientation, setOrientation }) {
-    const [selected, setSelected] = useState(orientations[0])
 
+    const [selected, setSelected] = useState(orientations[0])
     const handleOrientationChange = (orientation) => {
         setSelected(orientation)
         setOrientation(orientation.value)

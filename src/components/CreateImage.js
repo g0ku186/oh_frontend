@@ -12,7 +12,6 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { useGlobalContext } from '@/context/GlobalContext';
 import { getIdToken } from 'firebase/auth';
 const baseUrl = process.env.API_BASE_URL
-const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
 const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNegativePrompt, guidance_scale, setGuidanceScale, seed, setSeed }) => {
     return (
@@ -136,7 +135,10 @@ function CreateImage({ handleTabChange }) {
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2">
                         <RightArrowIcon className="w-6 h-6 text-gray-500 hover:text-blue-500 cursor-pointer" onClick={handleArrowClick} />
                     </div>
-                </>) : (<AdvancedSettings instructions={instructions} negativePrompt={negativePrompt} guidance_scale={guidance_scale} seed={seed} setInstructions={setInstructions} setNegativePrompt={setNegativePrompt} setGuidanceScale={setGuidanceScale} setSeed={setSeed} />)}
+                </>) : (
+
+                    <AdvancedSettings instructions={instructions} negativePrompt={negativePrompt} guidance_scale={guidance_scale} seed={seed} setInstructions={setInstructions} setNegativePrompt={setNegativePrompt} setGuidanceScale={setGuidanceScale} setSeed={setSeed} />)}
+
             </div>
             <div className='flex items-center justify-center space-x-4 mt-2'>
                 <button

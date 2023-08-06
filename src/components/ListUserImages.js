@@ -12,7 +12,10 @@ import Notification from "./Notification";
 import EditImage from "./EditImage";
 import ConfirmationBox from "./ConfirmationBox";
 
-const baseImgLink = `${process.env.API_BASE_URL}/generations`;
+//const baseUrl = `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/d794ad00-6b85-460d-c57e-82b65cdd0d00/public`;
+const constructImgLink = (cf_id, variant) => {
+    return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
+}
 
 const ListUserImages = () => {
     //From GlobalContext
@@ -67,12 +70,14 @@ const ListUserImages = () => {
                                 },
                             });
                         if (response.data.status === 'success' || response.data.status === 'failed') {
+                            const cf_id = response.data.cf_id || null;
                             setImages(prevImages => {
                                 return prevImages.map(prevImage => {
                                     if (prevImage.imgId === image.imgId) {
                                         return {
                                             ...prevImage,
                                             status: response.data.status,
+                                            cf_id: cf_id,
                                         };
                                     } else {
                                         return prevImage;
@@ -194,7 +199,7 @@ const ListUserImages = () => {
 
     const handleDownload = (img) => {
         const link = document.createElement('a');
-        link.href = baseImgLink + '/' + img.imgId + '.png';
+        link.href = constructImgLink(img.cf_id, "public");
         link.target = '_blank';
         link.download = 'download.png';
         link.click();
@@ -232,11 +237,12 @@ const ListUserImages = () => {
                                     <Image
                                         fill={true}
                                         className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
-                                        src={baseImgLink + '/' + img.imgId + '.png'}
+                                        src={constructImgLink(img.cf_id, "public")}
                                         alt="User generated"
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         placeholder="blur"
                                         blurDataURL={blurImage}
+                                        loader={({ src }) => src}
                                     />
 
                                     {hoveredImg === img.imgId && (

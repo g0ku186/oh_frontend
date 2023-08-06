@@ -6,7 +6,10 @@ import Image from 'next/image';
 import { useGlobalContext } from '@/context/GlobalContext';
 import { blurImage } from '../../public/blur';
 
-const baseImgLink = `${process.env.API_BASE_URL}/generations`;
+
+const constructImgLink = (cf_id, variant) => {
+    return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
+}
 
 export default function EditImage({ onClose }) {
     const { user } = userAuth();
@@ -24,7 +27,7 @@ export default function EditImage({ onClose }) {
 
     const handleDownload = () => {
         const link = document.createElement('a');
-        link.href = baseImgLink + '/' + selectedImage.imgId + '.png';
+        link.href = constructImgLink(selectedImage.cf_id, 'public');
         link.target = '_blank';
         link.download = 'download.png';
         link.click();
@@ -62,17 +65,20 @@ export default function EditImage({ onClose }) {
                         <div className='max-w-[600px]'>
                             <Image
                                 className=""
-                                src={baseImgLink + '/' + selectedImage.imgId + '.png'}
+                                src={constructImgLink(selectedImage.cf_id, 'public')}
                                 width={selectedImage.parameters.width}
                                 height={selectedImage.parameters.height}
                                 alt="User generated"
                                 placeholder='blur'
                                 blurDataURL={blurImage}
+                                loader={({ src }) => src}
                             />
                         </div>
                         <div className='flex flex-col mt-4 space-y-4 grow'>
                             <label className="text-sm text-gray-600">Prompt</label>
                             <textarea rows={4} type="text" defaultValue={selectedImage.prompt} className="w-full px-2 py-1 mt-2 border text-gray-800 rounded-md" />
+                            <label className="text-sm text-gray-600">Negative Prompt</label>
+                            <textarea rows={4} type="text" defaultValue={selectedImage.parameters.negative_prompt} className="w-full px-2 py-1 mt-2 border text-gray-800 rounded-md" />
                             <div className='flex flex-row space-x-2 text-sm'>
                                 <button onClick={handleRegenerate} className="px-4 py-2 text-white bg-blue-500 rounded-md">Remix</button>
                                 <button onClick={handleUpscale} className="px-4 py-2 text-white bg-purple-500 rounded-md">Upscale to 4K</button>
