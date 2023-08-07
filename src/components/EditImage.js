@@ -18,7 +18,9 @@ export default function EditImage({ onClose }) {
     const { user } = userAuth();
     const { selectedImage, setImages, setSelectedImage, setNewCount, setEta } = useGlobalContext();
     const [prompt, setPrompt] = useState(selectedImage.prompt);
-    const [negativePrompt, setNegativePrompt] = useState(selectedImage.negative_prompt);
+    const [negativePrompt, setNegativePrompt] = useState(selectedImage.parameters.negative_prompt);
+    const [guidanceScale, setGuidanceScale] = useState(selectedImage.parameters.guidance_scale);
+    const [seed, setSeed] = useState(selectedImage.parameters.seed);
     const idToken = user ? user.accessToken : null;
     const [loading, setLoading] = useState(false);
 
@@ -49,6 +51,8 @@ export default function EditImage({ onClose }) {
                 const payLoad = {
                     instructions: prompt,
                     negative_prompt: negativePrompt,
+                    guidance_scale: guidanceScale,
+                    seed: seed,
                     image_orientation: selectedImage.image_orientation,
                     high_quality: selectedImage.high_quality,
                     init_image: constructImgLink(selectedImage.cf_id, 'public'),
@@ -157,11 +161,6 @@ export default function EditImage({ onClose }) {
         }
     };
 
-    //whenever the component mounts, check the existance of upscale_status. If it is processing, poll the status every 5 seconds by hitting /api/v1/upscaleStatus/:jobid
-    // if upscale_status = success, then update the status, upscaled flag and upscale_cf_id.
-    //if upscale_status = not success or processing, then just update the status as failed
-    //if upscale_status = processing, then do nothing
-
     useEffect(() => {
         if (selectedImage.upscale_status === 'processing') {
             const interval = setInterval(async () => {
@@ -233,11 +232,21 @@ export default function EditImage({ onClose }) {
                                 loader={({ src }) => src}
                             />
                         </div>
-                        <div className='flex flex-col mt-4 space-y-4 grow'>
-                            <label className="text-sm text-gray-600">Prompt</label>
-                            <textarea rows={4} type="text" defaultValue={selectedImage.prompt} onChange={handlePromptChange} className={inputClasses} />
-                            <label className="text-sm text-gray-600">Negative Prompt</label>
-                            <textarea rows={4} type="text" defaultValue={selectedImage.parameters.negative_prompt} onChange={handleNegativePromptChange} className={inputClasses} />
+                        <div className='flex flex-col mt-4 space-y-4 grow text-sm text-gray-900'>
+                            <label className="">Prompt</label>
+                            <textarea rows={4} type="text" defaultValue={prompt} onChange={handlePromptChange} className={inputClasses} />
+                            <label className="">Negative Prompt</label>
+                            <textarea rows={4} type="text" defaultValue={negativePrompt} onChange={handleNegativePromptChange} className={inputClasses} />
+                            <div className='flex flex-row space-x-2 '>
+                                <div className='flex flex-col space-y-1'>
+                                    <label className=''>Guidance Scale</label>
+                                    <input type="number" defaultValue={guidanceScale} onChange={(e) => setGuidanceScale(e.target.value)} className={inputClasses} />
+                                </div>
+                                <div className='flex flex-col space-y-1'>
+                                    <label className=''>Seed</label>
+                                    <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className={inputClasses} />
+                                </div>
+                            </div>
                             <div className='flex flex-row space-x-2 text-sm'>
                                 <button onClick={handleRemix} className="px-4 py-2 text-sm font-bold text-white bg-purple-500 rounded-md border border-purple-500 hover:bg-purple-700">Remix</button>
                                 {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Upscale by 4X</button>}

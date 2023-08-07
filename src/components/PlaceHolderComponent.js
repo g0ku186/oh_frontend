@@ -13,7 +13,7 @@ const PlaceHolderComponent = ({ eta }) => {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-gray-800 bg-opacity-90">
-                <RingLoader color="#FFFFFF" size={60} />
+                <RingLoader color="#EFA12B" size={60} />
                 {eta === null ? (<p className="mt-4 text-sm text-white">Generating image...</p>) : (<p className="mt-4 text-sm text-white">ETA: {eta} sec</p>)}
             </div>
         </div>

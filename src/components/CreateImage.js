@@ -117,7 +117,7 @@ function CreateImage({ handleTabChange }) {
 
     return (
         <div className="flex flex-col items-start justify-center min-h-full p-24">
-            <h1 className="text-4xl font-bold text-center text-zinc-100 mb-5">Create any image</h1>
+            <h1 className="text-4xl font-bold text-center text-zinc-100 mb-5 font-serif">Create any image</h1>
             <div className="relative w-full max-w-4xl">
                 {!expertMode ? (<>
                     <input
@@ -144,7 +144,7 @@ function CreateImage({ handleTabChange }) {
             <div className='flex items-center justify-center space-x-4 mt-2'>
                 <button
                     onClick={handleArrowClick}
-                    className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark"
+                    className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark "
                 >
                     Generate
                 </button>
@@ -165,7 +165,7 @@ function CreateImage({ handleTabChange }) {
 
             </div>
 
-            {loading && (<div>
+            {loading && (<div className='mt-4'>
                 <RingLoader color="#36d7b7" />
                 <p>Please hold on...</p>
             </div>)}

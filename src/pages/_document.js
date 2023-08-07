@@ -21,6 +21,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Open+Sans:wght@400;600&display=swap"
+      />
       <script dangerouslySetInnerHTML={{ __html: claritySCript }} />
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-JNRWMFZHQ4"></script>
       <script dangerouslySetInnerHTML={{ __html: gtagScript }} />
