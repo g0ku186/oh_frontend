@@ -5,6 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import Image from 'next/image';
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -107,45 +108,51 @@ const Profile = () => {
                 <div className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 space-y-4">
                     <h2 className="text-2xl font-bold mb-4">Account Details</h2>
                     <hr />
-                    <div className="mb-4">
-                        <span className="block text-grey-darker font-bold mb-2">Email:</span>
-                        <span className="block">{userDetails.email}</span>
-                    </div>
-                    <div className="mb-4">
-                        <span className="block text-grey-darker font-bold mb-2">Subscription:</span>
-                        <span className="block">{userDetails.plan}</span>
-                    </div>
-                    <div className="mb-4">
-                        <span className="block text-grey-darker font-bold mb-2">Images Generated:</span>
-                        <span className="block">{userDetails.current_usage} / {userDetails.plan === 'pro' ? "unlimited" : userDetails.limit}</span>
-                    </div>
-                    <div className="mb-4">
-                        <span className="block text-grey-darker font-bold mb-2">Renews On:</span>
-                        <span className="block">{userDetails.renewalDate ? userDetails.renewalDate : 'N/A'}</span>
-                    </div>
-                    <div className='text-sm underline flex cursor-pointer' onClick={() => setChangePasswordClicked(!changePasswordClicked)}>
+                    <div className='flex flex-col md:flex-row md:items-center md:space-x-36 space-y-12'>
+                        <div className='flex flex-col space-y-4'>
+                            <div className="mb-4">
+                                <span className="block text-grey-darker font-bold mb-2">Email:</span>
+                                <span className="block">{userDetails.email}</span>
+                            </div>
+                            <div className="mb-4">
+                                <span className="block text-grey-darker font-bold mb-2">Subscription:</span>
+                                <span className="block">{userDetails.plan}</span>
+                            </div>
+                            <div className="mb-4">
+                                <span className="block text-grey-darker font-bold mb-2">Images Generated:</span>
+                                <span className="block">{userDetails.current_usage} / {userDetails.plan === 'pro' ? "unlimited" : userDetails.limit}</span>
+                            </div>
+                            <div className="mb-4">
+                                <span className="block text-grey-darker font-bold mb-2">Renews On:</span>
+                                <span className="block">{userDetails.renewalDate ? userDetails.renewalDate : 'N/A'}</span>
+                            </div>
+                            <div className='text-sm underline flex cursor-pointer' onClick={() => setChangePasswordClicked(!changePasswordClicked)}>
 
-                        <p>Change Password</p> {changePasswordClicked ? <ChevronUpIcon className='w-5 h-5 ml-1' /> : (<ChevronDownIcon className='w-5 h-5 ml-1' />)}
+                                <p>Change Password</p> {changePasswordClicked ? <ChevronUpIcon className='w-5 h-5 ml-1' /> : (<ChevronDownIcon className='w-5 h-5 ml-1' />)}
+                            </div>
+                            {changePasswordClicked && <ChangePasswordForm />}
+
+                            <div className='flex space-x-2'>
+                                <Link
+                                    href="https://www.google.com"
+                                    target="_blank"
+                                    className="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark"
+                                >
+                                    Manage Subscription
+                                </Link>
+                                <button
+                                    onClick={() => setChangePasswordClicked(true)}
+                                    className="px-4 py-2 text-sm font-semibold text-red-600 bg-white rounded-md border border-red-600 hover:bg-red-600 hover:text-white"
+                                >
+                                    Delete Account
+                                </button>
+                            </div>
+
+                        </div>
+                        <div className='md:ml-12'>
+                            <Image src="https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/b6efd324-ed57-40d1-313c-4523e33a9f00/public" width={400} height={400} />
+                        </div>
                     </div>
-                    {changePasswordClicked && <ChangePasswordForm />}
-
-                    <div className='flex space-x-2'>
-                        <Link
-                            href="https://www.google.com"
-                            target="_blank"
-                            className="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark"
-                        >
-                            Manage Subscription
-                        </Link>
-                        <button
-                            onClick={() => setChangePasswordClicked(true)}
-                            className="px-4 py-2 text-sm font-semibold text-red-600 bg-white rounded-md border border-red-600 hover:bg-red-600 hover:text-white"
-                        >
-                            Delete Account
-                        </button>
-                    </div>
-
-
                 </div>
             </div>
         )

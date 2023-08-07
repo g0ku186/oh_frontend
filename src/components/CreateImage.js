@@ -150,7 +150,7 @@ function CreateImage({ handleTabChange }) {
                 </button>
                 <button
                     onClick={handleInspireClick}
-                    className="px-4 py-2 text-sm font-bold text-white rounded-md border hover:bg-black hover:border-black"
+                    className="px-4 py-2 text-sm font-bold text-white rounded-md border hover:bg-black hover:bg-opacity-25 hover:border-black"
                 >
                     Show me an example
                 </button>
