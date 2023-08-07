@@ -76,7 +76,8 @@ const ListUserImages = () => {
                             });
                         }
                     } catch (err) {
-                        console.log(err);
+
+                        handleShowNotification({ 'title': err.response.data.message }, 'error')
                     }
                 }
                 // Check if there are still any 'processing' or 'failed' images left
@@ -233,6 +234,7 @@ const ListUserImages = () => {
                                         placeholder="blur"
                                         blurDataURL={blurImage}
                                         loader={({ src }) => src}
+                                        unoptimized
                                     />
 
                                     {hoveredImg === img.imgId && (

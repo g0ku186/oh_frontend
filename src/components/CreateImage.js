@@ -118,7 +118,7 @@ function CreateImage({ handleTabChange }) {
             }
         } catch (err) {
             setLoading(false);
-            console.log(err);
+            handleShowNotification({ "title": err.response.data.message }, 'error');
 
         }
     }

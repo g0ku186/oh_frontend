@@ -116,7 +116,7 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
         }
         const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
         setFormOpened(false);
-        router.push("/profile");
+        // router.push("/");
 
       } else {
         handleShowNotification({ "title": "Please verify your email before signing in" }, "error");
@@ -161,7 +161,7 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
         }
         const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
         setFormOpened(false);
-        router.push("/profile");
+        // router.push("/profile");
       }
     } catch (error) {
       handleShowNotification({ "title": "Something went wrong. Please reach out to support" }, "error");

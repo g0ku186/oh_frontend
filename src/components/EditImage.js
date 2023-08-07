@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useGlobalContext } from '@/context/GlobalContext';
 import { blurImage } from '../../public/blur';
 import { getIdToken } from 'firebase/auth';
+import RingLoader from "react-spinners/RingLoader";
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -16,7 +17,7 @@ const constructImgLink = (cf_id, variant) => {
 
 export default function EditImage({ onClose }) {
     const { user } = userAuth();
-    const { selectedImage, setImages, setSelectedImage, setNewCount, setEta } = useGlobalContext();
+    const { selectedImage, setImages, setSelectedImage, setNewCount, setEta, handleShowNotification } = useGlobalContext();
     const [prompt, setPrompt] = useState(selectedImage.prompt);
     const [negativePrompt, setNegativePrompt] = useState(selectedImage.parameters.negative_prompt);
     const [guidanceScale, setGuidanceScale] = useState(selectedImage.parameters.guidance_scale);
@@ -34,13 +35,11 @@ export default function EditImage({ onClose }) {
         setNegativePrompt(e.target.value);
     }
 
-
-
     const handleRemix = async () => {
         console.log('Regenerating image');
+        setLoading(true);
         try {
             if (user) {
-                setLoading(true);
                 // onClose();
                 //handleTabChange('My Generations');
                 const idToken = await getIdToken(user);
@@ -76,51 +75,61 @@ export default function EditImage({ onClose }) {
             }
 
         } catch (err) {
-            setLoading(false);
-            console.log(err);
-
+            handleShowNotification({ 'title': err.response.data.message }, 'error')
         }
+        setLoading(false);
     }
 
 
     const handleUpscale = async () => {
-        const response = await axios.post(`${process.env.API_BASE_URL}/api/v1/upscaleImage`, {
-            imgId: selectedImage.imgId,
-            url: constructImgLink(selectedImage.cf_id, 'public'),
-        },
-            {
-                headers: {
-                    Authorization: idToken
-                }
-            });
+        setLoading(true);
+        if (user) {
+            try {
+                const response = await axios.post(`${process.env.API_BASE_URL}/api/v1/upscaleImage`, {
+                    imgId: selectedImage.imgId,
+                    url: constructImgLink(selectedImage.cf_id, 'public'),
+                },
+                    {
+                        headers: {
+                            Authorization: idToken
+                        }
+                    });
 
-        const { imgId, upscaled, upscale_cf_id, upscale_jobId, upscale_status } = response.data;
-        setImages(prevImages => {
-            return prevImages.map(image => {
-                if (image.imgId === imgId) {
+                const { imgId, upscaled, upscale_cf_id, upscale_jobId, upscale_status } = response.data;
+                setImages(prevImages => {
+                    return prevImages.map(image => {
+                        if (image.imgId === imgId) {
+                            return {
+                                ...image,
+                                upscaled: upscaled,
+                                upscale_cf_id: upscale_cf_id,
+                                upscale_jobId: upscale_jobId,
+                                upscale_status: upscale_status,
+                            }
+                        } else {
+                            return image;
+                        }
+                    })
+                }
+                );
+
+                setSelectedImage(prevImage => {
                     return {
-                        ...image,
+                        ...prevImage,
                         upscaled: upscaled,
                         upscale_cf_id: upscale_cf_id,
                         upscale_jobId: upscale_jobId,
                         upscale_status: upscale_status,
                     }
-                } else {
-                    return image;
-                }
-            })
-        }
-        );
+                });
 
-        setSelectedImage(prevImage => {
-            return {
-                ...prevImage,
-                upscaled: upscaled,
-                upscale_cf_id: upscale_cf_id,
-                upscale_jobId: upscale_jobId,
-                upscale_status: upscale_status,
+            } catch (err) {
+                handleShowNotification({ 'title': err.response.data.message }, 'error')
             }
-        });
+        } else {
+            handleShowNotification({ 'title': 'Please login to continue generation' }, 'error')
+        }
+        setLoading(false);
 
     };
 
@@ -157,7 +166,7 @@ export default function EditImage({ onClose }) {
             setImages(oldImages => oldImages.filter(img => img.imgId !== selectedImage.imgId));
             onClose();
         } catch (err) {
-            console.error(err);
+            handleShowNotification({ 'title': err.response.data.message }, 'error')
         }
     };
 
@@ -203,7 +212,7 @@ export default function EditImage({ onClose }) {
                         clearInterval(interval);
                     }
                 } catch (err) {
-                    console.error(err);
+                    handleShowNotification({ 'title': err.response.data.message }, 'error')
                 }
             }, 5000);
 
@@ -247,7 +256,7 @@ export default function EditImage({ onClose }) {
                                     <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className={inputClasses} />
                                 </div>
                             </div>
-                            <div className='flex flex-row space-x-2 text-sm'>
+                            {!loading ? (<div className='flex flex-row space-x-2 text-sm'>
                                 <button onClick={handleRemix} className="px-4 py-2 text-sm font-bold text-white bg-purple-500 rounded-md border border-purple-500 hover:bg-purple-700">Remix</button>
                                 {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Upscale by 4X</button>}
                                 {selectedImage.upscaled && <button onClick={handleDownloadUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Download Upscaled Image</button>}
@@ -257,7 +266,12 @@ export default function EditImage({ onClose }) {
                                 <button onClick={handleDelete} className="flex items-center p-1 text-red-500 rounded-md">
                                     <TrashIcon className="w-6 h-6" />
                                 </button>
-                            </div>
+                            </div>) : (
+                                <div className='mt-4'>
+                                    <RingLoader color="#36d7b7" />
+                                    <p>Please hold on...</p>
+                                </div>
+                            )}
 
                         </div>
                     </div>
