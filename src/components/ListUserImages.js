@@ -21,10 +21,9 @@ const ListUserImages = () => {
     //From GlobalContext
     const { user } = userAuth();
     //  const { images, setImages, eta, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount, bookmark } = useGlobalContext();
-    const { eta, selectedImage, setSelectedImage, newCount, bookmark } = useGlobalContext();
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
-    const [notificationType, setNotificationType] = useState('');
+    const { eta, selectedImage, setSelectedImage, newCount, bookmark,
+        setShowNotification, setNotificationMessage, setNotificationType } = useGlobalContext();
+
     const setNormalImages = useGlobalContext().setImages;
     const setBookmarkImages = useGlobalContext().setbookmarkImages;
     const images = bookmark ? useGlobalContext().bookmarkImages : useGlobalContext().images;
@@ -35,6 +34,7 @@ const ListUserImages = () => {
     const setHasMore = bookmark ? useGlobalContext().setHasMoreBookmark : useGlobalContext().setHasMore;
     const [openConfirmationBox, setOpenConfirmationBox] = useState(false);
     const [imageIdToDelete, setImageIdToDelete] = useState(null);
+
 
     const [loading, setLoading] = useState(false);
 
@@ -159,7 +159,7 @@ const ListUserImages = () => {
             });
             setNormalImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
             setBookmarkImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
-            handleShowNotification(bookmark ? 'Image removed from bookmark' : 'Image added to bookmark', 'success');
+            handleShowNotification(bookmark ? { "title": 'Image removed from bookmark', 'message': "you can view it in bookmarks" } : { "title": "Image added to bookmark" }, 'success');
 
         } catch (err) {
             console.error(err);
@@ -263,7 +263,6 @@ const ListUserImages = () => {
                 </div>
                 {hasMore && <button onClick={fetchImages} className="w-24 py-2 mt-4 text-white border-2 hover:bg-blue-700 focus:outline-none">Load More</button>}
                 {selectedImage && <EditImage onClose={closeOverlay} />}
-                <Notification show={showNotification} setShow={setShowNotification} type={notificationType} message={notificationMessage} />
                 <ConfirmationBox open={openConfirmationBox} setOpen={setOpenConfirmationBox} onConfirm={proceedWithDeletion} />
             </>
         );

@@ -4,6 +4,7 @@ import Header from "../components/Header"
 import Footer from "@/components/Footer";
 import { AuthProvider } from '../context/AuthContext'
 import { GlobalProvider } from "@/context/GlobalContext";
+import Notification from "@/components/Notification";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }) {
           </div>
           <Footer />
         </div>
+        <Notification />
       </GlobalProvider>
     </AuthProvider>
   )

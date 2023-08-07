@@ -32,11 +32,16 @@ export function GlobalProvider({ children }) {
     const [eta, setEta] = useState(null);
     const [newCount, setNewCount] = useState(0);
 
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState('');
+
     const value = {
         images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, eta, setEta, newCount, setNewCount,
         publicImages, setPublicImages, selectedPublicImage, setSelectedPublicImage, publicImagePage, setPublicImagePage, hasMorePublic, setHasMorePublic,
         bookmark, setBookmark,
-        bookmarkImages, setbookmarkImages, bookmarkPage, setBookmarkPage, hasMoreBookmark, setHasMoreBookmark
+        bookmarkImages, setbookmarkImages, bookmarkPage, setBookmarkPage, hasMoreBookmark, setHasMoreBookmark,
+        showNotification, setShowNotification, notificationMessage, setNotificationMessage, notificationType, setNotificationType
     }
 
     useEffect(() => {

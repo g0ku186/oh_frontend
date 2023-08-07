@@ -20,7 +20,7 @@ const Header = () => {
     const router = useRouter();
     return (
         <header className="bg-white">
-            <nav className="fixed h-20 z-20 bg-white w-full mx-auto flex items-center justify-between p-6 lg:px-20 top-0" aria-label="Global">
+            <nav className="fixed h-20 z-20 w-full mx-auto flex items-center justify-between p-6 lg:px-20 top-0" aria-label="Global">
                 <Link href="/" className="-m-1.5 p-1.5">
                     <Image className="h-10 w-auto" src={logo} alt="only hentai" />
                 </Link>
