@@ -18,6 +18,12 @@ const nextConfig = {
         port: '7777',
         pathname: '/generations/*',
       },
+      {
+        protocol: 'https',
+        hostname: 'imagedelivery.net',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 }
