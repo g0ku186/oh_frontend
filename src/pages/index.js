@@ -44,7 +44,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-center h-full">
+    <main className="flex flex-col items-center justify-center h-full w-full">
       <div className="w-full">
         <div className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl" aria-hidden="true">
           <div

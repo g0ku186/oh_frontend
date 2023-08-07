@@ -8,7 +8,7 @@ const Tabs = ({ tabs, selectedTab, handleTabChange }) => {
     }
 
     return (
-        <div className="mb-8 text-gray-800">
+        <div className="px-6 mb-4 md:mb-8 text-gray-800">
             <div className="sm:hidden">
                 <label htmlFor="tabs" className="sr-only">
                     Select a tab
@@ -17,7 +17,7 @@ const Tabs = ({ tabs, selectedTab, handleTabChange }) => {
                 <select
                     id="tabs"
                     name="tabs"
-                    className="block w-full rounded-md border-gray-300 focus:primary focus:ring-primary"
+                    className="block w-full rounded-md border-gray-300 focus:primary focus:ring-primary text-sm p-1"
                     defaultValue={selectedTab}
                     onChange={handleSelectChange}
                 >

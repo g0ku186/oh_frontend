@@ -208,7 +208,7 @@ const ListUserImages = () => {
         return (
             <>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4 px-6">
                     {images.map((img, index) => {
                         if (img.status && img.status === 'processing') {
                             return <PlaceHolderComponent key={index} eta={eta} />
@@ -253,7 +253,7 @@ const ListUserImages = () => {
                         }
                     })}
                 </div>
-                {hasMore && <button onClick={fetchImages} className="w-24 py-2 mt-4 text-white border-2 hover:bg-primaryDark focus:outline-none rounded-md">Load More</button>}
+                {hasMore && <button onClick={fetchImages} className="w-24 py-2 px-6 mt-4 text-white border-2 hover:bg-primaryDark focus:outline-none rounded-md">Load More</button>}
                 {selectedImage && <EditImage onClose={closeOverlay} />}
                 <ConfirmationBox open={openConfirmationBox} setOpen={setOpenConfirmationBox} onConfirm={proceedWithDeletion} />
             </>

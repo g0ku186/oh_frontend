@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }) {
       <GlobalProvider>
         <div className="relative">
           <Header />
-          <div className="mt-20 p-20 min-h-90vh">
+          <div className="mt-20 sm:p-20 min-h-90vh w-full">
             <Component {...pageProps} />
           </div>
           <Footer />

@@ -124,8 +124,8 @@ function CreateImage({ handleTabChange }) {
     }
 
     return (
-        <div className="flex flex-col items-start justify-center min-h-full p-24">
-            <h1 className="text-4xl font-bold text-center text-zinc-100 mb-5 font-serif">Create any image</h1>
+        <div className="flex flex-col items-start justify-center min-h-full p-10 sm:p-12 md:p-24 w-full">
+            <h1 className="text-xl sm:text-2xl md:text-4xl font-medium sm:font-bold text-left text-zinc-100 mb-5 font-serif">Create any image</h1>
             <div className="relative w-full max-w-4xl">
                 {!expertMode ? (<>
                     <input
@@ -149,16 +149,16 @@ function CreateImage({ handleTabChange }) {
                     <AdvancedSettings instructions={instructions} negativePrompt={negativePrompt} guidance_scale={guidance_scale} seed={seed} setInstructions={setInstructions} setNegativePrompt={setNegativePrompt} setGuidanceScale={setGuidanceScale} setSeed={setSeed} />)}
 
             </div>
-            <div className='flex items-center justify-center space-x-4 mt-2'>
+            <div className='flex flex-col md:flex-row items-start md:items-center justify-center md:space-x-4 mt-2 space-y-4 md:space-y-0'>
                 <button
                     onClick={handleArrowClick}
-                    className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark "
+                    className="px-2 md:px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark "
                 >
                     Generate
                 </button>
                 <button
                     onClick={handleInspireClick}
-                    className="px-4 py-2 text-sm font-bold text-white rounded-md border hover:bg-black hover:bg-opacity-25 hover:border-black"
+                    className="px-2 md:px-4 py-2 text-sm font-bold text-white rounded-md border hover:bg-black hover:bg-opacity-25 hover:border-black"
                 >
                     Show me an example
                 </button>

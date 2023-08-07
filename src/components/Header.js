@@ -96,6 +96,7 @@ const Header = () => {
                                         key={item.name}
                                         href={item.href}
                                         className="-mx-3 block rounded-lg px-3 py-2 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50 flex items-center"
+                                        onClick={() => setMobileMenuOpen(false)}
                                     >  <item.Icon className='w-5 h-5 mr-2 text-gray-900' />
                                         {item.name}
                                     </Link>
@@ -116,7 +117,10 @@ const Header = () => {
                                 </button>)}
                             </div>
                             <button
-                                onClick={() => router.push('/plans')}
+                                onClick={() => {
+                                    router.push('/plans')
+                                    setMobileMenuOpen(false)
+                                }}
                                 className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md hover:bg-primaryDark"
                             >
                                 Upgrade
