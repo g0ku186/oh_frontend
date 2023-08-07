@@ -133,13 +133,13 @@ const Profile = () => {
                         <Link
                             href="https://www.google.com"
                             target="_blank"
-                            className="px-4 py-2 text-sm font-bold text-white bg-secondary rounded-md shadow-sm hover:bg-black border block text-center"
+                            className="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark"
                         >
                             Manage Subscription
                         </Link>
                         <button
                             onClick={() => setChangePasswordClicked(true)}
-                            className="px-4 py-2 text-sm font-bold text-white bg-red-700 rounded-md shadow-sm hover:bg-black border block text-center"
+                            className="px-4 py-2 text-sm font-semibold text-red-600 bg-white rounded-md border border-red-600 hover:bg-red-600 hover:text-white"
                         >
                             Delete Account
                         </button>

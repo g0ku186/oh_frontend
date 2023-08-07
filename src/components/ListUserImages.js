@@ -152,14 +152,14 @@ const ListUserImages = () => {
 
     const handleBookmark = async (imgId, bookmark) => {
         try {
+            setNormalImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
+            setBookmarkImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
             await axios.post(`${process.env.API_BASE_URL}/api/v1/image/bookmark`, { imgId, bookmark: !bookmark }, {
                 headers: {
                     Authorization: idToken
                 }
             });
-            setNormalImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
-            setBookmarkImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
-            handleShowNotification(bookmark ? { "title": 'Image removed from bookmark', 'message': "you can view it in bookmarks" } : { "title": "Image added to bookmark" }, 'success');
+            handleShowNotification(bookmark ? { "title": 'Image removed from favourites' } : { "title": "Image added to favourites" }, 'success');
 
         } catch (err) {
             console.error(err);
@@ -252,7 +252,7 @@ const ListUserImages = () => {
                                             ) : (
                                                 <LoveIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleBookmark(img.imgId, img.bookmark) }} />
                                             )}
-                                            <EditIcon className="w-6 h-6 text-yellow-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleEditImage(img) }} />
+                                            <EditIcon className="w-6 h-6 text-primary cursor-pointer" onClick={(e) => { e.stopPropagation(); handleEditImage(img) }} />
                                             <TrashIcon className="w-6 h-6 text-gray-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleDelete(img.imgId) }} />
                                         </div>
                                     )}
@@ -261,7 +261,7 @@ const ListUserImages = () => {
                         }
                     })}
                 </div>
-                {hasMore && <button onClick={fetchImages} className="w-24 py-2 mt-4 text-white border-2 hover:bg-blue-700 focus:outline-none">Load More</button>}
+                {hasMore && <button onClick={fetchImages} className="w-24 py-2 mt-4 text-white border-2 hover:bg-primaryDark focus:outline-none rounded-md">Load More</button>}
                 {selectedImage && <EditImage onClose={closeOverlay} />}
                 <ConfirmationBox open={openConfirmationBox} setOpen={setOpenConfirmationBox} onConfirm={proceedWithDeletion} />
             </>

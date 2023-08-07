@@ -22,6 +22,7 @@ export default function EditImage({ onClose }) {
     const idToken = user ? user.accessToken : null;
     const [loading, setLoading] = useState(false);
 
+
     const defaultNegativePrompt = '(worst quality, low quality:1.4), monochrome, zombie, (interlocked fingers:1.2), multiple views, comic, sketch, animal ears, pointy ears';
     const handlePromptChange = (e) => {
         setPrompt(e.target.value);
@@ -211,7 +212,7 @@ export default function EditImage({ onClose }) {
         }
     }, [selectedImage.upscale_status]);
 
-
+    const inputClasses = 'w-full px-2 py-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded-md';
     return (
         <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-60 px-20 pt-20 pb-4 md:pb-10">
             <div className='relative h-full w-full'>
@@ -234,15 +235,15 @@ export default function EditImage({ onClose }) {
                         </div>
                         <div className='flex flex-col mt-4 space-y-4 grow'>
                             <label className="text-sm text-gray-600">Prompt</label>
-                            <textarea rows={4} type="text" defaultValue={selectedImage.prompt} onChange={handlePromptChange} className="w-full px-2 py-1 mt-2 border text-gray-800 rounded-md" />
+                            <textarea rows={4} type="text" defaultValue={selectedImage.prompt} onChange={handlePromptChange} className={inputClasses} />
                             <label className="text-sm text-gray-600">Negative Prompt</label>
-                            <textarea rows={4} type="text" defaultValue={selectedImage.parameters.negative_prompt} onChange={handleNegativePromptChange} className="w-full px-2 py-1 mt-2 border text-gray-800 rounded-md" />
+                            <textarea rows={4} type="text" defaultValue={selectedImage.parameters.negative_prompt} onChange={handleNegativePromptChange} className={inputClasses} />
                             <div className='flex flex-row space-x-2 text-sm'>
-                                <button onClick={handleRemix} className="px-4 py-2 text-white bg-blue-500 rounded-md">Remix</button>
-                                {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-white bg-purple-500 rounded-md">Upscale by 4X</button>}
-                                {selectedImage.upscaled && <button onClick={handleDownloadUpscale} className="px-4 py-2 text-white bg-purple-500 rounded-md">Download Upscaled Image</button>}
+                                <button onClick={handleRemix} className="px-4 py-2 text-sm font-bold text-white bg-purple-500 rounded-md border border-purple-500 hover:bg-purple-700">Remix</button>
+                                {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Upscale by 4X</button>}
+                                {selectedImage.upscaled && <button onClick={handleDownloadUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Download Upscaled Image</button>}
                                 <button onClick={handleDownload} className="p-1 text-gray-800 rounded-md">
-                                    <DownloadIcon className="w-6 h-6" />
+                                    <DownloadIcon className="w-6 h-6 hover:text-primary" />
                                 </button>
                                 <button onClick={handleDelete} className="flex items-center p-1 text-red-500 rounded-md">
                                     <TrashIcon className="w-6 h-6" />

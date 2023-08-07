@@ -15,7 +15,7 @@ const FailedImageComponent = ({ img, handleDelete }) => {
             <div className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-gray-800 bg-opacity-90">
                 <p className="mt-4 text-sm text-white">Image generation failed</p>
                 <button
-                    className="mt-4 p-2 text-sm text-white bg-red-500 rounded"
+                    className="mt-4 p-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded"
                     onClick={() => handleDelete(img.imgId)}
                 >
                     Delete

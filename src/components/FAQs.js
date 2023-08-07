@@ -36,7 +36,7 @@ export default function FAQs() {
             <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
                 <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
                     <div className="mx-auto max-w-2xl text-center lg:max-w-4xl">
-                        <h2 className="text-base font-semibold leading-7 text-indigo-600">FAQs</h2>
+                        <h2 className="text-base font-semibold leading-7 text-primary">FAQs</h2>
                         <p className="mt-2 text-lg font-bold tracking-tight text-gray-900 sm:text-3xl">
                             Know before you buy
                         </p>

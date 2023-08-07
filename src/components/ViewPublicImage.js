@@ -39,9 +39,9 @@ export default function ViewPublicImage({ onClose }) {
                             />
                         </div>
                         <div className='flex flex-col mt-4 space-y-4 grow'>
-                            <textarea rows={4} type="text" defaultValue={selectedPublicImage.prompt} className="w-full px-2 py-1 mt-4 border text-gray-800 rounded-md" />
+                            <textarea rows={4} type="text" defaultValue={selectedPublicImage.prompt} className="w-full px-2 py-1 mt-4 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded-md" />
                             <div className='flex flex-row space-x-2 text-sm'>
-                                <button onClick={handleGenerate} className="px-4 py-2 text-white bg-blue-500 rounded-md">Generate Similar</button>
+                                <button onClick={handleGenerate} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Generate Similar</button>
                             </div>
 
                         </div>

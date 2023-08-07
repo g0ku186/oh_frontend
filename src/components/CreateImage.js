@@ -14,21 +14,22 @@ import { getIdToken } from 'firebase/auth';
 const baseUrl = process.env.API_BASE_URL
 
 const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNegativePrompt, guidance_scale, setGuidanceScale, seed, setSeed }) => {
+    const inputClasses = 'w-full px-2 py-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded-md';
     return (
-        <div className='flex flex-col mt-4 space-y-4 grow'>
+        <div className='flex flex-col my-4 space-y-4 grow'>
             <div>
                 <label className='text-sm'>Prompt</label>
-                <textarea rows={4} type="text" defaultValue={instructions} onChange={(e) => setInstructions(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+                <textarea rows={4} type="text" defaultValue={instructions} onChange={(e) => setInstructions(e.target.value)} className={inputClasses} />
             </div>
             <div>
                 <label className='text-sm'>Negative Prompt</label>
-                <textarea rows={4} type="text" defaultValue={negativePrompt} onChange={(e) => setNegativePrompt(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+                <textarea rows={4} type="text" defaultValue={negativePrompt} onChange={(e) => setNegativePrompt(e.target.value)} className={inputClasses} />
             </div>
             <div className='flex flex-row space-x-2 text-sm'>
                 <label className='text-sm'>Guidance Scale</label>
-                <input type="number" defaultValue={guidance_scale} onChange={(e) => setGuidanceScale(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+                <input type="number" defaultValue={guidance_scale} onChange={(e) => setGuidanceScale(e.target.value)} className={inputClasses} />
                 <label className='text-sm'>Seed</label>
-                <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className="w-full px-2 py-1 border text-gray-800 rounded-md" />
+                <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className={inputClasses} />
             </div>
         </div>
     )
@@ -122,7 +123,7 @@ function CreateImage({ handleTabChange }) {
                     <input
                         type="text"
                         placeholder="Enter detailed instructions"
-                        className="w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 mb-1 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         value={instructions}
                         onChange={(e) => setInstructions(e.target.value)}
                         onKeyDown={(e) => {
@@ -133,7 +134,7 @@ function CreateImage({ handleTabChange }) {
                         }
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-                        <RightArrowIcon className="w-6 h-6 text-gray-500 hover:text-blue-500 cursor-pointer" onClick={handleArrowClick} />
+                        <RightArrowIcon className="w-6 h-6 text-gray-500 hover:text-primary cursor-pointer" onClick={handleArrowClick} />
                     </div>
                 </>) : (
 
@@ -143,13 +144,13 @@ function CreateImage({ handleTabChange }) {
             <div className='flex items-center justify-center space-x-4 mt-2'>
                 <button
                     onClick={handleArrowClick}
-                    className="px-4 py-3 text-sm font-bold text-white bg-secondary rounded-md shadow-sm hover:bg-black border"
+                    className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark"
                 >
                     Generate
                 </button>
                 <button
                     onClick={handleInspireClick}
-                    className="px-4 py-3 text-sm font-bold text-white rounded-md border hover:bg-secondary"
+                    className="px-4 py-2 text-sm font-bold text-white rounded-md border hover:bg-black hover:border-black"
                 >
                     Show me an example
                 </button>

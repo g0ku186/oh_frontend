@@ -19,8 +19,8 @@ const Header = () => {
     const { user, logOut } = userAuth();
     const router = useRouter();
     return (
-        <header className="bg-white">
-            <nav className="fixed h-20 z-20 w-full mx-auto flex items-center justify-between p-6 lg:px-20 top-0" aria-label="Global">
+        <header className="text-white text-sm font-semibold">
+            <nav className="fixed h-20 bg-black z-20 w-full mx-auto flex items-center justify-between p-6 lg:px-20 top-0" aria-label="Global">
                 <Link href="/" className="-m-1.5 p-1.5">
                     <Image className="h-10 w-auto" src={logo} alt="only hentai" />
                 </Link>
@@ -35,24 +35,24 @@ const Header = () => {
                 </div>
                 <div className="hidden lg:flex lg:gap-x-8 flex flex-row items-center">
                     {navigation.map((item) => (
-                        <Link key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
+                        <Link key={item.name} href={item.href} className="leading-6">
                             {item.name}
                         </Link>
                     ))}
                     {!user ? (<button
                         onClick={() => setFormOpened(true)}
-                        className="text-sm font-semibold leading-6 text-gray-900"
+                        className="leading-6"
                     >
                         Log in
                     </button>) : (<button
                         onClick={logOut}
-                        className="text-sm font-semibold leading-6 text-gray-900"
+                        className="leading-6"
                     >
                         Log Out
                     </button>)}
                     <button
                         onClick={() => router.push('/plans')}
-                        className="px-4 py-2 text-sm font-bold text-white bg-secondary rounded-md shadow-sm hover:bg-black border"
+                        className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md hover:bg-primaryDark"
                     >
                         Upgrade
                     </button>

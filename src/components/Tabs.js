@@ -17,7 +17,7 @@ const Tabs = ({ tabs, selectedTab, handleTabChange }) => {
                 <select
                     id="tabs"
                     name="tabs"
-                    className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                    className="block w-full rounded-md border-gray-300 focus:primary focus:ring-primary"
                     defaultValue={selectedTab}
                     onChange={handleSelectChange}
                 >
@@ -35,14 +35,14 @@ const Tabs = ({ tabs, selectedTab, handleTabChange }) => {
                                 onClick={() => handleTabChange(tab.name)}
                                 className={classNames(
                                     tab.name === selectedTab
-                                        ? 'border-indigo-500 text-indigo-600'
-                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                                        ? 'border-primaryDark text-white font-semibold'
+                                        : 'border-transparent text-gray-300 hover:border-primary hover:text-white',
                                     'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium cursor-pointer'
                                 )}
                             >
                                 <tab.icon
                                     className={classNames(
-                                        tab.name === selectedTab ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
+                                        tab.name === selectedTab ? 'text-primaryDark' : 'text-gray-300 group-hover:text-primary',
                                         '-ml-0.5 mr-2 h-5 w-5'
                                     )}
                                     aria-hidden="true"
