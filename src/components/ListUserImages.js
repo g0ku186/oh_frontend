@@ -21,8 +21,8 @@ const ListUserImages = () => {
     //From GlobalContext
     const { user } = userAuth();
     //  const { images, setImages, eta, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount, bookmark } = useGlobalContext();
-    const { eta, selectedImage, setSelectedImage, newCount, bookmark,
-        setShowNotification, setNotificationMessage, setNotificationType } = useGlobalContext();
+    const { eta, selectedImage, setSelectedImage, newCount, bookmark, handleShowNotification
+    } = useGlobalContext();
 
     const setNormalImages = useGlobalContext().setImages;
     const setBookmarkImages = useGlobalContext().setbookmarkImages;
@@ -42,16 +42,6 @@ const ListUserImages = () => {
     const [hoveredImg, setHoveredImg] = useState(null);
 
     const idToken = user ? user.accessToken : null;
-
-    const handleShowNotification = (message, type) => {
-        setNotificationMessage(message);
-        setNotificationType(type);
-        setShowNotification(true);
-        setTimeout(() => {
-            setShowNotification(false);
-        }, 3000);
-    };
-
 
 
     useEffect(() => {
@@ -163,7 +153,7 @@ const ListUserImages = () => {
 
         } catch (err) {
             console.error(err);
-            handleShowNotification('Can\'t save the bookmark', 'error');
+            handleShowNotification({ "title": "Can\'t save the bookmark" }, 'error');
         }
     };
 
@@ -186,10 +176,10 @@ const ListUserImages = () => {
             });
             setNormalImages(oldImages => oldImages.filter(img => img.imgId !== imageIdToDelete));
             setBookmarkImages(oldImages => oldImages.filter(img => img.imgId !== imageIdToDelete));
-            handleShowNotification('Image deleted successfully', 'success');
+            handleShowNotification({ "title": 'Image deleted successfully' }, 'success');
         } catch (err) {
             console.error(err);
-            handleShowNotification('Can\'t delete the image', 'error');
+            handleShowNotification({ "title": 'Can\'t delete the image' }, 'error');
         } finally {
             setImageIdToDelete(null);
             setOpenConfirmationBox(false);
@@ -207,7 +197,7 @@ const ListUserImages = () => {
 
     if (!user) {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-start h-screen">
                 <h1 className="text-2xl font-bold">Please login to view your images</h1>
             </div>
 

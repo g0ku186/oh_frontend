@@ -37,7 +37,7 @@ const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNe
 
 function CreateImage({ handleTabChange }) {
     const defaultNegativePrompt = '(worst quality, low quality:1.4), monochrome, zombie, (interlocked fingers:1.2), multiple views, comic, sketch, animal ears, pointy ears';
-    const { setImages, eta, setEta, setNewCount } = useGlobalContext();
+    const { setImages, eta, setEta, setNewCount, handleShowNotification } = useGlobalContext();
     const [expertMode, setExpertMode] = useState(false);
     const [instructions, setInstructions] = useState('');
     const [orientation, setOrientation] = useState('square');
@@ -57,6 +57,8 @@ function CreateImage({ handleTabChange }) {
     // ]
 
 
+
+
     const samplePrompts = [
         'masterpiece, best quality, 1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature,',
         'masterpiece, best quality, 1girl, long hair, glasses, burger, bored, braid,',
@@ -71,7 +73,7 @@ function CreateImage({ handleTabChange }) {
 
     const handleArrowClick = async () => {
         try {
-            if (user) {
+            if (user && user.emailVerified) {
                 setLoading(true);
                 handleTabChange('My Generations');
                 const prompt = instructions;
@@ -105,15 +107,21 @@ function CreateImage({ handleTabChange }) {
 
             } else {
                 console.log('You must login to continue generation');
+                if (!user) {
+                    handleShowNotification({ "title": "You must login to continue image generation" }, 'error');
+                    return;
+                }
+                if (!user.emailVerified) {
+                    handleShowNotification({ "title": "You must verify your email to continue image generation" }, 'error');
+                    return;
+                }
             }
-
         } catch (err) {
             setLoading(false);
             console.log(err);
 
         }
     }
-
 
     return (
         <div className="flex flex-col items-start justify-center min-h-full p-24">

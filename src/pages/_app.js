@@ -6,12 +6,9 @@ import { AuthProvider } from '../context/AuthContext'
 import { GlobalProvider } from "@/context/GlobalContext";
 import Notification from "@/components/Notification";
 
-const inter = Inter({ subsets: ['latin'] })
-
 export default function App({ Component, pageProps }) {
   return (
     <AuthProvider>
-
       <GlobalProvider>
         <div className="relative">
           <Header />

@@ -5,9 +5,11 @@ import google_icon from "../../public/google_icon.svg";
 import { userAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
 import axios from 'axios';
+import { useGlobalContext } from "@/context/GlobalContext";
 const baseUrl = process.env.API_BASE_URL;
 
 const ForgotPassword = ({ resetPassword, setShowForgotPassword }) => {
+  const { handleShowNotification } = useGlobalContext();
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
@@ -15,9 +17,11 @@ const ForgotPassword = ({ resetPassword, setShowForgotPassword }) => {
     const email = event.target.email.value;
     try {
       await resetPassword(email);
-      alert('Please check your email for password reset link')
+      // alert('Please check your email for password reset link')
+      handleShowNotification({ 'title': 'Please check your email for password reset link' }, 'success');
     } catch (error) {
-      console.error(error.message);
+      // console.error(error.message);
+      handleShowNotification({ 'title': 'Something went wrong. Please reach out to support.' }, 'error');
     }
   };
 
@@ -86,8 +90,9 @@ const ForgotPassword = ({ resetPassword, setShowForgotPassword }) => {
 }
 
 const SignIn = ({ setFormOpened, setIsSignIn }) => {
-  const { googleSignIn, emailSignIn, resetPassword } = userAuth();
+  const { googleSignIn, emailSignIn, resetPassword, logOut } = userAuth();
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const { handleShowNotification } = useGlobalContext();
 
   const router = useRouter();
 
@@ -99,12 +104,6 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
     const password = event.target.password.value;
 
     try {
-      // Sign in with email and password
-      // const userCredential = await signInWithEmailAndPassword(
-      //   auth,
-      //   email,
-      //   password
-      // );
       const userCredential = await emailSignIn(email, password);
       const user = userCredential.user;
       // Check if the user's email is verified
@@ -120,10 +119,30 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
         router.push("/profile");
 
       } else {
-        alert("Please verify your email before signing in.");
+        handleShowNotification({ "title": "Please verify your email before signing in" }, "error");
+        logOut();
       }
     } catch (error) {
-      console.error(error.message);
+      switch (error.code) {
+        case "auth/user-not-found":
+          handleShowNotification({ "title": "Please signup first" }, "error");
+          break;
+        case "auth/wrong-password":
+          handleShowNotification({ "title": "Wrong password" }, "error");
+          break;
+        case "auth/too-many-requests":
+          handleShowNotification({ "title": "Too many requests" }, "error");
+          break;
+        case "auth/invalid-email":
+          handleShowNotification({ "title": "Invalid email" }, "error");
+          break;
+        case "auth/user-disabled":
+          handleShowNotification({ "title": "User disabled" }, "error");
+          break;
+        default:
+          handleShowNotification({ "title": "Something went wrong" }, "error");
+      }
+
     }
   };
 
@@ -145,7 +164,7 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
         router.push("/profile");
       }
     } catch (error) {
-      console.error(error.message);
+      handleShowNotification({ "title": "Something went wrong. Please reach out to support" }, "error");
     }
   };
 

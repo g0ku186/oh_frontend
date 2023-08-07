@@ -4,11 +4,13 @@ import google_icon from "../../public/google_icon.svg";
 import { userAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
 import axios from 'axios';
+import { useGlobalContext } from "@/context/GlobalContext";
 const baseUrl = process.env.API_BASE_URL;
 
 const SignUp = ({ setFormOpened, setIsSignIn }) => {
-  const { googleSignIn, emailSignUp, verifyEmail } = userAuth();
+  const { googleSignIn, emailSignUp, verifyEmail, logOut } = userAuth();
   const router = useRouter();
+  const { handleShowNotification } = useGlobalContext();
 
   // Function to handle Email and Password sign-in
   // Function to handle Google sign-in
@@ -28,7 +30,7 @@ const SignUp = ({ setFormOpened, setIsSignIn }) => {
         router.push("/profile");
       }
     } catch (error) {
-      console.error(error.message);
+      handleShowNotification({ "title": "Something went wrong. Please reach out to support" }, "error");
     }
   };
 
@@ -40,16 +42,34 @@ const SignUp = ({ setFormOpened, setIsSignIn }) => {
     try {
       const userCredential = await emailSignUp(email, password);
       await verifyEmail();
-      alert('Please check your email for verification link')
+      handleShowNotification({ "title": "Please check your mail for verification link" }, "success");
+
       const idToken = userCredential._tokenResponse.idToken;
       const headers = {
         'Content-Type': 'application/json',
         'Authorization': idToken
       }
       const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
+      logOut();
+
 
     } catch (error) {
       console.error(error.message);
+      switch (error.code) {
+        case "auth/invalid-email":
+          handleShowNotification({ "title": "Invalid email" }, "error");
+          break;
+        case "auth/user-disabled":
+          handleShowNotification({ "title": "User disabled" }, "error");
+          break;
+        case "auth/email-already-in-use":
+          handleShowNotification({ "title": "Email already exists. Please sign in instead." }, "error");
+          break;
+
+        default:
+          handleShowNotification({ "title": "Something went wrong" }, "error");
+      }
+
     }
   };
 

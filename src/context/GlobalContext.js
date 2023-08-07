@@ -36,12 +36,22 @@ export function GlobalProvider({ children }) {
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState('');
 
+    const handleShowNotification = (message, type) => {
+        setNotificationMessage(message);
+        setNotificationType(type);
+        setShowNotification(true);
+        setTimeout(() => {
+            setShowNotification(false);
+        }, 5000);
+    };
+
     const value = {
         images, setImages, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, eta, setEta, newCount, setNewCount,
         publicImages, setPublicImages, selectedPublicImage, setSelectedPublicImage, publicImagePage, setPublicImagePage, hasMorePublic, setHasMorePublic,
         bookmark, setBookmark,
         bookmarkImages, setbookmarkImages, bookmarkPage, setBookmarkPage, hasMoreBookmark, setHasMoreBookmark,
-        showNotification, setShowNotification, notificationMessage, setNotificationMessage, notificationType, setNotificationType
+        showNotification, setShowNotification, notificationMessage, setNotificationMessage, notificationType, setNotificationType,
+        handleShowNotification
     }
 
     useEffect(() => {
