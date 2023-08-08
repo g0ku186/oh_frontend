@@ -37,6 +37,7 @@ const ListUserImages = () => {
 
 
     const [loading, setLoading] = useState(false);
+    const [actionLoading, setActionLoading] = useState(false);
 
     //local state
     const [hoveredImg, setHoveredImg] = useState(null);
@@ -167,6 +168,7 @@ const ListUserImages = () => {
         if (!imageIdToDelete) return;
 
         try {
+            setActionLoading(true);
             await axios.delete(`${process.env.API_BASE_URL}/api/v1/image/delete`, {
                 headers: {
                     Authorization: idToken
@@ -175,6 +177,7 @@ const ListUserImages = () => {
                     imgId: imageIdToDelete
                 }
             });
+
             setNormalImages(oldImages => oldImages.filter(img => img.imgId !== imageIdToDelete));
             setBookmarkImages(oldImages => oldImages.filter(img => img.imgId !== imageIdToDelete));
             handleShowNotification({ "title": 'Image deleted successfully' }, 'success');
@@ -182,6 +185,7 @@ const ListUserImages = () => {
             console.error(err);
             handleShowNotification({ "title": 'Can\'t delete the image' }, 'error');
         } finally {
+            setActionLoading(false);
             setImageIdToDelete(null);
             setOpenConfirmationBox(false);
         }
@@ -253,9 +257,9 @@ const ListUserImages = () => {
                         }
                     })}
                 </div>
-                {hasMore && <button onClick={fetchImages} className="w-24 py-2 px-6 mt-4 text-white border-2 hover:bg-primaryDark focus:outline-none rounded-md">Load More</button>}
+                {hasMore && <button onClick={fetchImages} className="w-24 py-2 mt-4 ml-6 text-white border-2 hover:bg-blue-700 focus:outline-none">Load More</button>}
                 {selectedImage && <EditImage onClose={closeOverlay} />}
-                <ConfirmationBox open={openConfirmationBox} setOpen={setOpenConfirmationBox} onConfirm={proceedWithDeletion} />
+                <ConfirmationBox open={openConfirmationBox} setOpen={setOpenConfirmationBox} onConfirm={proceedWithDeletion} loading={actionLoading} />
             </>
         );
     }

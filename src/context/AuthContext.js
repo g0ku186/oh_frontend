@@ -31,13 +31,13 @@ export function AuthProvider({ children }) {
     }, []);
 
 
-    const googleSignIn = () => {
+    const googleSignIn = async () => {
         const provider = new GoogleAuthProvider();
         return signInWithPopup(auth, provider);
     };
 
     const logOut = () => {
-        signOut(auth);
+        return signOut(auth);
     };
 
     const emailSignUp = (email, password) => {
@@ -49,15 +49,15 @@ export function AuthProvider({ children }) {
     };
 
     const changePassword = (password) => {
-        updatePassword(auth.currentUser, password);
+        return updatePassword(auth.currentUser, password);
     };
 
     const resetPassword = (email) => {
-        sendPasswordResetEmail(auth, email);
+        return sendPasswordResetEmail(auth, email);
     };
 
     const verifyEmail = () => {
-        sendEmailVerification(auth.currentUser);
+        return sendEmailVerification(auth.currentUser);
     };
 
     const value = {

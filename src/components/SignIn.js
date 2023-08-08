@@ -6,6 +6,7 @@ import { userAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
 import axios from 'axios';
 import { useGlobalContext } from "@/context/GlobalContext";
+import HashLoader from "react-spinners/HashLoader";
 const baseUrl = process.env.API_BASE_URL;
 
 const ForgotPassword = ({ resetPassword, setShowForgotPassword }) => {
@@ -93,6 +94,7 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
   const { googleSignIn, emailSignIn, resetPassword, logOut } = userAuth();
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { handleShowNotification } = useGlobalContext();
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -102,6 +104,9 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
     // Get email and password from form
     const email = event.target.email.value;
     const password = event.target.password.value;
+
+    setLoading(true);
+
 
     try {
       const userCredential = await emailSignIn(email, password);
@@ -139,11 +144,14 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
         case "auth/user-disabled":
           handleShowNotification({ "title": "User disabled" }, "error");
           break;
+        case "auth/requires-recent-login":
+          handleShowNotification({ "title": "Please login again" }, "error");
         default:
           handleShowNotification({ "title": "Something went wrong" }, "error");
       }
 
     }
+    setLoading(false);
   };
 
   // Function to handle Google sign-in
@@ -245,7 +253,7 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
                       type="submit"
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                     >
-                      Sign in
+                      {loading ? <HashLoader color={'#fff'} size={20} /> : 'Sign in'}
                     </button>
                   </div>
                 </form>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import google_icon from "../../public/google_icon.svg";
@@ -5,12 +6,14 @@ import { userAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
 import axios from 'axios';
 import { useGlobalContext } from "@/context/GlobalContext";
+import HashLoader from "react-spinners/HashLoader";
 const baseUrl = process.env.API_BASE_URL;
 
 const SignUp = ({ setFormOpened, setIsSignIn }) => {
   const { googleSignIn, emailSignUp, verifyEmail, logOut } = userAuth();
   const router = useRouter();
   const { handleShowNotification } = useGlobalContext();
+  const [loading, setLoading] = useState(false);
 
   // Function to handle Email and Password sign-in
   // Function to handle Google sign-in
@@ -39,6 +42,7 @@ const SignUp = ({ setFormOpened, setIsSignIn }) => {
     // Get email and password from form
     const email = event.target.email.value;
     const password = event.target.password.value;
+    setLoading(true);
     try {
       const userCredential = await emailSignUp(email, password);
       await verifyEmail();
@@ -71,6 +75,7 @@ const SignUp = ({ setFormOpened, setIsSignIn }) => {
       }
 
     }
+    setLoading(false);
   };
 
   return (
@@ -145,7 +150,7 @@ const SignUp = ({ setFormOpened, setIsSignIn }) => {
                       type="submit"
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                     >
-                      Sign Up
+                      {loading ? <HashLoader color={'#fff'} size={20} /> : 'Sign Up'}
                     </button>
                   </div>
                 </form>

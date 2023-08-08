@@ -7,6 +7,7 @@ import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
 import { useGlobalContext } from '@/context/GlobalContext';
+import HashLoader from "react-spinners/HashLoader";
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -17,6 +18,8 @@ const Profile = () => {
     const [changePasswordClicked, setChangePasswordClicked] = useState(false);
     const [licenseKey, setLicenseKey] = useState('');
     const { handleShowNotification } = useGlobalContext();
+    const [loading, setLoading] = useState(false);
+    const [passwordLoader, setPasswordLoader] = useState(false);
 
 
     useEffect(() => {
@@ -25,10 +28,15 @@ const Profile = () => {
             'Authorization': user.accessToken
         }
         const getUser = async () => {
-            const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
-            console.log(response.data);
-            setUserDetails(response.data);
-            setLicenseKey(response.data.license_key);
+            try {
+                const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
+                console.log(response.data);
+                setUserDetails(response.data);
+                setLicenseKey(response.data.license_key);
+            } catch (err) {
+                console.log(err.response.data);
+            }
+
         }
         getUser();
 
@@ -37,6 +45,7 @@ const Profile = () => {
     const handleActivateLicense = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': user.accessToken
@@ -52,11 +61,13 @@ const Profile = () => {
             console.log(err.response.data);
             handleShowNotification({ "title": err.response.data.message }, 'error');
         }
+        setLoading(false);
     }
 
-
-
-
+    const handleDeleteAccount = async (e) => {
+        e.preventDefault();
+        handleShowNotification({ "title": "Please mail us to delete your account" }, 'error');
+    }
 
     const handlePasswordChange = async (e) => {
         e.preventDefault();
@@ -65,11 +76,24 @@ const Profile = () => {
             return;
         }
         try {
+            setPasswordLoader(true);
             await changePassword(e.target.newPassword.value);
-        } catch (err) {
-            alert('Failed')
+            handleShowNotification({ "title": "Password Changed Successfully" }, 'success')
+
+        } catch (error) {
+            switch (error.code) {
+                case "auth/user-not-found":
+                    handleShowNotification({ "title": "Please signup first" }, "error");
+                    break;
+                case "auth/requires-recent-login":
+                    handleShowNotification({ "title": "Please login again" }, "error");
+                default:
+                    handleShowNotification({ "title": "Something went wrong" }, "error");
+            }
+            handleShowNotification({ "title": "Please try again" }, 'error')
         }
         setChangePasswordClicked(false);
+        setPasswordLoader(false);
     }
 
     const ChangePasswordForm = () => {
@@ -121,7 +145,7 @@ const Profile = () => {
                         type="submit"
                         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                     >
-                        Update Password
+                        {passwordLoader ? <HashLoader color={'#fff'} size={20} /> : 'Change Password'}
                     </button>
                 </div>
             </form>
@@ -158,7 +182,7 @@ const Profile = () => {
                                         onClick={handleActivateLicense}
                                         className="px-2 py-1 text-xs font-base text-white bg-green-600 rounded-md border border-green-600 hover:bg-white hover:text-green-600"
                                     >
-                                        Activate
+                                        {loading ? <HashLoader color={"#ffffff"} size={10} /> : 'Activate'}
                                     </button>
 
                                 </div>
@@ -178,7 +202,7 @@ const Profile = () => {
                                     Manage Subscription
                                 </Link>
                                 <button
-                                    onClick={() => setChangePasswordClicked(true)}
+                                    onClick={handleDeleteAccount}
                                     className="px-4 py-2 text-sm font-semibold text-red-600 bg-white rounded-md border border-red-600 hover:bg-red-600 hover:text-white"
                                 >
                                     Delete Account

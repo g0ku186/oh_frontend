@@ -154,6 +154,7 @@ export default function EditImage({ onClose }) {
         if (!confirmDelete) return;
 
         try {
+            setLoading(true);
             await axios.delete(`${process.env.API_BASE_URL}/api/v1/image/delete`, {
                 headers: {
                     Authorization: idToken
@@ -168,6 +169,7 @@ export default function EditImage({ onClose }) {
         } catch (err) {
             handleShowNotification({ 'title': err.response.data.message }, 'error')
         }
+        setLoading(false);
     };
 
     useEffect(() => {
