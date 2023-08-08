@@ -10,7 +10,7 @@ const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
 export default function ViewPublicImage({ onClose }) {
     const { user } = userAuth();
-    const { selectedPublicImage, setPublicImages } = useGlobalContext();
+    const { selectedPublicImage, handleShowNotification } = useGlobalContext();
     const [prompt, setPrompt] = useState(selectedPublicImage.prompt);
     const [negativePrompt, setNegativePrompt] = useState(selectedPublicImage.parameters.negative_prompt);
     const [guidanceScale, setGuidanceScale] = useState(selectedPublicImage.parameters.guidance_scale);
@@ -20,6 +20,7 @@ export default function ViewPublicImage({ onClose }) {
     const handleCopy = () => {
         //this should copy the prompt and negative prompt to the clipboard
         navigator.clipboard.writeText(`Prompt:\n${prompt}\n\nNegative Prompt:\n${negativePrompt} \n\nGuidance Scale: ${guidanceScale} \n\nSeed: ${seed}`);
+        handleShowNotification({ "title": "Copied to clipboard" }, 'success');
     }
 
     const inputClasses = 'w-full px-2 py-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded-md';

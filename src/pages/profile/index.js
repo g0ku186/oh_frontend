@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
+import { useGlobalContext } from '@/context/GlobalContext';
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -14,6 +15,9 @@ const Profile = () => {
     const [userDetails, setUserDetails] = useState({});
     const { changePassword } = userAuth();
     const [changePasswordClicked, setChangePasswordClicked] = useState(false);
+    const [licenseKey, setLicenseKey] = useState('');
+    const { handleShowNotification } = useGlobalContext();
+
 
     useEffect(() => {
         const headers = {
@@ -24,10 +28,33 @@ const Profile = () => {
             const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
             console.log(response.data);
             setUserDetails(response.data);
+            setLicenseKey(response.data.license_key);
         }
         getUser();
 
     }, []);
+
+    const handleActivateLicense = async (e) => {
+        e.preventDefault();
+        try {
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': user.accessToken
+            }
+            const payLoad = {
+                license_key: licenseKey
+            }
+            const response = await axios.post(`${baseUrl}/api/v1/user/activateLicense`, payLoad, { headers: headers });
+            console.log(response.data);
+            handleShowNotification({ "title": "Activated Successfully" }, 'success');
+
+        } catch (err) {
+            console.log(err.response.data);
+            handleShowNotification({ "title": err.response.data.message }, 'error');
+        }
+    }
+
+
 
 
 
@@ -100,6 +127,7 @@ const Profile = () => {
             </form>
         )
     }
+    const inputClasses = 'w-full px-2 py-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded-md text-xs';
 
     if (user) {
         return (
@@ -123,8 +151,17 @@ const Profile = () => {
                                 <span className="block">{userDetails.current_usage} / {userDetails.plan === 'pro' ? "unlimited" : userDetails.limit}</span>
                             </div>
                             <div className="mb-4">
-                                <span className="block text-grey-darker font-bold mb-2">Renews On:</span>
-                                <span className="block">{userDetails.renewalDate ? userDetails.renewalDate : 'N/A'}</span>
+                                <span className="block text-grey-darker font-bold mb-2">License Key:</span>
+                                <div className='flex space-x-2'>
+                                    <input type="text" defaultValue={licenseKey} onChange={(e) => setLicenseKey(e.target.value)} className={inputClasses} />
+                                    <button
+                                        onClick={handleActivateLicense}
+                                        className="px-2 py-1 text-xs font-base text-white bg-green-600 rounded-md border border-green-600 hover:bg-white hover:text-green-600"
+                                    >
+                                        Activate
+                                    </button>
+
+                                </div>
                             </div>
                             <div className='text-sm underline flex cursor-pointer' onClick={() => setChangePasswordClicked(!changePasswordClicked)}>
 
@@ -134,7 +171,7 @@ const Profile = () => {
 
                             <div className='flex space-x-2'>
                                 <Link
-                                    href="https://www.google.com"
+                                    href="https://app.gumroad.com/library"
                                     target="_blank"
                                     className="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark"
                                 >

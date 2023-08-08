@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import FAQs from '@/components/FAQs'
 import { CheckIcon } from '@heroicons/react/20/solid'
 
@@ -5,7 +6,7 @@ const tiers = [
     {
         name: 'Beginner',
         id: 'tier-beginner',
-        href: '#',
+        href: 'https://onlyhentai.gumroad.com/l/jhbig',
         priceMonthly: '$7',
         description: "The perfect plan if you're just getting started with our product.",
         features: ['1000 images / mo', 'Medium priority queue', 'Upto 1024 px', 'Advanced options', 'Only text-2-img'],
@@ -14,7 +15,7 @@ const tiers = [
     {
         name: 'Expert',
         id: 'tier-expert',
-        href: '#',
+        href: 'https://onlyhentai.gumroad.com/l/jhbig',
         priceMonthly: '$35',
         description: 'Unlimited generations. Faster generations. Dedicated support',
         features: [
@@ -109,7 +110,8 @@ export default function Plans() {
                                     </li>
                                 ))}
                             </ul>
-                            <a
+                            <Link
+                                target='_blank'
                                 href={tier.href}
                                 aria-describedby={tier.id}
                                 className={classNames(
@@ -120,7 +122,7 @@ export default function Plans() {
                                 )}
                             >
                                 Get started today
-                            </a>
+                            </Link>
                         </div>
                     ))}
                 </div>

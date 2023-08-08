@@ -125,7 +125,7 @@ function CreateImage({ handleTabChange }) {
 
     return (
         <div className="flex flex-col items-start justify-center min-h-full p-10 sm:p-12 md:p-24 w-full">
-            <h1 className="text-xl sm:text-2xl md:text-4xl font-medium sm:font-bold text-left text-zinc-100 mb-5 font-serif">Create any image</h1>
+            <h1 className="text-xl sm:text-2xl md:text-4xl font-medium sm:font-bold text-left text-zinc-100 mb-5 font-serif">Create any hentai</h1>
             <div className="relative w-full max-w-4xl">
                 {!expertMode ? (<>
                     <input
