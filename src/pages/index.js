@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateImage from "../components/CreateImage"
 import { userAuth } from "../context/AuthContext";
 import { useGlobalContext } from "@/context/GlobalContext";
@@ -29,6 +29,11 @@ export default function Home() {
     }
     setSelectedTab(tab);
   }
+
+  useEffect(() => {
+    setSelectedTab('Get Inspired');
+  }, [idToken])
+
 
   const renderPageBasedOnTab = () => {
     switch (selectedTab) {

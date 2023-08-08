@@ -8,6 +8,10 @@ import { blurImage } from '../../public/blur';
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
+const constructImgLink = (cf_id, variant) => {
+    return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
+}
+
 export default function ViewPublicImage({ onClose }) {
     const { user } = userAuth();
     const { selectedPublicImage, handleShowNotification } = useGlobalContext();
@@ -36,7 +40,7 @@ export default function ViewPublicImage({ onClose }) {
                         <div className='max-w-[600px]'>
                             <Image
                                 className=""
-                                src={baseImgLink + '/' + selectedPublicImage.imgId + '.png'}
+                                src={constructImgLink(selectedPublicImage.cf_id, 'public')}
                                 width={selectedPublicImage.parameters.width}
                                 height={selectedPublicImage.parameters.height}
                                 alt="User generated"

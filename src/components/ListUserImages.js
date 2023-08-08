@@ -257,7 +257,7 @@ const ListUserImages = () => {
                         }
                     })}
                 </div>
-                {hasMore && <button onClick={fetchImages} className="w-24 py-2 mt-4 ml-6 text-white border-2 hover:bg-blue-700 focus:outline-none">Load More</button>}
+                {hasMore && images.length > 0 && <button onClick={fetchImages} className="w-24 py-2 mt-4 ml-6 text-white border-2 hover:bg-primary focus:outline-none">Load More</button>}
                 {selectedImage && <EditImage onClose={closeOverlay} />}
                 <ConfirmationBox open={openConfirmationBox} setOpen={setOpenConfirmationBox} onConfirm={proceedWithDeletion} loading={actionLoading} />
             </>

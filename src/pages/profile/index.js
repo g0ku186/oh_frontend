@@ -23,22 +23,24 @@ const Profile = () => {
 
 
     useEffect(() => {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': user.accessToken
-        }
-        const getUser = async () => {
-            try {
-                const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
-                console.log(response.data);
-                setUserDetails(response.data);
-                setLicenseKey(response.data.license_key);
-            } catch (err) {
-                console.log(err.response.data);
+        if (user) {
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': user.accessToken
             }
+            const getUser = async () => {
+                try {
+                    const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
+                    console.log(response.data);
+                    setUserDetails(response.data);
+                    setLicenseKey(response.data.license_key);
+                } catch (err) {
+                    console.log(err.response.data);
+                }
 
+            }
+            getUser();
         }
-        getUser();
 
     }, []);
 

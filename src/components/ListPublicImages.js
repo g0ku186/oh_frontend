@@ -9,6 +9,10 @@ import ViewPublicImage from "./ViewPublicImage";
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
+const constructImgLink = (cf_id, variant) => {
+    return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
+}
+
 function ListPublicImages() {
     //From GlobalContext
     const { publicImages, setPublicImages, selectedPublicImage, setSelectedPublicImage, publicImagePage, setPublicImagePage, hasMorePublic, setHasMorePublic } = useGlobalContext();
@@ -79,7 +83,7 @@ function ListPublicImages() {
                                 <Image
                                     fill={true}
                                     className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
-                                    src={baseImgLink + '/' + img.imgId + '.png'}
+                                    src={constructImgLink(img.cf_id, "public")}
                                     alt="User generated"
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     placeholder="blur"
@@ -97,7 +101,7 @@ function ListPublicImages() {
                     })}
                 </div>
             </InfiniteScroll>
-            {hasMorePublic && <button onClick={fetchPublicImages} className="w-24 py-2 mt-4 ml-6 text-white border-2 hover:bg-blue-700 focus:outline-none">Load More</button>}
+            {hasMorePublic && <button onClick={fetchPublicImages} className="w-24 py-2 mt-4 ml-6 text-white border-2 hover:bg-primary focus:outline-none">Load More</button>}
             {selectedPublicImage && <ViewPublicImage onClose={closeOverlay} />}
         </div>
     );

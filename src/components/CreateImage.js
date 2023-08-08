@@ -47,24 +47,32 @@ function CreateImage({ handleTabChange }) {
     const [seed, setSeed] = useState(null);
     const [loading, setLoading] = useState(false);
     const { user } = userAuth();
-    // const samplePrompts = [
-    //     'realistic, 1girl, ponytail, parted lips, blush, makeup, light smile, white hair, sportswear, skirt, see through clothes, visible nipples, perfect tits, glow, thighs, purple eye, bare shoulders, collarbone, narrow waist, sunbeam, sunlight, rose, wind, nude, (masterpiece), sweat,',
-    //     'absurdres, 1girl, nude, red hair, long hair, forest,',
-    //     'absurdres, 1girl, 1boy, vaginal, doggystyle, sex, blonde hair, nude, bra, bottomless,',
-    //     'masterpiece, best quality, 1girl, 1boy, very long hair, nude, red eyes, black hair, fellatio, nipples, penis, room,',
-    //     'masterpiece, best quality, 1girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, pants,',
-    //     'masterpiece, best quality, 1girl, 1boy, spread legs, sex, nude, medium breasts, penis, vaginal, open mouth, brown eyes, long hair, cum, black hair, on bed, pov, stomach bulge,'
-    // ]
-
-
 
 
     const samplePrompts = [
-        'masterpiece, best quality, 1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature,',
-        'masterpiece, best quality, 1girl, long hair, glasses, burger, bored, braid,',
+        'realistic, 1girl, ponytail, parted lips, blush, makeup, light smile, white hair, sportswear, skirt, see through clothes, visible nipples, perfect tits, glow, thighs, purple eye, bare shoulders, collarbone, narrow waist, sunbeam, sunlight, rose, wind, nude, (masterpiece), sweat,',
+        'absurdres, 1girl, nude, red hair, long hair, forest, perfect breasts, shaved vagina, sitting on a tree branch',
+        '1girl, 1boy, vaginal, doggystyle, sex, blonde hair, nude, bra, bottomless,',
+        'masterpiece, best quality, 1girl, 1boy, very long hair, nude, red eyes, black hair, fellatio, nipples, sucking penis, mountains',
         'masterpiece, best quality, 1girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, pants,',
-        'masterpiece, best quality, 1girl, long black hair, smiling, gym, karate, fighting,'
+        'masterpiece, best quality, 1girl, long black hair, smiling, gym, karate, fighting, naked,',
+        'masterpiece, best quality, 1girl, 1boy, spread legs, sex, nude, medium breasts, penis, vaginal, open mouth, brown eyes, long hair, cum, black hair, on bed, pov, stomach bulge,',
+        'masterpiece, best quality, 1girl, pink eyes, long hair, black hair, (temple in the background), sitting, kimono, medium breasts, topless, light smile, wide hips, arms behind back',
+        'masterpiece, best quality, 1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature, topless, perfect tits',
+        'masterpiece, best quality, ((beautiful asian)) 1woman, ((beautiful kimono)), ((no panty)), ((trimmed pussy:1.3)), detailed, squatting bending over, spreading legs apart, rain, (translucent clothes), (cleavage:0.7), ((medium breasts)), (sideboob), (wet body), pavement, messy bun, long hair coming down on shoulders, sweaty body, blush, grey eyes, black hair, smiling at viewer, happy expression, (detailed pussy:1.4), ((sakura blooms background)), (darkened background)',
+        'masterpiece, best quality, 1 girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, no pants, see through top, clean pussy, naked, nude',
+        ' masterpiece, best quality, 1girl, blue eyes, long blond hair, (grapefruit), (japanese city in background), sitting, kimono, medium breasts, topless, light smile, arms behind back, [nipples], night, beautiful, water'
     ]
+
+
+
+
+    // const samplePrompts = [
+    //     'masterpiece, best quality, 1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature,',
+    //     'masterpiece, best quality, 1girl, long hair, glasses, burger, bored, braid,',
+    //     'masterpiece, best quality, 1girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, pants,',
+    //     'masterpiece, best quality, 1girl, long black hair, smiling, gym, karate, fighting,'
+    // ]
 
     const handleInspireClick = () => {
         const randomIndex = Math.floor(Math.random() * samplePrompts.length);
@@ -77,8 +85,7 @@ function CreateImage({ handleTabChange }) {
                 setLoading(true);
                 handleTabChange('My Generations');
                 const prompt = instructions;
-                setInstructions('');
-                setNegativePrompt(defaultNegativePrompt);
+                const negative_prompt = negativePrompt;
                 const idToken = await getIdToken(user);
                 const headers = {
                     'Content-Type': 'application/json',
@@ -88,7 +95,7 @@ function CreateImage({ handleTabChange }) {
                     instructions: prompt,
                     image_orientation: orientation,
                     high_quality: highQuality,
-                    negative_prompt: negativePrompt,
+                    negative_prompt: negative_prompt,
                     guidance_scale: guidance_scale,
                     seed: seed
                 }
