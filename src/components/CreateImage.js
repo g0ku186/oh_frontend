@@ -41,7 +41,7 @@ function CreateImage({ handleTabChange }) {
     const [expertMode, setExpertMode] = useState(false);
     const [instructions, setInstructions] = useState('');
     const [orientation, setOrientation] = useState('square');
-    const [highQuality, setHighQuality] = useState(false);
+    // const [highQuality, setHighQuality] = useState(false);
     const [negativePrompt, setNegativePrompt] = useState(defaultNegativePrompt);
     const [guidance_scale, setGuidanceScale] = useState(7.5);
     const [seed, setSeed] = useState(null);
@@ -94,7 +94,7 @@ function CreateImage({ handleTabChange }) {
                 const payLoad = {
                     instructions: prompt,
                     image_orientation: orientation,
-                    high_quality: highQuality,
+                    // high_quality: highQuality,
                     negative_prompt: negative_prompt,
                     guidance_scale: guidance_scale,
                     seed: seed
@@ -171,7 +171,7 @@ function CreateImage({ handleTabChange }) {
                 </button>
                 <div className='flex items-center space-x-2'>
                     <OrientationDropDown orientation={orientation} setOrientation={setOrientation} />
-                    <HighQualityToggle highQuality={highQuality} setHighQuality={setHighQuality} />
+                    {/* <HighQualityToggle highQuality={highQuality} setHighQuality={setHighQuality} /> */}
                 </div>
                 <div className='text-sm underline flex cursor-pointer' onClick={() => setExpertMode(!expertMode)}>
 
