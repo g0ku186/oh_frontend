@@ -8,6 +8,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image';
 import { useGlobalContext } from '@/context/GlobalContext';
 import HashLoader from "react-spinners/HashLoader";
+import profile from '../../../public/profile.webp';
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -213,7 +214,7 @@ const Profile = () => {
 
                         </div>
                         <div className='md:ml-12'>
-                            <Image src="https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/b6efd324-ed57-40d1-313c-4523e33a9f00/public" width={400} height={400} />
+                            <Image src={profile} width={400} height={400} />
                         </div>
                     </div>
                 </div>
