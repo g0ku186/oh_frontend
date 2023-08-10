@@ -24,6 +24,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.onlyhentai.ai',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 }

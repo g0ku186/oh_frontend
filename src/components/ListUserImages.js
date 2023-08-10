@@ -13,8 +13,12 @@ import EditImage from "./EditImage";
 import ConfirmationBox from "./ConfirmationBox";
 
 //const baseUrl = `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/d794ad00-6b85-460d-c57e-82b65cdd0d00/public`;
+// const constructImgLink = (cf_id, variant) => {
+//     return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
+// }
+
 const constructImgLink = (cf_id, variant) => {
-    return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
+    return `https://www.onlyhentai.ai/cdn-cgi/imagedelivery/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
 }
 
 const ListUserImages = () => {
