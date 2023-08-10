@@ -3,29 +3,29 @@ import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 
 const faqs = [
     {
-        question: "Can I product NSFW content?",
+        question: "Can I produce NSFW content?",
         answer:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "Yes, you can. We do not censor the generated images. But, it's important to act responsibly and legally while generating these NSFW images. Please remember that we prohibit any illegal content, and we hold the right to remove or ban inappropriate content.",
     },
     {
         question: "What payment methods do you accept?",
         answer:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "For your convenience, we process payments through Gumroad, a widely trusted payment provider utilized by numerous businesses. Gumroad accepts both credit card and PayPal payments. Rest assured, we do not store your credit card information.",
     },
     {
         question: "Who owns the license to the images I create?",
         answer:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "You retain full ownership of the images you generate using our service.",
     },
     {
         question: "How do I cancel my plan?",
         answer:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "Yes, you are free to cancel your plan any time. Canceling your subscription is easy. Just log into your account, and visit the profile page. You can find options to manage your subscription.",
     },
     {
         question: "Can I get a refund?",
         answer:
-            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+            "Regrettably, due to the unique nature of our service, we are unable to offer refunds at this time. If you're uncertain about committing, consider trying our service for a single month before opting for a longer subscription.",
     },
 
 ]
