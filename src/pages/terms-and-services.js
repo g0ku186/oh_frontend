@@ -14,8 +14,20 @@ export default function TermsAndServices() {
 
             <h2 className="text-lg font-bold">Limitation of Liability</h2>
             <p>To the maximum extent permitted by applicable law, neither the Operator, its affiliates, directors, officers, employees, agents, suppliers, nor licensors shall be liable to any person for any indirect, incidental, special, punitive, or consequential damages (including, without limitation, damages for lost profits, revenue, sales, goodwill, use of content, impact on business, business interruption, loss of anticipated savings, or loss of business opportunity) arising from or related to the use of the Website and Services, regardless of the theory of liability, including, without limitation, contract, tort, warranty, breach of statutory duty, negligence, or otherwise, even if the liable party has been advised of the possibility of such damages or could have foreseen such damages. The aggregate liability of the Operator and its affiliates, officers, employees, agents, suppliers, and licensors relating to the Services shall be limited to the greater of one dollar or any amounts actually paid in cash by you to the Operator for the prior one month period prior to the first event or occurrence giving rise to such liability. The limitations and exclusions apply even if this remedy does not fully compensate you for any losses or fails of its essential purpose.</p>
-            <h2 className="text-lg font-bold">Termination</h2>
+            <h2 className="text-lg font-bold">Account Termination</h2>
             <p>We may terminate or suspend your access to the Website and Services, without prior notice or liability, for any reason, including but not limited to your breach of these Terms. Upon termination, your right to use the Website and Services will immediately cease.</p>
+            <h2 className="text-lg font-bold">Service Termination and Subscriptions</h2>
+            <div>
+                <p>In the event that we need to shut down the service, the following terms will apply to users who have purchased an annual subscription:
+                    <ol class="list-decimal pl-6 mt-1">
+                        <li>Notification: We will provide users with a notice of the service termination at least 30 days in advance, via email or through an announcement on our platform.</li>
+                        <li>No Refunds: Users acknowledge and agree that, in the case of service termination, no refunds will be provided for any unused portion of their annual subscription fees. </li>
+                        <li>   Access to Service: Users will continue to have access to the service until the end of their current subscription period or the notified service termination date, based on whichever comes first.</li>
+                        <li> Data Retrieval: Users will have the opportunity to retrieve any personal data or content stored on our platform within 14 days of the service termination date.</li>
+                        <li> Survival of Terms: All provisions of the Terms of Service that, by their nature, should survive termination will continue in effect, including but not limited to intellectual property rights, warranty disclaimers, indemnity, and limitations of liability.</li>
+                    </ol>
+                </p>
+            </div>
 
 
             <h2 className="text-lg font-bold">Indemnification</h2>
