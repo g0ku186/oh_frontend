@@ -82,6 +82,10 @@ function CreateImage({ handleTabChange }) {
     const handleArrowClick = async () => {
         try {
             if (user && user.emailVerified) {
+                if (instructions.trim().length === 0) {
+                    handleShowNotification({ "title": "Please enter a prompt" }, "error");
+                    return;
+                }
                 setLoading(true);
                 handleTabChange('My Generations');
                 const prompt = instructions;
@@ -108,8 +112,6 @@ function CreateImage({ handleTabChange }) {
                     return prevCount + response.data.length;
                 }
                 );
-
-                setLoading(false);
                 setEta(Math.floor(response.data[0].eta));
 
             } else {
@@ -124,10 +126,9 @@ function CreateImage({ handleTabChange }) {
                 }
             }
         } catch (err) {
-            setLoading(false);
             handleShowNotification({ "title": err.response.data.message }, 'error');
-
         }
+        setLoading(false);
     }
 
     return (
@@ -135,8 +136,9 @@ function CreateImage({ handleTabChange }) {
             <h1 className="text-xl sm:text-2xl md:text-4xl font-medium sm:font-bold text-left text-zinc-100 mb-5 font-serif">Create any hentai</h1>
             <div className="relative w-full max-w-4xl">
                 {!expertMode ? (<>
-                    <input
+                    <textarea
                         type="text"
+                        rows={3}
                         placeholder="Enter detailed instructions"
                         className="w-full px-4 py-2 mb-1 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         value={instructions}

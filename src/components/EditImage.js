@@ -152,9 +152,8 @@ export default function EditImage({ onClose }) {
     const handleDelete = async () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this image?");
         if (!confirmDelete) return;
-
+        setLoading(true);
         try {
-            setLoading(true);
             await axios.delete(`${process.env.API_BASE_URL}/api/v1/image/delete`, {
                 headers: {
                     Authorization: idToken

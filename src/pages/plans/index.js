@@ -4,27 +4,30 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 
 const tiers = [
     {
-        name: 'Beginner',
-        id: 'tier-beginner',
+        name: 'Monthly',
+        id: 'tier-monthly',
         href: 'https://onlyhentai.gumroad.com/l/jhbig',
-        priceMonthly: '$7',
-        description: "The perfect plan if you're just getting started with our product.",
-        features: ['1000 images / mo', 'Medium priority queue', 'Upto 1024 px', 'Advanced options', 'Only text-2-img'],
+        price: '$9.99',
+        frequency: '/month',
+        description: "All the features for a pocket price!",
+        features: ['1000 images / mo', 'Medium priority queue', 'High quality', 'Advanced options', 'text-2-img & img-2-img'],
         featured: false,
     },
     {
-        name: 'Expert',
-        id: 'tier-expert',
+        name: 'Annual',
+        id: 'tier-annual',
         href: 'https://onlyhentai.gumroad.com/l/jhbig',
-        priceMonthly: '$35',
-        description: 'Unlimited generations. Faster generations. Dedicated support',
+        frequency: '/year',
+        price: '$50',
+        description: 'Huge savings. Faster generations. Super resolution.',
         features: [
-            'Unlimited images',
+            '50% off once',
+            '1000 images / mo',
             'High priority queue',
-            '4k Resoultion',
+            'Super Resoultion',
             'Advanced Options',
             'text-2-img & img-2-img',
-            'Dedicated support',
+            'Early access to new features'
         ],
         featured: true,
     },
@@ -70,6 +73,7 @@ export default function Plans() {
                                 'rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10'
                             )}
                         >
+
                             <h3
                                 id={tier.id}
                                 className={classNames(
@@ -77,18 +81,18 @@ export default function Plans() {
                                     'text-base font-semibold leading-7'
                                 )}
                             >
-                                {tier.name}
+                                {tier.name} {tier.featured ? <span>(-50%)</span> : null}
                             </h3>
                             <p className="mt-4 flex items-baseline gap-x-2">
                                 <span
                                     className={classNames(
-                                        tier.featured ? 'text-white' : 'text-gray-900',
+                                        tier.featured ? 'text-white flex flex-row' : 'text-gray-900',
                                         'text-5xl font-bold tracking-tight'
                                     )}
                                 >
-                                    {tier.priceMonthly}
+                                    {tier.price}
                                 </span>
-                                <span className={classNames(tier.featured ? 'text-gray-400' : 'text-gray-500', 'text-base')}>/month</span>
+                                <span className={classNames(tier.featured ? 'text-gray-400' : 'text-gray-500', 'text-base')}>{tier.frequency}</span>
                             </p>
                             <p className={classNames(tier.featured ? 'text-gray-300' : 'text-gray-600', 'mt-6 text-base leading-7')}>
                                 {tier.description}

@@ -31,6 +31,7 @@ export function GlobalProvider({ children }) {
 
     const [eta, setEta] = useState(null);
     const [newCount, setNewCount] = useState(0);
+    const [newBookmarkCount, setNewBookmarkCount] = useState(0);
 
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
@@ -51,7 +52,7 @@ export function GlobalProvider({ children }) {
         bookmark, setBookmark,
         bookmarkImages, setbookmarkImages, bookmarkPage, setBookmarkPage, hasMoreBookmark, setHasMoreBookmark,
         showNotification, setShowNotification, notificationMessage, setNotificationMessage, notificationType, setNotificationType,
-        handleShowNotification
+        handleShowNotification, newBookmarkCount, setNewBookmarkCount
     }
 
     useEffect(() => {

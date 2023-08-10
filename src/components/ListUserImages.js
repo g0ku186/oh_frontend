@@ -25,7 +25,7 @@ const ListUserImages = () => {
     //From GlobalContext
     const { user } = userAuth();
     //  const { images, setImages, eta, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount, bookmark } = useGlobalContext();
-    const { eta, selectedImage, setSelectedImage, newCount, bookmark, handleShowNotification
+    const { eta, selectedImage, setSelectedImage, setNewCount, setNewBookmarkCount, bookmark, handleShowNotification
     } = useGlobalContext();
 
     const setNormalImages = useGlobalContext().setImages;
@@ -36,6 +36,7 @@ const ListUserImages = () => {
     const setPage = bookmark ? useGlobalContext().setBookmarkPage : useGlobalContext().setPage;
     const hasMore = bookmark ? useGlobalContext().hasMoreBookmark : useGlobalContext().hasMore;
     const setHasMore = bookmark ? useGlobalContext().setHasMoreBookmark : useGlobalContext().setHasMore;
+    const newCount = bookmark ? useGlobalContext().newBookmarkCount : useGlobalContext().newCount;
     const [openConfirmationBox, setOpenConfirmationBox] = useState(false);
     const [imageIdToDelete, setImageIdToDelete] = useState(null);
 
@@ -149,12 +150,18 @@ const ListUserImages = () => {
     const handleBookmark = async (imgId, bookmark) => {
         try {
             setNormalImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
-            setBookmarkImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
+            if (!bookmark) {
+                setBookmarkImages(oldImages => [...oldImages, { ...images.find(img => img.imgId === imgId), bookmark: !bookmark }]);
+            } else {
+                setBookmarkImages(oldImages => oldImages.filter(img => img.imgId !== imgId));
+            }
+
             await axios.post(`${process.env.API_BASE_URL}/api/v1/image/bookmark`, { imgId, bookmark: !bookmark }, {
                 headers: {
                     Authorization: idToken
                 }
             });
+
             handleShowNotification(bookmark ? { "title": 'Image removed from favourites' } : { "title": "Image added to favourites" }, 'success');
 
         } catch (err) {
@@ -182,9 +189,27 @@ const ListUserImages = () => {
                 }
             });
 
-            setNormalImages(oldImages => oldImages.filter(img => img.imgId !== imageIdToDelete));
-            setBookmarkImages(oldImages => oldImages.filter(img => img.imgId !== imageIdToDelete));
+            setNormalImages(oldImages => oldImages.filter((img) => {
+                if (img.imgId !== imageIdToDelete) {
+                    return img
+                }
+                else {
+                    setNewCount(oldCount => oldCount - 1)
+                }
+            }));
+            setBookmarkImages(oldImages => oldImages.filter(img => {
+                if (img.imgId !== imageIdToDelete) {
+                    return img
+                }
+                else {
+                    setNewBookmarkCount(oldCount => oldCount - 1)
+                }
+            }));
             handleShowNotification({ "title": 'Image deleted successfully' }, 'success');
+
+
+
+
         } catch (err) {
             console.error(err);
             handleShowNotification({ "title": 'Can\'t delete the image' }, 'error');

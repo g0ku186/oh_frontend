@@ -14,7 +14,7 @@ const Footer = () => {
             /></Link>
             <Link href="/terms-and-services" className="hover:underline" target="_blank">Terms & Services</Link>
             <Link href="/privacy-policy" className="hover:underline" target="_blank">Privacy Policy</Link>
-            <Link href="/contact-us" className="hover:underline" target="_blank">Contact Us</Link>
+            <Link href="https://twitter.com/onlyhentaiapp" className="hover:underline" target="_blank">Contact Us</Link>
             <Link href="https://twitter.com/onlyhentaiapp" target="_blank" rel="noopener noreferrer">
                 <Image
                     src={twitter_icon}  // replace with your actual logo path
