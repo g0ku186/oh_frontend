@@ -259,8 +259,8 @@ export default function EditImage({ onClose }) {
                             </div>
                             {!loading ? (<div className='flex flex-row space-x-2 text-sm'>
                                 <button onClick={handleRemix} className="px-4 py-2 text-sm font-bold text-white bg-purple-500 rounded-md border border-purple-500 hover:bg-purple-700">Remix</button>
-                                {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Upscale by 4X</button>}
-                                {selectedImage.upscaled && <button onClick={handleDownloadUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Download Upscaled Image</button>}
+                                {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Go Super Resolution</button>}
+                                {selectedImage.upscaled && <button onClick={handleDownloadUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Download Super Resolution</button>}
                                 <button onClick={handleDownload} className="p-1 text-gray-800 rounded-md">
                                     <DownloadIcon className="w-6 h-6 hover:text-primary" />
                                 </button>
