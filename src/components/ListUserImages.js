@@ -7,6 +7,7 @@ import { userAuth } from "../context/AuthContext";
 import { useGlobalContext } from "@/context/GlobalContext";
 import Image from "next/image";
 import axios from 'axios';
+import Link from "next/link";
 //import InfiniteScroll from "react-infinite-scroll-component";
 import Notification from "./Notification";
 import EditImage from "./EditImage";
@@ -256,19 +257,21 @@ const ListUserImages = () => {
                                     className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden border border-gray-900 rounded-md shadow-sm shadow-gray-900 ${hoveredImg === img.imgId && 'bg-gray-800'}`}
                                     onMouseEnter={() => handleHover(img.imgId)}
                                     onMouseLeave={handleMouseLeave}
-                                    onClick={() => handleDownload(img)}
                                 >
-                                    <Image
-                                        fill={true}
-                                        className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
-                                        src={constructImgLink(img.cf_id, "public")}
-                                        alt="User generated"
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        placeholder="blur"
-                                        blurDataURL={blurImage}
-                                        loader={({ src }) => src}
-                                        unoptimized
-                                    />
+                                    <Link href={constructImgLink(img.cf_id, "public")}
+                                        target="_blank">
+                                        <Image
+                                            fill={true}
+                                            className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
+                                            src={constructImgLink(img.cf_id, "public")}
+                                            alt="User generated"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            placeholder="blur"
+                                            blurDataURL={blurImage}
+                                            loader={({ src }) => src}
+                                            unoptimized
+                                        />
+                                    </Link>
 
                                     {hoveredImg === img.imgId && (
                                         <div className="absolute flex justify-around w-full px-4 py-2 bottom-0 bg-black">

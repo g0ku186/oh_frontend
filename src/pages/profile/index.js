@@ -37,6 +37,7 @@ const Profile = () => {
                     setLicenseKey(response.data.license_key);
                 } catch (err) {
                     console.log(err.response.data);
+                    handleShowNotification({ "title": err.response.data.message }, 'error');
                 }
 
             }

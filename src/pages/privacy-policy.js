@@ -25,11 +25,9 @@ export default function PrivacyPolicy() {
                 </ul>
             </p>
 
-
             <h2 className="text-lg font-bold">Security of Your Information</h2>
             <p>We take the security of your Personal Information seriously and use appropriate technical and organizational measures to protect it. However, no method of transmission over the Internet or method of electronic storage is 100% secure. Therefore, while we strive to protect your Personal Information, you acknowledge that (i) there are security and privacy limitations of the Internet which are beyond our control; (ii) the security, integrity, and privacy of any and all information and data exchanged between you and the Website and Services cannot be guaranteed; and (iii) any such information and data may be viewed or tampered with in transit by a third party, despite our best efforts.
             </p>
-
 
 
             <h2 className="text-lg font-bold">Data Breach</h2>

@@ -8,6 +8,7 @@ import OrientationDropDown from './OrientationDropDown';
 import HighQualityToggle from './HighQualityToggle';
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import StyleDropDown from './StyleDropDown';
 
 import { useGlobalContext } from '@/context/GlobalContext';
 import { getIdToken } from 'firebase/auth';
@@ -19,7 +20,7 @@ const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNe
         <div className='flex flex-col my-4 space-y-4 grow'>
             <div>
                 <label className='text-sm'>Prompt</label>
-                <textarea rows={4} type="text" defaultValue={instructions} onChange={(e) => setInstructions(e.target.value)} className={inputClasses} />
+                <textarea rows={4} type="text" defaultValue={instructions} value={instructions} onChange={(e) => setInstructions(e.target.value)} className={inputClasses} />
             </div>
             <div>
                 <label className='text-sm'>Negative Prompt</label>
@@ -36,11 +37,12 @@ const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNe
 }
 
 function CreateImage({ handleTabChange }) {
-    const defaultNegativePrompt = '(worst quality, low quality:1.4), monochrome, zombie, (interlocked fingers:1.2), multiple views, comic, sketch, animal ears, pointy ears';
+    const defaultNegativePrompt = '[worst quality], [low quality], bad legs, bad arms, deformed body parts, low res, blurry, worst quality, extra limbs, bad quality, ugly, text, logo, signature, greyscale, bokeh, sepia, monochrome, disfigured, bad anatomy, extra limbs, bokeh, poorly drawn, washed out, zombie, (interlocked fingers:1.2), multiple views';
     const { setImages, eta, setEta, setNewCount, handleShowNotification } = useGlobalContext();
     const [expertMode, setExpertMode] = useState(false);
     const [instructions, setInstructions] = useState('');
     const [orientation, setOrientation] = useState('square');
+    const [style, setStyle] = useState('classic');
     // const [highQuality, setHighQuality] = useState(false);
     const [negativePrompt, setNegativePrompt] = useState(defaultNegativePrompt);
     const [guidance_scale, setGuidanceScale] = useState(7.5);
@@ -50,19 +52,35 @@ function CreateImage({ handleTabChange }) {
 
 
     const samplePrompts = [
-        'realistic, 1girl, ponytail, parted lips, blush, makeup, light smile, white hair, sportswear, skirt, see through clothes, visible nipples, perfect tits, glow, thighs, purple eye, bare shoulders, collarbone, narrow waist, sunbeam, sunlight, rose, wind, nude, (masterpiece), sweat,',
+        'Disney, Snow White, long hair, (cum on face and hair), nude, naked, perfect breasts, perfect fingers',
+        'Disney style, girl playing a piano, nude, naked, perfect breasts, perfect hands and fingers',
+        'emma watson, meditating, nude, naked, perfect breasts, perfect fingers',
+        'Ultra realistic 8k photograph,picture-perfect face,flawless, clean, masterpiece, professional artwork, famous artwork,perfect face, beautiful face, beautiful eyes,((perfect female body, narrow waist,nude)),black hair,huge breasts,crown,nsfw,breasts out,soft light,absurdly long hair,very long hair, (rich:1.4),(high detailed skin:1.2),sexy, charming, alluring, seductive, erotic, enchanting,lovely,vagina, dark studio,Bokeh,',
+        'Cute fairy in a glass jar filled with water, smiling, fully nude',
+        'Oil painting, nude girl,  golden tiara, nude, naked, judging crowd in the background, close shot at from the side, crawling on the street, beautiful expressive eyes, seductive look, ((on all fours lead through city streets)), tension, dangerous atmosphere, torch light, city square at night after revolution, masterpiece, cinematic light, nude, naked',
+        'Oil portrait featuring broken automata girls, fully nude, full body, steampunk machines ((gear pupils)), machine eyes, cinematic lighting, highres, good saturation, color gradient, multicolored hair',
+        '2girls, nude, dark skin, from behind, ass, looking back, indoors, pussy, smiling, animal ears, bedroom, long hair, yellow eyes, breast on breast, fox tail, tongue',
+        '1girl, 1boy, spread legs, sex, nude, medium breasts, penis, vaginal, open mouth, brown eyes, long hair, cum, black hair, on bed, pov, stomach bulge,',
+        '1girl, long black hair, smiling, gym, karate, fighting, naked,',
+        '1girl, pink eyes, long hair, red hair, (temple in the background), sitting, kimono, medium breasts, topless, light smile, wide hips, arms behind back',
+        '1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature, topless, perfect tits',
+        '((beautiful asian)) 1woman, ((beautiful kimono)), ((no panty)), ((trimmed pussy:1.3)), detailed, squatting bending over, spreading legs apart, rain, (translucent clothes), (cleavage:0.7), ((medium breasts)), (sideboob), (wet body), pavement, messy bun, long hair coming down on shoulders, sweaty body, blush, grey eyes, black hair, smiling at viewer, happy expression, (detailed pussy:1.4), ((sakura blooms background)), (darkened background)',
         'absurdres, 1girl, nude, red hair, long hair, forest, perfect breasts, shaved vagina, sitting on a tree branch',
+        '1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature, topless, perfect tits',
+        '1girl, long black hair, smiling, gym, karate, fighting, naked,',
+        '1girl, long hair, glasses, burger, bored, braid, naked, perfect breasts', ,
         '1girl, 1boy, vaginal, doggystyle, sex, blonde hair, nude, bra, bottomless,',
-        'masterpiece, best quality, 1girl, 1boy, very long hair, nude, red eyes, black hair, fellatio, nipples, sucking penis, mountains',
-        'masterpiece, best quality, 1girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, pants,',
-        'masterpiece, best quality, 1girl, long black hair, smiling, gym, karate, fighting, naked,',
-        'masterpiece, best quality, 1girl, 1boy, spread legs, sex, nude, medium breasts, penis, vaginal, open mouth, brown eyes, long hair, cum, black hair, on bed, pov, stomach bulge,',
-        'masterpiece, best quality, 1girl, pink eyes, long hair, black hair, (temple in the background), sitting, kimono, medium breasts, topless, light smile, wide hips, arms behind back',
-        'masterpiece, best quality, 1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature, topless, perfect tits',
-        'masterpiece, best quality, ((beautiful asian)) 1woman, ((beautiful kimono)), ((no panty)), ((trimmed pussy:1.3)), detailed, squatting bending over, spreading legs apart, rain, (translucent clothes), (cleavage:0.7), ((medium breasts)), (sideboob), (wet body), pavement, messy bun, long hair coming down on shoulders, sweaty body, blush, grey eyes, black hair, smiling at viewer, happy expression, (detailed pussy:1.4), ((sakura blooms background)), (darkened background)',
-        'masterpiece, best quality, 1 girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, no pants, see through top, clean pussy, naked, nude',
-        ' masterpiece, best quality, 1girl, blue eyes, long blond hair, (grapefruit), (japanese city in background), sitting, kimono, medium breasts, topless, light smile, arms behind back, [nipples], night, beautiful, water'
-    ]
+        '1girl, 1boy, very long hair, nude, red eyes, black hair, fellatio, nipples, sucking penis, mountains',
+        '1 girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, no pants, see through top, clean pussy, naked, nude',
+        'absurdres, 1girl, nude, red hair, long hair, forest, perfect breasts, shaved vagina, sitting on a tree branch',
+        'realistic, 1girl, ponytail, parted lips, blush, makeup, light smile, white hair, sportswear, skirt, see through clothes, visible nipples, perfect tits, glow, thighs, purple eye, bare shoulders, collarbone, narrow waist, sunbeam, sunlight, rose, wind, nude, (masterpiece), sweat',
+        '2 big boob topless waifus hugging each other, long hair',
+        '1girl rin tohsaka, dancefloor, upper body, ((2boy)), pov, brown hair, long hair, ((blue eyes)), ((naked)),  (((buckake))) (((exhausted))), ((((covered with sperm)))), medium breasts, (((messy, cum shot, sweating)))',
+        '((beautiful asian)) 1woman, ((beautiful kimono)), ((no panty)), ((trimmed pussy:1.3)), detailed, squatting bending over, spreading legs apart, rain, (translucent clothes), (cleavage:0.7), ((medium breasts)), (sideboob), (wet body), pavement, messy bun, long hair coming down on shoulders, sweaty body, blush, grey eyes, black hair, smiling at viewer, happy expression, (detailed pussy:1.4), ((sakura blooms background)), (darkened background)',
+        '1girl, blue eyes, long blond hair, (japanese city in background), sitting, kimono, medium breasts, topless, light smile, arms behind back, [nipples], night, beautiful, water',
+        '1girl, pink eyes, long hair, black hair, (temple in the background), sitting, kimono, medium breasts, topless, light smile, wide hips, arms behind back',
+        '((beautiful asian)) multiple woman, ((one piece short dress)), ((no panties)), detailed, squatting bending over, spreading legs apart, rain, (translucent clothes), (cleavage:0.7), ((medium breasts)), (sideboob), (wet body), pavement, messy bun, long hair coming down on shoulders, sweaty body, blush, grey eyes, ((cameltoe:1.3)), black hair, smiling at viewer, happy expression, (open crotch), ((sakura blooms background)), (darkened background)'
+    ];
 
 
 
@@ -96,12 +114,13 @@ function CreateImage({ handleTabChange }) {
                     'Authorization': idToken
                 }
                 const payLoad = {
-                    instructions: prompt,
+                    instructions: prompt.trim(),
                     image_orientation: orientation,
                     // high_quality: highQuality,
                     negative_prompt: negative_prompt,
                     guidance_scale: guidance_scale,
-                    seed: seed
+                    seed: seed,
+                    style: style
                 }
                 const response = await axios.post(`${baseUrl}/api/v1/generateImage`, payLoad, { headers: headers });
                 // generateImgUrlsAndSetImages(response.data);
@@ -172,6 +191,7 @@ function CreateImage({ handleTabChange }) {
                     Show me an example
                 </button>
                 <div className='flex items-center space-x-2'>
+                    <StyleDropDown style={style} setStyle={setStyle} />
                     <OrientationDropDown orientation={orientation} setOrientation={setOrientation} />
                     {/* <HighQualityToggle highQuality={highQuality} setHighQuality={setHighQuality} /> */}
                 </div>

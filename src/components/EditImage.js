@@ -7,6 +7,7 @@ import { useGlobalContext } from '@/context/GlobalContext';
 import { blurImage } from '../../public/blur';
 import { getIdToken } from 'firebase/auth';
 import RingLoader from "react-spinners/RingLoader";
+import StyleDropDown from './StyleDropDown';
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -22,6 +23,7 @@ export default function EditImage({ onClose }) {
     const [negativePrompt, setNegativePrompt] = useState(selectedImage.parameters.negative_prompt);
     const [guidanceScale, setGuidanceScale] = useState(selectedImage.parameters.guidance_scale);
     const [seed, setSeed] = useState(selectedImage.parameters.seed);
+    const [style, setStyle] = useState(selectedImage.parameters.style);
     const idToken = user ? user.accessToken : null;
     const [loading, setLoading] = useState(false);
 
@@ -255,6 +257,10 @@ export default function EditImage({ onClose }) {
                                 <div className='flex flex-col space-y-1'>
                                     <label className=''>Seed</label>
                                     <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className={inputClasses} />
+                                </div>
+                                <div className='flex flex-col space-y-1'>
+                                    <label className=''>Style</label>
+                                    <StyleDropDown style={style} setStyle={setStyle} />
                                 </div>
                             </div>
                             {!loading ? (<div className='flex flex-row space-x-2 text-sm'>
