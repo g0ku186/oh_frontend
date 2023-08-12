@@ -59,14 +59,18 @@ const Profile = () => {
             }
             const response = await axios.post(`${baseUrl}/api/v1/user/activateLicense`, payLoad, { headers: headers });
             console.log(response.data);
-            handleShowNotification({ "title": "Activated Successfully" }, 'success');
+            handleShowNotification({ "title": "Activated Successfully. Auto refreshing the page in 3 seconds" }, 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+
 
         } catch (err) {
             console.log(err.response.data);
             handleShowNotification({ "title": err.response.data.message }, 'error');
         }
         setLoading(false);
-        window.location.reload()
+
     }
 
     const handleDeleteAccount = async (e) => {
