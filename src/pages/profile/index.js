@@ -66,6 +66,7 @@ const Profile = () => {
             handleShowNotification({ "title": err.response.data.message }, 'error');
         }
         setLoading(false);
+        window.location.reload()
     }
 
     const handleDeleteAccount = async (e) => {
