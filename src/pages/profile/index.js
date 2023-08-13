@@ -32,11 +32,9 @@ const Profile = () => {
             const getUser = async () => {
                 try {
                     const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
-                    console.log(response.data);
                     setUserDetails(response.data);
                     setLicenseKey(response.data.license_key);
                 } catch (err) {
-                    console.log(err.response.data);
                     handleShowNotification({ "title": err.response.data.message }, 'error');
                 }
 
@@ -58,7 +56,6 @@ const Profile = () => {
                 license_key: licenseKey
             }
             const response = await axios.post(`${baseUrl}/api/v1/user/activateLicense`, payLoad, { headers: headers });
-            console.log(response.data);
             handleShowNotification({ "title": "Activated Successfully. Auto refreshing the page in 3 seconds" }, 'success');
             setTimeout(() => {
                 window.location.reload();
@@ -66,7 +63,6 @@ const Profile = () => {
 
 
         } catch (err) {
-            console.log(err.response.data);
             handleShowNotification({ "title": err.response.data.message }, 'error');
         }
         setLoading(false);

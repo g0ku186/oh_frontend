@@ -40,7 +40,6 @@ export default function EditImage({ onClose }) {
     }
 
     const handleRemix = async () => {
-        console.log('Regenerating image');
         setLoading(true);
         try {
             if (user) {
@@ -176,9 +175,7 @@ export default function EditImage({ onClose }) {
     };
 
     const onGuidanceChange = (e) => {
-        console.log('came here')
         let value = Number(e.target.value);
-        console.log(value)
         if (value < 0) value = 0;
         if (value > 20) { value = 20 };
         setGuidanceScale(value);

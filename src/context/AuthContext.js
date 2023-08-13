@@ -22,8 +22,6 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log('Running onAuthStateChanged')
-            console.log(user);
             setUser(user);
             setInitializing(false);
         });

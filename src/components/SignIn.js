@@ -161,7 +161,6 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
       const user = userCredential.user;
       // Redirect to the home page after successful sign-in
       if (user) {
-        console.log('Verified')
         const idToken = userCredential._tokenResponse.idToken;
         const headers = {
           'Content-Type': 'application/json',

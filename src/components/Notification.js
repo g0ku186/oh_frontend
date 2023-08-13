@@ -5,7 +5,6 @@ import { XMarkIcon } from '@heroicons/react/20/solid'
 import { useGlobalContext } from '@/context/GlobalContext'
 
 const Notification = memo(() => {
-    console.log('Rendering notification component ')
     const { showNotification, setShowNotification, notificationType, notificationMessage } = useGlobalContext()
 
     const NotificationIcon = () => (

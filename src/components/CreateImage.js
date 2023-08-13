@@ -56,7 +56,6 @@ function CreateImage({ handleTabChange }) {
 
     const onGuidanceChange = (e) => {
         let value = Number(e.target.value);
-        console.log(value)
         if (value < 0) value = 0;
         if (value > 20) { value = 20 };
         setGuidanceScale(value);
@@ -114,7 +113,6 @@ function CreateImage({ handleTabChange }) {
                 setEta(Math.floor(response.data[0].eta));
 
             } else {
-                console.log('You must login to continue generation');
                 if (!user) {
                     handleShowNotification({ "title": "You must login to continue image generation" }, 'error');
                     return;

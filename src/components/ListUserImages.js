@@ -106,10 +106,6 @@ const ListUserImages = () => {
         if (loading) return;
         setLoading(true);
         try {
-            console.log('inside fetch images')
-            console.log(page)
-            console.log(bookmark)
-
             const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/image/getImages?page=${page}&limit=10&bookmark=${bookmark}&skip=${newCount}`, {
                 headers: {
                     Authorization: idToken
@@ -128,7 +124,6 @@ const ListUserImages = () => {
     };
 
     useEffect(() => {
-        console.log('Running use effect')
         if (page === 1) {
             fetchImages();
         }
@@ -152,7 +147,6 @@ const ListUserImages = () => {
         try {
             setNormalImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
             if (!bookmark) {
-                console.log(bookmark)
                 if (bookmarkPage !== 1) {
                     setBookmarkImages(oldImages => [...oldImages, { ...images.find(img => img.imgId === imgId), bookmark: !bookmark }]);
                 }
@@ -265,17 +259,19 @@ const ListUserImages = () => {
                                 >
                                     <Link href={constructImgLink(img.cf_id, "public")}
                                         target="_blank">
-                                        <Image
-                                            fill={true}
-                                            className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
-                                            src={constructImgLink(img.cf_id, "public")}
-                                            alt="User generated"
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                            placeholder="blur"
-                                            blurDataURL={blurImage}
-                                            loader={({ src }) => src}
-                                            unoptimized
-                                        />
+                                        <div className="relative h-full">
+                                            <Image
+                                                fill={true}
+                                                className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
+                                                src={constructImgLink(img.cf_id, "public")}
+                                                alt="User generated"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                placeholder="blur"
+                                                blurDataURL={blurImage}
+                                                loader={({ src }) => src}
+                                                unoptimized
+                                            />
+                                        </div>
                                     </Link>
 
                                     {hoveredImg === img.imgId && (
