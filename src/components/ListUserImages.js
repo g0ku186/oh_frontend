@@ -110,7 +110,7 @@ const ListUserImages = () => {
             console.log(page)
             console.log(bookmark)
 
-            const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/user/getImages?page=${page}&limit=10&bookmark=${bookmark}&skip=${newCount}`, {
+            const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/image/getImages?page=${page}&limit=10&bookmark=${bookmark}&skip=${newCount}`, {
                 headers: {
                     Authorization: idToken
                 },

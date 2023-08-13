@@ -17,13 +17,13 @@ import { toolTipTexts } from '@/constants/constants';
 
 const baseUrl = process.env.API_BASE_URL
 
-const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNegativePrompt, guidance_scale, setGuidanceScale, seed, setSeed }) => {
+const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNegativePrompt, guidance_scale, onGuidanceChange, seed, setSeed }) => {
     const inputClasses = 'w-full px-2 py-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded-md';
     return (
         <div className='flex flex-col my-4 space-y-4 grow'>
             <div>
                 <label className='text-sm'>Prompt</label>
-                <textarea rows={4} type="text" defaultValue={instructions} value={instructions} onChange={(e) => setInstructions(e.target.value)} className={inputClasses} />
+                <textarea rows={4} type="text" value={instructions} onChange={(e) => setInstructions(e.target.value)} className={inputClasses} />
             </div>
             <div>
                 <label className='text-sm'>Negative Prompt</label>
@@ -31,7 +31,7 @@ const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNe
             </div>
             <div className='flex flex-row space-x-2 text-sm'>
                 <label className='text-sm flex items-start'>Guidance Scale <Tooltip text={toolTipTexts.guidance_scale} color='text-white' /></label>
-                <input type="number" defaultValue={guidance_scale} onChange={(e) => setGuidanceScale(e.target.value)} className={inputClasses} />
+                <input type="number" step="0.5" value={guidance_scale} onChange={onGuidanceChange} className={inputClasses} />
                 <label className='text-sm flex items-start'>Seed <Tooltip text={toolTipTexts.seed} color='text-white' /></label>
                 <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className={inputClasses} />
             </div>
@@ -54,7 +54,13 @@ function CreateImage({ handleTabChange }) {
     const { user } = userAuth();
 
 
-
+    const onGuidanceChange = (e) => {
+        let value = Number(e.target.value);
+        console.log(value)
+        if (value < 0) value = 0;
+        if (value > 20) { value = 20 };
+        setGuidanceScale(value);
+    }
 
 
 
@@ -148,7 +154,7 @@ function CreateImage({ handleTabChange }) {
                     </div>
                 </>) : (
 
-                    <AdvancedSettings instructions={instructions} negativePrompt={negativePrompt} guidance_scale={guidance_scale} seed={seed} setInstructions={setInstructions} setNegativePrompt={setNegativePrompt} setGuidanceScale={setGuidanceScale} setSeed={setSeed} />)}
+                    <AdvancedSettings instructions={instructions} negativePrompt={negativePrompt} guidance_scale={guidance_scale} seed={seed} setInstructions={setInstructions} setNegativePrompt={setNegativePrompt} onGuidanceChange={onGuidanceChange} setSeed={setSeed} />)}
 
             </div>
             <div className='flex flex-col md:flex-row items-start md:items-center justify-center md:space-x-4 mt-2 space-y-4 md:space-y-0'>

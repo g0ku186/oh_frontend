@@ -177,7 +177,8 @@ export default function EditImage({ onClose }) {
 
     const onGuidanceChange = (e) => {
         console.log('came here')
-        let value = parseInt(e.target.value, 10);
+        let value = Number(e.target.value);
+        console.log(value)
         if (value < 0) value = 0;
         if (value > 20) { value = 20 };
         setGuidanceScale(value);
@@ -266,7 +267,7 @@ export default function EditImage({ onClose }) {
                                         Guidance Scale
                                         <Tooltip text={toolTipTexts.guidance_scale} />
                                     </label>
-                                    <input type="number" value={guidanceScale} onChange={onGuidanceChange} className={inputClasses} />
+                                    <input type="number" step="0.5" value={guidanceScale} onChange={onGuidanceChange} className={inputClasses} />
                                 </div>
                                 <div className='flex flex-col space-y-1'>
                                     <label className='flex items-center'>Seed <Tooltip text={toolTipTexts.seed} />

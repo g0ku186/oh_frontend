@@ -30,7 +30,7 @@ function ListPublicImages() {
         if (loading) return;
         setLoading(true);
         try {
-            const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/user/getPublicImages?page=${publicImagePage}`);
+            const res = await axios.get(`${process.env.API_BASE_URL}/api/v1/image/getPublicImages?page=${publicImagePage}`);
             setPublicImages(oldImages => [...oldImages, ...res.data.images]);
             setPublicImagePage(prevPage => prevPage + 1);
             // If currentPage equals to totalPages, there is no more data to be loaded
