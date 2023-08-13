@@ -26,7 +26,7 @@ const ListUserImages = () => {
     //From GlobalContext
     const { user } = userAuth();
     //  const { images, setImages, eta, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount, bookmark } = useGlobalContext();
-    const { eta, selectedImage, setSelectedImage, setNewCount, setNewBookmarkCount, bookmark, handleShowNotification
+    const { eta, selectedImage, setSelectedImage, setNewCount, setNewBookmarkCount, bookmark, handleShowNotification, bookmarkPage
     } = useGlobalContext();
 
     const setNormalImages = useGlobalContext().setImages;
@@ -152,9 +152,14 @@ const ListUserImages = () => {
         try {
             setNormalImages(oldImages => oldImages.map(img => img.imgId === imgId ? { ...img, bookmark: !bookmark } : img));
             if (!bookmark) {
-                setBookmarkImages(oldImages => [...oldImages, { ...images.find(img => img.imgId === imgId), bookmark: !bookmark }]);
+                console.log(bookmark)
+                if (bookmarkPage !== 1) {
+                    setBookmarkImages(oldImages => [...oldImages, { ...images.find(img => img.imgId === imgId), bookmark: !bookmark }]);
+                }
             } else {
                 setBookmarkImages(oldImages => oldImages.filter(img => img.imgId !== imgId));
+
+
             }
 
             await axios.post(`${process.env.API_BASE_URL}/api/v1/image/bookmark`, { imgId, bookmark: !bookmark }, {
