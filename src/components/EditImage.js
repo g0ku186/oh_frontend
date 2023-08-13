@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import { userAuth } from '@/context/AuthContext';
-import { TrashIcon, DownloadIcon, CloseIcon } from "@/components/Icons";
-import axios from 'axios';
 import Image from 'next/image';
-import { useGlobalContext } from '@/context/GlobalContext';
-import { blurImage } from '../../public/blur';
+import axios from 'axios';
 import { getIdToken } from 'firebase/auth';
 import RingLoader from "react-spinners/RingLoader";
+
+import { userAuth } from '@/context/AuthContext';
+import { useGlobalContext } from '@/context/GlobalContext';
+
 import StyleDropDown from './StyleDropDown';
 import Tooltip from './Tootip';
+
+import { TrashIcon, DownloadIcon, CloseIcon } from "@/components/Icons";
 import { toolTipTexts } from '@/constants/constants';
+import { blurImage } from '../../public/blur';
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -30,7 +33,6 @@ export default function EditImage({ onClose }) {
     const [loading, setLoading] = useState(false);
 
 
-    const defaultNegativePrompt = '(worst quality, low quality:1.4), monochrome, zombie, (interlocked fingers:1.2), multiple views, comic, sketch, animal ears, pointy ears';
     const handlePromptChange = (e) => {
         setPrompt(e.target.value);
     }

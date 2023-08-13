@@ -1,37 +1,8 @@
 import Link from 'next/link'
 import FAQs from '@/components/FAQs'
 import { CheckIcon } from '@heroicons/react/20/solid'
+import { tiers } from '@/constants/constants'
 
-const tiers = [
-    {
-        name: 'Monthly',
-        id: 'tier-monthly',
-        href: 'https://onlyhentai.gumroad.com/l/jhbig',
-        price: '$9.99',
-        frequency: '/month',
-        description: "All the features for a pocket price!",
-        features: ['1000 images / mo', 'Medium priority queue', 'High quality', 'Advanced options', 'text-2-img & img-2-img'],
-        featured: false,
-    },
-    {
-        name: 'Annual',
-        id: 'tier-annual',
-        href: 'https://onlyhentai.gumroad.com/l/jhbig',
-        frequency: '/year',
-        price: '$50',
-        description: 'Huge savings. Faster generations. Super resolution.',
-        features: [
-            '50% off once',
-            '1000 images / mo',
-            'High priority queue',
-            'Super Resoultion',
-            'Advanced Options',
-            'text-2-img & img-2-img',
-            'Early access to new features'
-        ],
-        featured: true,
-    },
-]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')

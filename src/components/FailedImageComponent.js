@@ -1,6 +1,7 @@
 
-import placeHolderImg from '../../public/placeholder1.jpg';
 import Image from 'next/image';
+import placeHolderImg from '../../public/placeholder1.jpg';
+
 
 const FailedImageComponent = ({ img, handleDelete }) => {
     return (

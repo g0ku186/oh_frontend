@@ -1,8 +1,10 @@
 import { Fragment, useState, memo } from 'react'
 import { Transition } from '@headlessui/react'
+
+import { useGlobalContext } from '@/context/GlobalContext'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { useGlobalContext } from '@/context/GlobalContext'
+
 
 const Notification = memo(() => {
     const { showNotification, setShowNotification, notificationType, notificationMessage } = useGlobalContext()

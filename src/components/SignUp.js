@@ -1,27 +1,24 @@
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import google_icon from "../../public/google_icon.svg";
-import { userAuth } from "../context/AuthContext";
-import { useRouter } from "next/router";
 import axios from 'axios';
-import { useGlobalContext } from "@/context/GlobalContext";
 import HashLoader from "react-spinners/HashLoader";
+
+
+import { userAuth } from "../context/AuthContext";
+import { useGlobalContext } from "@/context/GlobalContext";
+import google_icon from "../../public/google_icon.svg";
+
 const baseUrl = process.env.API_BASE_URL;
 
 const SignUp = ({ setFormOpened, setIsSignIn }) => {
   const { googleSignIn, emailSignUp, verifyEmail, logOut } = userAuth();
-  const router = useRouter();
   const { handleShowNotification } = useGlobalContext();
   const [loading, setLoading] = useState(false);
 
-  // Function to handle Email and Password sign-in
-  // Function to handle Google sign-in
   const signInWithGoogle = async () => {
     try {
       const userCredential = await googleSignIn();
       const user = userCredential.user;
-      // Redirect to the home page after successful sign-in
       if (user) {
         const idToken = userCredential._tokenResponse.idToken;
         const headers = {
@@ -30,12 +27,12 @@ const SignUp = ({ setFormOpened, setIsSignIn }) => {
         }
         const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
         setFormOpened(false);
-        // router.push("/profile");
       }
     } catch (error) {
       handleShowNotification({ "title": "Something went wrong. Please reach out to support" }, "error");
     }
   };
+
 
   const handleEmailSignUp = async (event) => {
     event.preventDefault();

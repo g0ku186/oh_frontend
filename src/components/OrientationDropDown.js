@@ -20,8 +20,6 @@ export default function OrientationDropDown({ orientation, setOrientation }) {
         setOrientation(orientation.value)
     }
 
-
-
     return (
         <Listbox value={selected} onChange={handleOrientationChange}>
             {({ open }) => (

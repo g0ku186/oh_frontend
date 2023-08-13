@@ -1,6 +1,7 @@
-import placeHolderImg from '../../public/placeholder1.jpg';
-import RingLoader from "react-spinners/RingLoader";
 import Image from 'next/image';
+import RingLoader from "react-spinners/RingLoader";
+import placeHolderImg from '../../public/placeholder1.jpg';
+
 
 const PlaceHolderComponent = ({ eta }) => {
     return (

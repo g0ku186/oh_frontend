@@ -1,11 +1,12 @@
-import useProtectedRoute from '@/hooks/useProtectedRoute';
 import { useState, useEffect } from 'react';
-import { userAuth } from '@/context/AuthContext';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image';
+
+import useProtectedRoute from '@/hooks/useProtectedRoute';
+import { userAuth } from '@/context/AuthContext';
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import Image from 'next/image';
 import { useGlobalContext } from '@/context/GlobalContext';
 import HashLoader from "react-spinners/HashLoader";
 import profile from '../../../public/profile.webp';
@@ -46,8 +47,8 @@ const Profile = () => {
 
     const handleActivateLicense = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
-            setLoading(true);
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': user.accessToken
@@ -80,11 +81,10 @@ const Profile = () => {
             alert('Passwords do not match');
             return;
         }
+        setPasswordLoader(true);
         try {
-            setPasswordLoader(true);
             await changePassword(e.target.newPassword.value);
             handleShowNotification({ "title": "Password Changed Successfully" }, 'success')
-
         } catch (error) {
             switch (error.code) {
                 case "auth/user-not-found":

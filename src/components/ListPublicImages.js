@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import { blurImage } from "../../public/blur";
-import { ViewIcon } from "./Icons";
-import { useGlobalContext } from "@/context/GlobalContext";
 import Image from "next/image";
 import axios from 'axios';
 import InfiniteScroll from "react-infinite-scroll-component";
+
+import { useGlobalContext } from "@/context/GlobalContext";
 import ViewPublicImage from "./ViewPublicImage";
+
+import { blurImage } from "../../public/blur";
+import { ViewIcon } from "./Icons";
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 

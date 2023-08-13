@@ -1,6 +1,7 @@
 import { useEffect } from "react"
-import { userAuth } from "@/context/AuthContext"
 import { useRouter } from "next/router"
+import { userAuth } from "@/context/AuthContext"
+
 
 const useProtectedRoute = () => {
     const { user, initializing } = userAuth();

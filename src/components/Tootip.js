@@ -1,4 +1,6 @@
 import { QuestionMarkIcon } from '@/components/Icons';
+
+
 const Tooltip = ({ text, color = 'text-gray-800' }) => {
     return (
         <div className="relative cursor-pointer inline-block ml-1 group">

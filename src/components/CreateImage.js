@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { RightArrowIcon } from './Icons';
+import React, { useState } from 'react'
+
 import axios from 'axios';
 import RingLoader from "react-spinners/RingLoader";
-import Image from 'next/image';
-import { userAuth } from "../context/AuthContext";
-import OrientationDropDown from './OrientationDropDown';
-import HighQualityToggle from './HighQualityToggle';
-import { ChevronUpIcon } from '@heroicons/react/20/solid'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import StyleDropDown from './StyleDropDown';
-import { useGlobalContext } from '@/context/GlobalContext';
 import { getIdToken } from 'firebase/auth';
+
+import { userAuth } from "../context/AuthContext";
+import { useGlobalContext } from '@/context/GlobalContext';
+
+import OrientationDropDown from './OrientationDropDown';
+import StyleDropDown from './StyleDropDown';
 import Tooltip from './Tootip';
+
 import { samplePrompts } from '@/constants/constants';
 import { toolTipTexts } from '@/constants/constants';
+import { RightArrowIcon } from './Icons';
+import { ChevronUpIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const baseUrl = process.env.API_BASE_URL
 

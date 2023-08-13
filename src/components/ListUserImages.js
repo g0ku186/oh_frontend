@@ -1,17 +1,21 @@
 import { useEffect, useState, memo } from "react"
-import PlaceHolderComponent from "./PlaceHolderComponent";
-import FailedImageComponent from "./FailedImageComponent";
-import { blurImage } from "../../public/blur";
-import { EditIcon, TrashIcon, LoveIcon, LoveFilledIcon } from "./Icons";
-import { userAuth } from "../context/AuthContext";
-import { useGlobalContext } from "@/context/GlobalContext";
+import Link from "next/link"
 import Image from "next/image";
 import axios from 'axios';
-import Link from "next/link";
-//import InfiniteScroll from "react-infinite-scroll-component";
-import Notification from "./Notification";
+
+
+import { userAuth } from "../context/AuthContext";
+import { useGlobalContext } from "@/context/GlobalContext";
+
 import EditImage from "./EditImage";
 import ConfirmationBox from "./ConfirmationBox";
+import PlaceHolderComponent from "./PlaceHolderComponent";
+import FailedImageComponent from "./FailedImageComponent";
+
+import { blurImage } from "../../public/blur";
+import { EditIcon, TrashIcon, LoveIcon, LoveFilledIcon } from "./Icons";
+
+
 
 //const baseUrl = `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/d794ad00-6b85-460d-c57e-82b65cdd0d00/public`;
 const constructImgLink = (cf_id, variant) => {
@@ -83,7 +87,6 @@ const ListUserImages = () => {
                             });
                         }
                     } catch (err) {
-
                         handleShowNotification({ 'title': err.response.data.message }, 'error')
                     }
                 }

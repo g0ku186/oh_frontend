@@ -1,12 +1,13 @@
 import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import google_icon from "../../public/google_icon.svg";
 import { userAuth } from "../context/AuthContext";
-import { useRouter } from "next/router";
+import Image from "next/image";
 import axios from 'axios';
-import { useGlobalContext } from "@/context/GlobalContext";
 import HashLoader from "react-spinners/HashLoader";
+
+import { useGlobalContext } from "@/context/GlobalContext";
+
+import google_icon from "../../public/google_icon.svg";
+
 const baseUrl = process.env.API_BASE_URL;
 
 const ForgotPassword = ({ resetPassword, setShowForgotPassword }) => {
@@ -96,9 +97,6 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
   const { handleShowNotification } = useGlobalContext();
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-
-  // Function to handle Email and Password sign-in
   const handleSignInWithEmailAndPassword = async (event) => {
     event.preventDefault();
     // Get email and password from form
@@ -106,14 +104,11 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
     const password = event.target.password.value;
 
     setLoading(true);
-
-
     try {
       const userCredential = await emailSignIn(email, password);
       const user = userCredential.user;
       // Check if the user's email is verified
       if (user.emailVerified) {
-        // Redirect to the home page after successful sign-in
         const idToken = userCredential._tokenResponse.idToken;
         const headers = {
           'Content-Type': 'application/json',
@@ -121,8 +116,6 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
         }
         const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
         setFormOpened(false);
-        // router.push("/");
-
       } else {
         handleShowNotification({ "title": "Please verify your email before signing in" }, "error");
         logOut();
@@ -154,12 +147,11 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
     setLoading(false);
   };
 
-  // Function to handle Google sign-in
+
   const signInWithGoogle = async () => {
     try {
       const userCredential = await googleSignIn();
       const user = userCredential.user;
-      // Redirect to the home page after successful sign-in
       if (user) {
         const idToken = userCredential._tokenResponse.idToken;
         const headers = {
@@ -168,7 +160,6 @@ const SignIn = ({ setFormOpened, setIsSignIn }) => {
         }
         const response = await axios.post(`${baseUrl}/api/v1/user/login`, {}, { headers: headers });
         setFormOpened(false);
-        // router.push("/profile");
       }
     } catch (error) {
       handleShowNotification({ "title": "Something went wrong. Please reach out to support" }, "error");

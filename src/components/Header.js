@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+
+import { useRouter } from 'next/router'
 import { Dialog } from '@headlessui/react'
+
+import { userAuth } from '../context/AuthContext'
+import FormSlider from './FormSlider'
+
 import { Bars3Icon, XMarkIcon, HomeIcon, UserIcon, PowerIcon } from '@heroicons/react/24/outline'
 import logo from '../../public/logo.svg'
 import logo_small from '../../public/logo_small.svg'
-// import logo from '../../public/logo_min.png'
-import Image from 'next/image'
-import FormSlider from './FormSlider'
-import { userAuth } from '../context/AuthContext'
-import { useRouter } from 'next/router'
-import Home from '@/pages'
+
 
 const navigation = [
     { name: 'Home', href: '/', Icon: HomeIcon },

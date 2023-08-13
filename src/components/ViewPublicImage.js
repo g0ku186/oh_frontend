@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import { userAuth } from '@/context/AuthContext';
-import { TrashIcon, DownloadIcon, CloseIcon } from "@/components/Icons";
-import axios from 'axios';
 import Image from 'next/image';
-import { useGlobalContext } from '@/context/GlobalContext';
-import { blurImage } from '../../public/blur';
-import Tooltip from './Tootip';
-import { toolTipTexts } from '@/constants/constants';
 
-const baseImgLink = `${process.env.API_BASE_URL}/generations`;
+
+import { userAuth } from '@/context/AuthContext';
+import { useGlobalContext } from '@/context/GlobalContext';
+import Tooltip from './Tootip';
+
+import { toolTipTexts } from '@/constants/constants'
+import { CloseIcon } from "@/components/Icons";
+import { blurImage } from '../../public/blur';
+
+
+;
 
 const constructImgLink = (cf_id, variant) => {
     return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
@@ -21,7 +24,6 @@ export default function ViewPublicImage({ onClose }) {
     const [negativePrompt, setNegativePrompt] = useState(selectedPublicImage.parameters.negative_prompt);
     const [guidanceScale, setGuidanceScale] = useState(selectedPublicImage.parameters.guidance_scale);
     const [seed, setSeed] = useState(selectedPublicImage.parameters.seed);
-    const idToken = user ? user.accessToken : null;
 
     const handleCopy = () => {
         //this should copy the prompt and negative prompt to the clipboard

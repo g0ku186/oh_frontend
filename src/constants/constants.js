@@ -1,6 +1,6 @@
 export const toolTipTexts = {
     'guidance_scale': 'Guidance scale defines how closely the AI should stick to your prompt. Min is 0 and max is 20. Lower values give AI more freedom to explore.',
-    'seed': 'A random number the AI uses along with prompt to product the image. Same seed + prompt = same image. You can keep the seed same while tweaking the prompt to get images in a cohesive style. Leave blank for random seed.',
+    'seed': 'A random number the AI uses along with prompt to produce the image. Same seed + prompt = same image. You can keep the seed same while tweaking the prompt to get images in a cohesive style. Leave blank for random seed.',
     'remix': 'Remix takes the existing image as base and converts it to new image based on your updated prompt. You can use it to change the colour of hair, dress or add things like spectacles, hat etc.'
 }
 
@@ -34,3 +34,37 @@ export const samplePrompts = [
     '1girl, pink eyes, long hair, black hair, (temple in the background), sitting, kimono, medium breasts, topless, light smile, wide hips, arms behind back',
     '((beautiful asian)) multiple woman, ((one piece short dress)), ((no panties)), detailed, squatting bending over, spreading legs apart, rain, (translucent clothes), (cleavage:0.7), ((medium breasts)), (sideboob), (wet body), pavement, messy bun, long hair coming down on shoulders, sweaty body, blush, grey eyes, ((cameltoe:1.3)), black hair, smiling at viewer, happy expression, (open crotch), ((sakura blooms background)), (darkened background)'
 ];
+
+
+export const tiers = [
+    {
+        name: 'Monthly',
+        id: 'tier-monthly',
+        href: 'https://onlyhentai.gumroad.com/l/jhbig',
+        price: '$9.99',
+        frequency: '/month',
+        description: "All the features for a pocket price!",
+        features: ['1000 images / mo', 'Medium priority queue', 'High quality', 'Advanced options', 'text-2-img & img-2-img'],
+        featured: false,
+    },
+    {
+        name: 'Annual',
+        id: 'tier-annual',
+        href: 'https://onlyhentai.gumroad.com/l/jhbig',
+        frequency: '/year',
+        price: '$50',
+        description: 'Huge savings. Faster generations. Super resolution.',
+        features: [
+            '50% off once',
+            '1000 images / mo',
+            'High priority queue',
+            'Super Resoultion',
+            'Advanced Options',
+            'text-2-img & img-2-img',
+            'Early access to new features'
+        ],
+        featured: true,
+    },
+]
+
+export const defaultNegativePrompt = '[worst quality], [low quality], bad legs, bad arms, deformed body parts, low res, blurry, worst quality, extra limbs, bad quality, ugly, text, logo, signature, greyscale, bokeh, sepia, monochrome, disfigured, bad anatomy, extra limbs, bokeh, poorly drawn, washed out, zombie, (interlocked fingers:1.2), multiple views';

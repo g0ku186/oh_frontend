@@ -20,7 +20,7 @@ const faqs = [
     {
         question: "How do I cancel my plan?",
         answer:
-            "Yes, you are free to cancel your plan any time. Canceling your subscription is easy. Just log into your account, and visit the profile page. You can find options to manage your subscription.",
+            "Yes, you are free to cancel your plan any time. Cancelling your subscription is easy. Just log in -> click on 'Profile' -> click on 'Manage Subscription'. You will see options to change or cancel your subscription.",
     },
     {
         question: "Can I get a refund?",

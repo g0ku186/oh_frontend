@@ -1,8 +1,7 @@
-import logo_small from '../../public/logo_small.svg'
-import twitter_icon from '../../public/twitter_icon.svg'
 import Image from 'next/image';
 import Link from 'next/link';
-
+import logo_small from '../../public/logo_small.svg'
+import twitter_icon from '../../public/twitter_icon.svg'
 const Footer = () => {
     return (
         <footer className="flex items-center justify-center py-4 px-12 bg-gray-800 text-white space-x-2 sm:space-x-6 text-xs w-full bottom-0">
