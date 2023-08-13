@@ -285,7 +285,12 @@ export default function EditImage({ onClose }) {
                                 {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Go Super Resolution</button>}
                                 {selectedImage.upscaled && <button onClick={handleDownloadUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Download Super Resolution</button>}
                                 <button onClick={handleDownload} className="p-1 text-gray-800 rounded-md">
-                                    <DownloadIcon className="w-6 h-6 hover:text-primary" />
+                                    <div className="relative cursor-pointer inline-block ml-1 group">
+                                        <DownloadIcon className="w-6 h-6 hover:text-primary" />
+                                        <span className="absolute text-xs bg-gray-800 text-white rounded z-30 rounded rounded-md bottom-full left-1/2 transform -translate-x-1/2 translate-y-2 p-2 w-32 transition ease-in-out duration-300 hidden group-hover:block">
+                                            Download high quality
+                                        </span>
+                                    </div>
                                 </button>
                                 <button onClick={handleDelete} className="flex items-center p-1 text-red-500 rounded-md">
                                     <TrashIcon className="w-6 h-6" />
