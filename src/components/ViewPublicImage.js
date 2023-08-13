@@ -5,6 +5,8 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useGlobalContext } from '@/context/GlobalContext';
 import { blurImage } from '../../public/blur';
+import Tooltip from './Tootip';
+import { toolTipTexts } from '@/constants/constants';
 
 const baseImgLink = `${process.env.API_BASE_URL}/generations`;
 
@@ -55,11 +57,11 @@ export default function ViewPublicImage({ onClose }) {
                             <textarea rows={4} type="text" defaultValue={negativePrompt} onChange={(e) => setNegativePrompt(e.target.value)} className={inputClasses} />
                             <div className='flex flex-row space-x-2 '>
                                 <div className='flex flex-col space-y-1'>
-                                    <label className=''>Guidance Scale</label>
+                                    <label className='flex items-center'>Guidance Scale  <Tooltip text={toolTipTexts.guidance_scale} /></label>
                                     <input type="number" defaultValue={guidanceScale} onChange={(e) => setGuidanceScale(e.target.value)} className={inputClasses} />
                                 </div>
                                 <div className='flex flex-col space-y-1'>
-                                    <label className=''>Seed</label>
+                                    <label className='flex items-center'>Seed  <Tooltip text={toolTipTexts.seed} /></label>
                                     <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className={inputClasses} />
                                 </div>
                             </div>

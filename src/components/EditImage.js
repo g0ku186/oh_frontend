@@ -8,6 +8,8 @@ import { blurImage } from '../../public/blur';
 import { getIdToken } from 'firebase/auth';
 import RingLoader from "react-spinners/RingLoader";
 import StyleDropDown from './StyleDropDown';
+import Tooltip from './Tootip';
+import { toolTipTexts } from '@/constants/constants';
 
 const baseUrl = process.env.API_BASE_URL
 
@@ -173,6 +175,15 @@ export default function EditImage({ onClose }) {
         setLoading(false);
     };
 
+    const onGuidanceChange = (e) => {
+        console.log('came here')
+        let value = parseInt(e.target.value, 10);
+        if (value < 0) value = 0;
+        if (value > 20) { value = 20 };
+        setGuidanceScale(value);
+    }
+
+
     useEffect(() => {
         if (selectedImage.upscale_status === 'processing') {
             const interval = setInterval(async () => {
@@ -251,11 +262,15 @@ export default function EditImage({ onClose }) {
                             <textarea rows={4} type="text" defaultValue={negativePrompt} onChange={handleNegativePromptChange} className={inputClasses} />
                             <div className='flex flex-row space-x-2 '>
                                 <div className='flex flex-col space-y-1'>
-                                    <label className=''>Guidance Scale</label>
-                                    <input type="number" defaultValue={guidanceScale} onChange={(e) => setGuidanceScale(e.target.value)} className={inputClasses} />
+                                    <label className='flex items-center'>
+                                        Guidance Scale
+                                        <Tooltip text={toolTipTexts.guidance_scale} />
+                                    </label>
+                                    <input type="number" value={guidanceScale} onChange={onGuidanceChange} className={inputClasses} />
                                 </div>
                                 <div className='flex flex-col space-y-1'>
-                                    <label className=''>Seed</label>
+                                    <label className='flex items-center'>Seed <Tooltip text={toolTipTexts.seed} />
+                                    </label>
                                     <input type="number" defaultValue={seed} onChange={(e) => setSeed(e.target.value)} className={inputClasses} />
                                 </div>
                                 <div className='flex flex-col space-y-1'>
@@ -264,7 +279,9 @@ export default function EditImage({ onClose }) {
                                 </div>
                             </div>
                             {!loading ? (<div className='flex flex-row space-x-2 text-sm'>
-                                <button onClick={handleRemix} className="px-4 py-2 text-sm font-bold text-white bg-purple-500 rounded-md border border-purple-500 hover:bg-purple-700">Remix</button>
+                                <button onClick={handleRemix} className="px-4 py-2 text-sm flex items-center justify-center font-bold text-white bg-purple-500 rounded-md border border-purple-500 hover:bg-purple-700">Remix
+                                    <Tooltip text={toolTipTexts.remix} color="text-white" />
+                                </button>
                                 {!selectedImage.upscaled && <button onClick={handleUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Go Super Resolution</button>}
                                 {selectedImage.upscaled && <button onClick={handleDownloadUpscale} className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md border border-primary hover:bg-primaryDark">Download Super Resolution</button>}
                                 <button onClick={handleDownload} className="p-1 text-gray-800 rounded-md">
