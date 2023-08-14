@@ -50,7 +50,7 @@ function CreateImage({ handleTabChange }) {
     const [style, setStyle] = useState('classic');
     // const [highQuality, setHighQuality] = useState(false);
     const [negativePrompt, setNegativePrompt] = useState(defaultNegativePrompt);
-    const [guidance_scale, setGuidanceScale] = useState(7.5);
+    const [guidance_scale, setGuidanceScale] = useState(6);
     const [seed, setSeed] = useState(null);
     const [loading, setLoading] = useState(false);
     const { user } = userAuth();
