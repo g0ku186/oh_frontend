@@ -60,6 +60,7 @@ export default function EditImage({ onClose }) {
                     image_orientation: selectedImage.image_orientation,
                     // high_quality: selectedImage.high_quality,
                     init_image: constructImgLink(selectedImage.cf_id, 'public'),
+                    style: style,
                 }
                 const response = await axios.post(`${baseUrl}/api/v1/generateImage`, payLoad, { headers: headers });
                 // generateImgUrlsAndSetImages(response.data);
