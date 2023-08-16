@@ -47,7 +47,7 @@ function CreateImage({ handleTabChange }) {
     const [expertMode, setExpertMode] = useState(false);
     const [instructions, setInstructions] = useState('');
     const [orientation, setOrientation] = useState('square');
-    const [style, setStyle] = useState('classic');
+    const [style, setStyle] = useState('anime');
     // const [highQuality, setHighQuality] = useState(false);
     const [negativePrompt, setNegativePrompt] = useState(defaultNegativePrompt);
     const [guidance_scale, setGuidanceScale] = useState(6);
