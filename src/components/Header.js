@@ -8,7 +8,7 @@ import { Dialog } from '@headlessui/react'
 import { userAuth } from '../context/AuthContext'
 import FormSlider from './FormSlider'
 
-import { Bars3Icon, XMarkIcon, HomeIcon, UserIcon, PowerIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon, HomeIcon, UserIcon, PowerIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import logo from '../../public/logo.svg'
 import logo_small from '../../public/logo_small.svg'
 
@@ -16,6 +16,7 @@ import logo_small from '../../public/logo_small.svg'
 const navigation = [
     { name: 'Home', href: '/', Icon: HomeIcon },
     { name: 'Profile', href: '/profile', Icon: UserIcon },
+    { name: 'FAQs', href: '/faqs', Icon: QuestionMarkCircleIcon }
 ]
 const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -58,12 +59,14 @@ const Header = () => {
                             Log Out
                         </button>)}
                     </div>
-                    <button
-                        onClick={() => router.push('/plans')}
+
+                    <Link
+                        href="https://onlyhentai.gumroad.com/l/jhbig"
+                        target='_blank'
                         className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md hover:bg-primaryDark"
                     >
                         Upgrade
-                    </button>
+                    </Link>
 
                 </div>
             </nav>
