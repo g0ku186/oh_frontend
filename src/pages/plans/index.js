@@ -30,6 +30,9 @@ export default function Plans() {
                 <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
                     Cancel your subscription anytime. No commitments! Our product speaks for itself.
                 </p>
+                <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+                    We offer 'Build your own plan'. <span className='font-bold text-indigo-600 underline'> <Link href="https://onlyhentai.gumroad.com/l/jhbig" target='_blank'>Click here </Link></span> to buy 50 image credits for $1 .
+                </p>
                 <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
                     {tiers.map((tier, tierIdx) => (
                         <div

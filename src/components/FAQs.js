@@ -3,6 +3,11 @@ import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 
 const faqs = [
     {
+        question: "How will the charge show up in my credit card statement?",
+        answer:
+            "We respect your privacy and keeping things discreet is our top priority. The charge will show up as 'Gumroad - OH' in your bank statements.",
+    },
+    {
         question: "Can I produce NSFW content?",
         answer:
             "Yes, you can. We do not censor the generated images. But, it's important to act responsibly and legally while generating these NSFW images. Please remember that we prohibit any illegal content, and we hold the right to remove or ban inappropriate content.",
