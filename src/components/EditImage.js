@@ -31,6 +31,7 @@ export default function EditImage({ onClose }) {
     const [style, setStyle] = useState(selectedImage.parameters.style);
     const idToken = user ? user.accessToken : null;
     const [loading, setLoading] = useState(false);
+    const [response, setResponse] = useState(null);
 
 
     const handlePromptChange = (e) => {
@@ -118,16 +119,7 @@ export default function EditImage({ onClose }) {
                     })
                 }
                 );
-
-                setSelectedImage(prevImage => {
-                    return {
-                        ...prevImage,
-                        upscaled: upscaled,
-                        upscale_cf_id: upscale_cf_id,
-                        upscale_jobId: upscale_jobId,
-                        upscale_status: upscale_status,
-                    }
-                });
+                setResponse(response.data);
 
             } catch (err) {
                 handleShowNotification({ 'title': err.response.data.message }, 'error')
@@ -138,6 +130,23 @@ export default function EditImage({ onClose }) {
         setLoading(false);
 
     };
+
+    useEffect(() => {
+        if (response) {
+            const { imgId, upscaled, upscale_cf_id, upscale_jobId, upscale_status } = response;
+            if (selectedImage && selectedImage.imgId === imgId) {
+                setSelectedImage(prevImage => {
+                    return {
+                        ...prevImage,
+                        upscaled: upscaled,
+                        upscale_cf_id: upscale_cf_id,
+                        upscale_jobId: upscale_jobId,
+                        upscale_status: upscale_status,
+                    }
+                });
+            }
+        }
+    }, [response])
 
     const handleDownloadUpscale = () => {
         const link = document.createElement('a');
