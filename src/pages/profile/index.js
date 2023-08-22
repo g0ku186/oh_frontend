@@ -14,8 +14,7 @@ import profile from '../../../public/profile.webp';
 const baseUrl = process.env.API_BASE_URL
 
 const Profile = () => {
-    const { user } = useProtectedRoute();
-    const [userDetails, setUserDetails] = useState({});
+    const { user, userDetails } = useProtectedRoute();
     const { changePassword } = userAuth();
     const [changePasswordClicked, setChangePasswordClicked] = useState(false);
     const [licenseKey, setLicenseKey] = useState('');
@@ -24,26 +23,32 @@ const Profile = () => {
     const [passwordLoader, setPasswordLoader] = useState(false);
 
 
+    // useEffect(() => {
+    //     if (user) {
+    //         const headers = {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': user.accessToken
+    //         }
+    //         const getUser = async () => {
+    //             try {
+    //                 const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
+    //                 setUserDetails(response.data);
+    //                 setLicenseKey(response.data.license_key);
+    //             } catch (err) {
+    //                 handleShowNotification({ "title": err.response.data.message }, 'error');
+    //             }
+
+    //         }
+    //         getUser();
+    //     }
+
+    // }, []);
+
     useEffect(() => {
-        if (user) {
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': user.accessToken
-            }
-            const getUser = async () => {
-                try {
-                    const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
-                    setUserDetails(response.data);
-                    setLicenseKey(response.data.license_key);
-                } catch (err) {
-                    handleShowNotification({ "title": err.response.data.message }, 'error');
-                }
-
-            }
-            getUser();
+        if (userDetails) {
+            setLicenseKey(userDetails.license_key);
         }
-
-    }, []);
+    }, [userDetails]);
 
     const handleActivateLicense = async (e) => {
         e.preventDefault();

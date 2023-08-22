@@ -4,15 +4,15 @@ import { userAuth } from "@/context/AuthContext"
 
 
 const useProtectedRoute = () => {
-    const { user, initializing } = userAuth();
+    const { user, userDetails, initializing } = userAuth();
     const router = useRouter();
 
     useEffect(() => {
         if (!user && !initializing) {
             router.push('/')
         }
-    }, [user, initializing]);
-    return { user }
+    }, [user, userDetails, initializing]);
+    return { user, userDetails }
 }
 
 export default useProtectedRoute;
