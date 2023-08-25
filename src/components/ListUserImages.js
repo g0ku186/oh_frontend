@@ -26,6 +26,9 @@ const constructImgLink = (cf_id, variant) => {
 //     return `https://www.onlyhentai.ai/cdn-cgi/imagedelivery/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
 // }
 
+
+//We are maintaining a separate state for bookmarked images and normal images to avoid refetching of images when we switch between bookmarked and normal images
+
 const ListUserImages = () => {
     //From GlobalContext
     const { user } = userAuth();

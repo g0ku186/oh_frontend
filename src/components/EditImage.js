@@ -131,6 +131,9 @@ export default function EditImage({ onClose }) {
 
     };
 
+
+    //Update the selected image with the new parameters from response
+
     useEffect(() => {
         if (response) {
             const { imgId, upscaled, upscale_cf_id, upscale_jobId, upscale_status } = response;

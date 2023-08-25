@@ -63,16 +63,6 @@ function CreateImage({ handleTabChange }) {
         setGuidanceScale(value);
     }
 
-
-
-
-    // const samplePrompts = [
-    //     'masterpiece, best quality, 1girl, white hair, green eyes, looking up, floating hair, butterfly, from side, wings, nature,',
-    //     'masterpiece, best quality, 1girl, long hair, glasses, burger, bored, braid,',
-    //     'masterpiece, best quality, 1girl, standing, train interior, brown eyes, pointing at viewer, (police), angry, hat, pants,',
-    //     'masterpiece, best quality, 1girl, long black hair, smiling, gym, karate, fighting,'
-    // ]
-
     const handleInspireClick = () => {
         const randomIndex = Math.floor(Math.random() * samplePrompts.length);
         setInstructions(samplePrompts[randomIndex]);
@@ -104,7 +94,6 @@ function CreateImage({ handleTabChange }) {
                     style: style
                 }
                 const response = await axios.post(`${baseUrl}/api/v1/generateImage`, payLoad, { headers: headers });
-                // generateImgUrlsAndSetImages(response.data);
                 setImages((prevImages) => {
                     return [...response.data, ...prevImages];
                 });
