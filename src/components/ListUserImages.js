@@ -36,7 +36,6 @@ const ListUserImages = () => {
     //  const { images, setImages, eta, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount, bookmark } = useGlobalContext();
     const { eta, selectedImage, setSelectedImage, setNewCount, setNewBookmarkCount, bookmark, handleShowNotification, bookmarkPage
     } = useGlobalContext();
-
     const setNormalImages = useGlobalContext().setImages;
     const setBookmarkImages = useGlobalContext().setbookmarkImages;
     const images = bookmark ? useGlobalContext().bookmarkImages : useGlobalContext().images;
@@ -236,6 +235,7 @@ const ListUserImages = () => {
         link.click();
     };
 
+
     if (!user) {
         return (
             <div className="flex justify-center items-start h-screen">
@@ -251,7 +251,11 @@ const ListUserImages = () => {
                     {images.map((img, index) => {
                         if (img.status && img.status === 'processing') {
                             return <PlaceHolderComponent key={index} eta={eta} />
-                        } else if (img.status && img.status === 'failed') {
+                        } else if (img.status && img.status === 'limit_exceeded') {
+                            return <ImagePreview />
+                        }
+
+                        else if (img.status && img.status === 'failed') {
                             return <FailedImageComponent key={index} img={img} handleDelete={handleDelete} />
                         }
 

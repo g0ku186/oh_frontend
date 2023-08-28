@@ -43,7 +43,7 @@ const AdvancedSettings = ({ instructions, setInstructions, negativePrompt, setNe
 
 function CreateImage({ handleTabChange }) {
     const defaultNegativePrompt = '[worst quality], [low quality], bad legs, bad arms, deformed body parts, low res, blurry, worst quality, extra limbs, bad quality, ugly, text, logo, signature, greyscale, bokeh, sepia, monochrome, disfigured, bad anatomy, extra limbs, bokeh, poorly drawn, washed out, zombie, (interlocked fingers:1.2), multiple views';
-    const { setImages, eta, setEta, setNewCount, handleShowNotification } = useGlobalContext();
+    const { images, setImages, eta, setEta, setNewCount, handleShowNotification } = useGlobalContext();
     const [expertMode, setExpertMode] = useState(false);
     const [instructions, setInstructions] = useState('');
     const [orientation, setOrientation] = useState('square');
@@ -69,6 +69,13 @@ function CreateImage({ handleTabChange }) {
     }
 
     const handleArrowClick = async () => {
+
+        if (images[0].status === 'limit_exceeded') {
+            handleShowNotification({ "title": "You have exceeded your daily free limit. Please check back tomorrow." }, 'error');
+            return;
+        }
+
+
         try {
             if (user && user.emailVerified) {
                 if (instructions.trim().length === 0) {
@@ -114,7 +121,25 @@ function CreateImage({ handleTabChange }) {
                 }
             }
         } catch (err) {
-            handleShowNotification({ "title": err.response.data.message }, 'error');
+
+            if (err.response.data.status === 'limit_exceeded') {
+                const newImage = {
+                    status: err.response.data.status,
+                }
+                //await for 5 secs
+                await new Promise(r => setTimeout(r, 5000));
+                setImages((prevImages) => {
+                    return [newImage, ...prevImages];
+                });
+            }
+
+            //Coz when it is limit_exceeded, we are showing a blur image view. We want user to focus more on that than the notification
+            //hence disabling notification just when error is 'limit_exceeded'
+            if (err.response.data.status !== 'limit_exceeded') {
+                handleShowNotification({ "title": err.response.data.message }, 'error');
+            }
+
+
         }
         setLoading(false);
     }

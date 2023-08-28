@@ -11,6 +11,8 @@ import FormSlider from './FormSlider'
 import { Bars3Icon, XMarkIcon, HomeIcon, UserIcon, PowerIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import logo from '../../public/logo.svg'
 import logo_small from '../../public/logo_small.svg'
+import { gumRoadLink } from '../constants/constants'
+
 
 
 const navigation = [
@@ -61,7 +63,7 @@ const Header = () => {
                     </div>
 
                     <Link
-                        href="https://onlyhentai.gumroad.com/l/jhbig"
+                        href={gumRoadLink}
                         target='_blank'
                         className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md hover:bg-primaryDark"
                     >

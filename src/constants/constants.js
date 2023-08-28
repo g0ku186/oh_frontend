@@ -68,3 +68,5 @@ export const tiers = [
 ]
 
 export const defaultNegativePrompt = '[worst quality], [low quality], bad legs, bad arms, deformed body parts, low res, blurry, worst quality, extra limbs, bad quality, ugly, text, logo, signature, greyscale, bokeh, sepia, monochrome, disfigured, bad anatomy, extra limbs, bokeh, poorly drawn, washed out, zombie, (interlocked fingers:1.2), multiple views';
+
+export const gumRoadLink = "https://onlyhentai.gumroad.com/l/jhbig";
