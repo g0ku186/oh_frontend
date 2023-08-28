@@ -43,7 +43,7 @@ export default function EditImage({ onClose }) {
     }
 
     const handleRemix = async () => {
-        if (images[0].status === 'limit_exceeded') {
+        if (images[0]?.status === 'limit_exceeded') {
             handleShowNotification({ "title": "You have exceeded your daily free limit. Please check back tomorrow." }, 'error');
             return;
         }
