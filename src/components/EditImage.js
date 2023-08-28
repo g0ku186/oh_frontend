@@ -24,6 +24,7 @@ const constructImgLink = (cf_id, variant) => {
 export default function EditImage({ onClose }) {
     const { user } = userAuth();
     const { images, selectedImage, setImages, setSelectedImage, setNewCount, setEta, handleShowNotification } = useGlobalContext();
+    const { blurFirstImage, setBlurFirstImage } = userAuth();
     const [prompt, setPrompt] = useState(selectedImage.prompt);
     const [negativePrompt, setNegativePrompt] = useState(selectedImage.parameters.negative_prompt);
     const [guidanceScale, setGuidanceScale] = useState(selectedImage.parameters.guidance_scale);
@@ -43,10 +44,10 @@ export default function EditImage({ onClose }) {
     }
 
     const handleRemix = async () => {
-        if (images[0]?.status === 'limit_exceeded') {
-            handleShowNotification({ "title": "You have exceeded your daily free limit. Please check back tomorrow." }, 'error');
-            return;
-        }
+        // if (images[0]?.status === 'limit_exceeded') {
+        //     handleShowNotification({ "title": "You have exceeded your daily free limit. Please check back tomorrow." }, 'error');
+        //     return;
+        // }
         setLoading(true);
         try {
             if (user) {
@@ -68,6 +69,9 @@ export default function EditImage({ onClose }) {
                     style: style,
                 }
                 const response = await axios.post(`${baseUrl}/api/v1/generateImage`, payLoad, { headers: headers });
+                if (response.data[0].parameters.blurImage) {
+                    setBlurFirstImage(true);
+                }
                 // generateImgUrlsAndSetImages(response.data);
                 setImages((prevImages) => {
                     return [...response.data, ...prevImages];
@@ -86,23 +90,24 @@ export default function EditImage({ onClose }) {
             }
 
         } catch (err) {
-            if (err.response.data.status === 'limit_exceeded') {
-                const newImage = {
-                    status: err.response.data.status,
-                }
-                //await for 5 secs
-                await new Promise(r => setTimeout(r, 5000));
-                setImages((prevImages) => {
-                    return [newImage, ...prevImages];
-                });
-                onClose();
-            }
+            handleShowNotification({ "title": err.response.data.message }, 'error');
+            // if (err.response.data.status === 'limit_exceeded') {
+            //     const newImage = {
+            //         status: err.response.data.status,
+            //     }
+            //     //await for 5 secs
+            //     await new Promise(r => setTimeout(r, 5000));
+            //     setImages((prevImages) => {
+            //         return [newImage, ...prevImages];
+            //     });
+            //     onClose();
+            // }
 
-            //Coz when it is limit_exceeded, we are showing a blur image view. We want user to focus more on that than the notification
-            //hence disabling notification just when error is 'limit_exceeded'
-            if (err.response.data.status !== 'limit_exceeded') {
-                handleShowNotification({ "title": err.response.data.message }, 'error');
-            }
+            // //Coz when it is limit_exceeded, we are showing a blur image view. We want user to focus more on that than the notification
+            // //hence disabling notification just when error is 'limit_exceeded'
+            // if (err.response.data.status !== 'limit_exceeded') {
+            //     handleShowNotification({ "title": err.response.data.message }, 'error');
+            // }
         }
         setLoading(false);
     }

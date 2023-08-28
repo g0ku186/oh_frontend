@@ -2,19 +2,27 @@ import Image from 'next/image';
 import placeHolderImg from '../../public/placeholder1.jpg';
 import blurImg from '../../public/blur.png';
 import Link from 'next/link';
+import { blurImage } from "../../public/blur";
 
 import { gumRoadLink } from '../constants/constants'
 
+const constructImgLink = (cf_id, variant) => {
+    return `https://imagedelivery.net/jiDyTO2MeeaRtYvAKMguuQ/${cf_id}/${variant}`
+}
 
-const ImagePreview = () => {
+const ImagePreview = ({ imageObj }) => {
     return (
-        <div className="relative cursor-pointer h-full col-span-2 aspect-[1/1] border border-gray-600 shadow shadow-md">
+        <div>
             <Image
                 fill={true}
                 className={`object-cover w-full h-full transition duration-300 ease-in-out`}
-                src={blurImg}
+                src={constructImgLink(imageObj.cf_id, "blur")}
                 alt="User generated"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                placeholder="blur"
+                blurDataURL={blurImage}
+                loader={({ src }) => src}
+                unoptimized
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
                 <p className="mt-4 text-sm text-white text-center">Daily free limit exceeded. Upgrade to view the image.</p>

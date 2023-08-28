@@ -32,7 +32,7 @@ const constructImgLink = (cf_id, variant) => {
 
 const ListUserImages = () => {
     //From GlobalContext
-    const { user } = userAuth();
+    const { user, blurFirstImage } = userAuth();
     //  const { images, setImages, eta, selectedImage, setSelectedImage, page, setPage, hasMore, setHasMore, newCount, bookmark } = useGlobalContext();
     const { eta, selectedImage, setSelectedImage, setNewCount, setNewBookmarkCount, bookmark, handleShowNotification, bookmarkPage
     } = useGlobalContext();
@@ -56,7 +56,6 @@ const ListUserImages = () => {
     const [hoveredImg, setHoveredImg] = useState(null);
 
     const idToken = user ? user.accessToken : null;
-
 
     useEffect(() => {
         const processingImages = images.filter(image => image.status === 'processing');
@@ -251,52 +250,55 @@ const ListUserImages = () => {
                     {images.map((img, index) => {
                         if (img.status && img.status === 'processing') {
                             return <PlaceHolderComponent key={index} eta={eta} />
-                        } else if (img.status && img.status === 'limit_exceeded') {
-                            return <ImagePreview />
-                        }
-
-                        else if (img.status && img.status === 'failed') {
+                        } else if (img.status && img.status === 'failed') {
                             return <FailedImageComponent key={index} img={img} handleDelete={handleDelete} />
                         }
-
                         else {
-                            return (
-                                <div
-                                    key={img.imgId}
-                                    className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden border border-gray-900 rounded-md shadow-sm shadow-gray-900 ${hoveredImg === img.imgId && 'bg-gray-800'} ${index === 0 && 'col-span-2'}`}
-                                    onMouseEnter={() => handleHover(img.imgId)}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <Link href={constructImgLink(img.cf_id, "public")}
-                                        target="_blank">
-                                        <div className="relative h-full">
-                                            <Image
-                                                fill={true}
-                                                className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
-                                                src={constructImgLink(img.cf_id, "public")}
-                                                alt="User generated"
-                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                placeholder="blur"
-                                                blurDataURL={blurImage}
-                                                loader={({ src }) => src}
-                                                unoptimized
-                                            />
-                                        </div>
-                                    </Link>
+                            if (blurFirstImage && index === 0) {
+                                return (<div key={img.imgId} className="relative cursor-pointer h-full col-span-2 aspect-[1/1] border border-gray-600 shadow shadow-md">
+                                    <ImagePreview imageObj={img} />
+                                </div>)
 
-                                    {hoveredImg === img.imgId && (
-                                        <div className="absolute flex justify-around w-full px-4 py-2 bottom-0 bg-black">
-                                            {img.bookmark ? (
-                                                <LoveFilledIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleBookmark(img.imgId, img.bookmark) }} />
-                                            ) : (
-                                                <LoveIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleBookmark(img.imgId, img.bookmark) }} />
-                                            )}
-                                            <EditIcon className="w-6 h-6 text-primary cursor-pointer" onClick={(e) => { e.stopPropagation(); handleEditImage(img) }} />
-                                            <TrashIcon className="w-6 h-6 text-gray-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleDelete(img.imgId) }} />
-                                        </div>
-                                    )}
-                                </div>
-                            )
+                            } else {
+                                return (
+                                    <div
+                                        key={img.imgId}
+                                        className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden border border-gray-900 rounded-md shadow-sm shadow-gray-900 ${hoveredImg === img.imgId && 'bg-gray-800'} ${index === 0 && 'col-span-2'}`}
+                                        onMouseEnter={() => handleHover(img.imgId)}
+                                        onMouseLeave={handleMouseLeave}
+                                    >
+                                        <Link href={constructImgLink(img.cf_id, "public")}
+                                            target="_blank">
+                                            <div className="relative h-full">
+                                                <Image
+                                                    fill={true}
+                                                    className={`object-contain w-full h-full transition duration-300 ease-in-out ${hoveredImg === img.imgId && 'opacity-50'}`}
+                                                    src={constructImgLink(img.cf_id, "public")}
+                                                    alt="User generated"
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                    placeholder="blur"
+                                                    blurDataURL={blurImage}
+                                                    loader={({ src }) => src}
+                                                    unoptimized
+                                                />
+                                            </div>
+                                        </Link>
+
+                                        {hoveredImg === img.imgId && (
+                                            <div className="absolute flex justify-around w-full px-4 py-2 bottom-0 bg-black">
+                                                {img.bookmark ? (
+                                                    <LoveFilledIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleBookmark(img.imgId, img.bookmark) }} />
+                                                ) : (
+                                                    <LoveIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleBookmark(img.imgId, img.bookmark) }} />
+                                                )}
+                                                <EditIcon className="w-6 h-6 text-primary cursor-pointer" onClick={(e) => { e.stopPropagation(); handleEditImage(img) }} />
+                                                <TrashIcon className="w-6 h-6 text-gray-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleDelete(img.imgId) }} />
+                                            </div>
+                                        )}
+                                    </div>
+                                )
+                            }
+
                         }
                     })}
                 </div>

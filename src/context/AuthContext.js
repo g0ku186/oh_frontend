@@ -1,5 +1,6 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
+import { useGlobalContext } from "./GlobalContext";
 import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 import axios from "axios";
 
@@ -22,6 +23,7 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [userDetails, setUserDetails] = useState({});
     const [initializing, setInitializing] = useState(true);
+    const [blurFirstImage, setBlurFirstImage] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -33,6 +35,10 @@ export function AuthProvider({ children }) {
                     };
                     const response = await axios.get(`${baseUrl}/api/v1/user/profile`, { headers: headers });
                     setUserDetails(response.data); // Backend sends updated details, including updated limits
+                    if (response.data.plan === 'free' && response.data.current_usage > response.data.limit) {
+                        setBlurFirstImage(true);
+                    }
+
                 } catch (err) {
                     console.log(err)
                     // console.error("Error fetching user details:", err.response.data.message); // Handle error another way
@@ -87,6 +93,9 @@ export function AuthProvider({ children }) {
         resetPassword,
         initializing,
         userDetails,
+        blurFirstImage,
+        setBlurFirstImage
+
     };
 
     return (
