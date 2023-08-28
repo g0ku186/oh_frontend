@@ -8,6 +8,7 @@ import { userAuth } from "../context/AuthContext";
 import { useGlobalContext } from "@/context/GlobalContext";
 
 import EditImage from "./EditImage";
+import ImagePreview from "./ImagePreview";
 import ConfirmationBox from "./ConfirmationBox";
 import PlaceHolderComponent from "./PlaceHolderComponent";
 import FailedImageComponent from "./FailedImageComponent";
@@ -246,8 +247,7 @@ const ListUserImages = () => {
     } else {
         return (
             <>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4 px-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 px-6">
                     {images.map((img, index) => {
                         if (img.status && img.status === 'processing') {
                             return <PlaceHolderComponent key={index} eta={eta} />
@@ -259,7 +259,7 @@ const ListUserImages = () => {
                             return (
                                 <div
                                     key={img.imgId}
-                                    className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden border border-gray-900 rounded-md shadow-sm shadow-gray-900 ${hoveredImg === img.imgId && 'bg-gray-800'}`}
+                                    className={`relative cursor-pointer aspect-content aspect-[1/1] overflow-hidden border border-gray-900 rounded-md shadow-sm shadow-gray-900 ${hoveredImg === img.imgId && 'bg-gray-800'} ${index === 0 && 'col-span-2'}`}
                                     onMouseEnter={() => handleHover(img.imgId)}
                                     onMouseLeave={handleMouseLeave}
                                 >
