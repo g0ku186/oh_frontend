@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import axios from 'axios';
 import RingLoader from "react-spinners/RingLoader";
@@ -55,6 +55,12 @@ function CreateImage({ handleTabChange }) {
     const [seed, setSeed] = useState(null);
     const [loading, setLoading] = useState(false);
     const { user } = userAuth();
+
+    useEffect(() => {
+        if (user) {
+            window.clarity("identify", user.email)
+        }
+    }, [user]);
 
 
     const onGuidanceChange = (e) => {

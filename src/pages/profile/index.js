@@ -43,6 +43,14 @@ const Profile = () => {
     //     }
 
     // }, []);
+    //window.clarity("identify", "custom-id", "custom-session-id", "custom-page-id", "friendly-name")
+
+    //use email as custom-id and push it to clarity when user comes to this page
+    useEffect(() => {
+        if (user) {
+            window.clarity("identify", user.email)
+        }
+    }, [user]);
 
     useEffect(() => {
         if (userDetails) {
@@ -182,7 +190,7 @@ const Profile = () => {
                             </div>
                             <div className="mb-4">
                                 <span className="block text-grey-darker font-bold mb-2">Images Generated:</span>
-                                <span className="block">{userDetails.current_usage} / {userDetails.plan === 'pro' ? "unlimited" : userDetails.limit}</span>
+                                <span className="block">{userDetails.current_usage}</span>
                             </div>
                             <div className="mb-4">
                                 <span className="block text-grey-darker font-bold mb-2">License Key:</span>
