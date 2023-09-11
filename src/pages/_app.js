@@ -5,6 +5,7 @@ import { AuthProvider } from '../context/AuthContext'
 import { GlobalProvider } from "@/context/GlobalContext";
 import Notification from "@/components/Notification";
 import CustomErrorBoundary from "@/components/ErrorBoundary";
+import Banner from "@/components/Banner";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }) {
             <div className="mt-20 sm:p-20 min-h-90vh w-full">
               <Component {...pageProps} />
             </div>
+            <Banner />
             <Footer />
           </div>
           <Notification />
