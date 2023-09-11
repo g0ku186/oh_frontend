@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }) {
             <div className="mt-20 sm:p-20 min-h-90vh w-full">
               <Component {...pageProps} />
             </div>
-            <Banner />
+            {/* <Banner /> */}
             <Footer />
           </div>
           <Notification />
