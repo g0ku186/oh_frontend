@@ -25,14 +25,14 @@ const ImagePreview = ({ imageObj }) => {
                 unoptimized
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-                <p className="mt-4 text-sm text-white text-center font-bold">Daily free limit exceeded. Upgrade to view the image.</p>
-                <Link
+                <p className="mt-4 text-sm text-white text-center font-bold">Daily free limit exceeded. Please come back tomorrow.</p>
+                {/* <Link
                     className="mt-4 p-3 text-sm text-white bg-primary font-bold hover:bg-primaryDark rounded"
                     href={gumRoadLink}
                     target='_blank'
                 >
                     Upgrade Now <span className='underline'>@50% OFF</span>
-                </Link>
+                </Link> */}
             </div>
         </div>
     )

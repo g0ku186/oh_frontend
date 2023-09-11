@@ -62,13 +62,13 @@ const Header = () => {
                         </button>)}
                     </div>
 
-                    <Link
+                    {/* <Link
                         href={gumRoadLink}
                         target='_blank'
                         className="px-4 py-2 text-sm font-bold text-white bg-primary rounded-md hover:bg-primaryDark"
                     >
                         Upgrade
-                    </Link>
+                    </Link> */}
 
                 </div>
             </nav>
